@@ -53,8 +53,23 @@ Disassembly of &lt;code object five at 0x7f7d613ca450, file "five.py", line 6&gt
 
     <p>Now let's look at the output [down]</p>
 
-    <p>I will not go into too much detail on this. For more
-    detail, look at the additional materials for this talk.<p>
+    <p>In the the first column white is a line
+    number. Here we have line 1. The second instruction doesn't have a
+    line number so it too belongs to line 1. You'll see there is a
+    blank line after that, so that ends the group of instructions that
+    forms line one. The numbers in purple are bytecode offsets to the
+    start of instructions In Python after version 3.6 this offset
+    always goes up by two.</p>
+
+    <p>In blue, we have the bytecode operation like "LOAD_CONST" or "STORE_NAME".</p>
+
+    <p>After this we sometimes have an integer. This is an operand
+    value. When there is more on the line in parenthesis the operand
+    value is an index into one of several lists in a Python code
+    object, the right table is selected based on the opcode. The value
+    in parenthesis is the value that comes from the appropriate
+    table. [down]</p>
+
 
    However, if you are familiar with assembly-language, you'll
    see things that look like labels on the left in white are
@@ -83,7 +98,9 @@ Disassembly of &lt;code object five at 0x7f7d613ca450, file "five.py", line 6&gt
     when we get to grammar reduction, we will show more information
     about what is happening on here.[down]</p>
 
-    <p>Finally, code groups into sections. The first section is the main program. Part of the reason it is long is that <em>at run time</em> we create functions. [down]</p>
+    <p>Finally, code groups into sections. The first section is the
+    main program. Part of the reason it is long is that <em>at run
+    time</em> we create functions. [down]</p>
     <p>The code section ofr the function five also appears. It is pretty short.
 
     <p>Don't get confused between disassembly and decomplation as I
@@ -93,9 +110,8 @@ Disassembly of &lt;code object five at 0x7f7d613ca450, file "five.py", line 6&gt
       Python source code.
     <p>
 
-    <p>Disassembly is easy and straight-forward. Decompilation is
-    hard. However decompilation it starts out with a diassembly of the bytecode. [next]</p>
 
+      [down]</p>
 
   </aside>
 </section>
