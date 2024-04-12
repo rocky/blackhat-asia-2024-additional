@@ -1,0 +1,46 @@
+<section>
+
+  <h1>LR Parsing Grammar Reductions</h1>
+
+  <p>
+    Python Expression:
+    <code>
+      (<span class="hljs-title">a</span>
+      <span class="hljs-keyword">+</span>
+      <span class="hljs-title">b</span>)
+    </code>
+  </p>
+
+  <p>&nbsp;</p>
+  <!-- a -->
+  <span class="fragment">
+    <p>
+      <code>&nbsp;0 LOAD_NAME(<span class="hljs-title">a</span>)</code>
+      <pre><code>
+	  expr ::= LOAD_NAME [1]
+      </code></pre>
+    </p>
+  </span>
+
+  <!-- b -->
+  <span class="fragment">
+    <p>
+      <code>&nbsp;2 LOAD_NAME(<span class="hljs-title">b</span>)</code>
+      <pre><code class="hljs apache">
+	  expr ::= LOAD_NAME [2]
+      </code></pre>
+    </p>
+  </span>
+
+  <!-- (a + b) -->
+  <span class="fragment">
+    <p>
+      <code>&nbsp;4 <span class="hljs-keyword">BINARY_ADD</span></code>
+      <pre><code class="hljs apache">
+	  binary_operator ::= BINARY_ADD [3]
+	  bin_op ::= expr expr binary_operator
+	  expr ::= bin_op
+      </code></pre>
+    </p>
+  </span>
+</section>

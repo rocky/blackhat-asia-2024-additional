@@ -1,0 +1,79 @@
+<section>
+  <h1>Disassembly Using Python Module <code class="hljs-title">dis</code></h1>
+  <p class="small" line-height="40px">
+    <code  class="hljs language-shell";
+	   style="width: 700px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      python -m <span class="hljs-title">dis</span>
+      <span class="hljs-variable">five.py</span>
+    </code>
+
+    <pre class="fragment">
+      <code
+	data-line-numbers="1-2|6,11,12|13,15|1-15|16-19"
+	class="hljs language-pyasm"
+	style="width: 700px;"> 1           0 LOAD_CONST               0&nbsp;('\nBlackHat Asia Example 1\n')
+             2 STORE_NAME               0&nbsp;(__doc__)
+
+&nbsp;6           4 LOAD_CONST               2&nbsp;(&lt;code object five at 0x7f7d613ca450,
+             6 LOAD_CONST               2&nbsp;('five')
+             8 MAKE_FUNCTION            0
+            10 STORE_NAME               2&nbsp;(five)
+
+12          12 LOAD_NAME                2&nbsp;(print)
+            14 LOAD_NAME                1&nbsp;(five)
+            16 CALL_FUNCTION            0
+            18 CALL_FUNCTION            1
+            20 POP_TOP
+            22 LOAD_CONST               4&nbsp;(None)
+            24 RETURN_VALUE
+
+Disassembly of &lt;code object five at 0x7f7d613ca450, file "five.py", line 6&gt;:
+ 8           0 LOAD_CONST               1 ('5')
+             2 RETURN_VALUE
+      </code>
+    </pre>
+  </p>
+
+  <aside class="notes">
+    <p>The first step in Python decomplation getting a disassembly
+    listing of the bytecode.</p>
+
+    <p>Running the Python <em>dis</em> module which is part of its standard library is the most common way people get a bytecode disassembly for Python source. Notice that we are passing the name of Python <em>source</em> text file to the <em>dis</em> module.
+
+    <p>Internally, the command-line interface to the <code>dis</code> creates bytecode, and disassembles the bytecode it created. Although with <code>dis</code> you can't disassemble bytecode directly from the command-line, there are internal <code>dis</code> library routines that allow you to start out with just the bytecode.</p>
+
+    <p>Now let's look at the output [down]</p>
+
+    <p>In the the first column white is a line
+    number. Here we have line 1. The second instruction doesn't have a
+    line number so it too belongs to line 1. You'll see there is a
+    blank line after that, so that ends the group of instructions that
+    forms line one. The numbers in purple are bytecode offsets to the
+    start of instructions In Python after version 3.6 this offset
+    always goes up by two.</p>
+
+    <p>In blue, we have the bytecode operation like "LOAD_CONST" or "STORE_NAME".</p>
+
+    <p>After this we sometimes have an integer. This is an operand value. When there is more on the line in parenthesis the operand value is an index into one of several lists in a Python code object, the right table is selected based on the opcode. The value in parenthesis is the value that comes from the appropriate table. [down]</p>
+
+
+    <p>However on some instructions there is nothing in parenthesis. In these cases the operand value is interpreted some other way in <code>MAKE_FUNCTION</code> and <code>CALL_FUNCTION</code>.
+
+
+      [down]</p>
+
+
+    <p>Don't get confused between disassembly and decomplation as I
+    see happen in various help forums. A Python disassembler takes an
+    internal binary representation of bytecode and prints the
+    structure and bytecode instructions in human-readible form.
+    <p>
+
+    <p>A decompiler goes a step further and turns the bytecode
+    instructions in Python source text. Disassembly is easy and
+    straight-forward. Decompilation is hard; it starts out with a
+    diassembly though.</p>
+
+  </aside>
+</section>

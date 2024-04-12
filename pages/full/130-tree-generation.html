@@ -1,0 +1,41 @@
+<section>
+
+  <h1>Parse Tree Generation</h1>
+
+  <p>
+    Python Expression:
+    <code>
+      (<span class="hljs-title">a</span>
+      <span class="hljs-keyword">+</span>
+      <span class="hljs-title">b</span>)
+    </code>
+  </p>
+
+  <p>&nbsp;</p>
+  <!-- a -->
+  <span class="fragment">
+      <pre><code>expr
+    L.   1         0  LOAD_NAME                a</code></pre>
+  </span>
+
+  <!-- b -->
+  <span class="fragment">
+      <pre><code class="hljs apache">expr
+                   2  LOAD_NAME                b</code></pre>
+  </span>
+
+  <!-- (a + b) -->
+  <span class="fragment">
+      <pre><code class="hljs apache">binary_operator
+                   4  BINARY_ADD</code></pre>
+  </span>
+  <span class="fragment">
+      <pre><code class="hljs apache">bin_op (3)
+     0. expr
+       L.   1         0  LOAD_NAME                a
+     1. expr
+                      2  LOAD_NAME                b
+     2. binary_operator
+                      4  BINARY_ADD</code></pre>
+  </span>
+</section>

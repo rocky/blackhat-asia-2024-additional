@@ -1,0 +1,107 @@
+<section>
+  <h1>Decompilation in the World of High-Level Bytecode</h1>
+
+  <!-- find images for language translation -->
+  <ul>
+    <li class="fragment">Raise awareness of the differences between
+    "General Purpose" decompiling and High-level Bytecode
+    Decompiling</li>
+    <li class="fragment">Introduce Decompilation as a
+      Language-Translation problem.</li>
+    <li class="fragment">Introduce Decompilation as a Compilation
+      Process.</li>
+  </ul>
+
+  <aside class="notes">
+    <div style="color: blue; background-color: LightYellow">#/3</div>
+    <p>Why am I here? Why am I giving this talk?
+      <div style="color: blue; background-color: LightYellow">[DOWN]
+      #/3 ⟶ #/3/0/0</div></p>
+
+    <p>I’ve mentioned that General-Purpose decompilers found in
+      Ghidra, Binary Ninja, or Hex Rays are of little-to-no use for
+      bytecode languages. In fact, I have been trying
+      to <em>raise</em> awareness of bytecode decompilation as
+      its <em>own</em> thing. And that’s a big reason I am here. As I
+      have come to understand, bytecode decompilation
+      works <em>very</em> differently from <em>general-purpose</em>
+      decompilation.</p>
+
+    <p>Adding the Adjective "General Purpose" is <em>my</em>
+      terminology. Right now, this distinction is not widely
+      accepted.</p>
+
+    <p>A couple years ago, to raise awareness, I started a discussion
+      in the Wikipedia "talk" section for
+      "Decompilers". Unfortunately, there hasn’t been much discussion
+      or movement on this.
+      <div style="color: blue; background-color: LightYellow">[DOWN]
+      #/3/0/0 ⟶ #/3/0/1</div>
+    </p>
+
+    <p>I will soon describe the decompilation process, and I will
+      introduce a rarely used, if not entirely <em>new</em>, approach
+      to decompilation. I treat decompilation as a human-language
+      translation problem. In some ways, it can be like the kind of
+      thing google translate does.
+      <div style="color: blue; background-color:
+		  LightYellow">[DOWN] #/3/0/1 ⟶ #/3/0/2
+      </div>
+
+    </p>
+
+    <p>
+      But the process we will go through, <em>also</em> follows a
+      pattern similar to the process used by compiler front-ends,
+      including the compiler for Python.  It is described in all of
+      the compiler books that I showed images of before. I am going to
+      show this process <em>adapted</em> to perform decompilation. And
+      I think this kind of adaption can be extended to create
+      decompilers for other high-level bytecode. <div style="color:
+      blue; background-color: LightYellow">[NEXT] #3/0/2 ⟶ #/3/1</div>
+    </p>
+
+  </aside>
+
+</section>
+
+<section>
+  <h1 >Key Takeaways</h1>
+  <ul>
+    <li>Understand more about what is wrong when something goes wrong
+    with decompilation.</li>
+    <li>Understand the difference between <em>disassembly</em> and <em>decompilation</em>.</li>
+    <li>Begin to see the difference
+    between <em>machine code</em> and <em>high-level bytecode.</em></li>
+    <li>Understand the some limits of Python decompilation and decompilation in general.</li>
+  </ul>
+
+  <aside class="notes">
+
+    <div style="color: blue; background-color:
+    LightYellow">#/3/1</div>
+
+    <p>At a more technical level, I hope you understand the phases of
+    decompilation, in these Python decompilers. This can be useful in
+    submitting bug reports or fixing bugs
+
+    <p> A common misconception I see on reverse-engineering forums is
+    confusion between decompilation and disassembly. As we go through
+    the process, I think the differences will be
+    clear.</div> </p>
+
+    <p>
+      For those of you familiar with <em>machine</em> code, I think
+      you will appreciate how high-level bytecode different from
+      machine code.</div>
+    </p>
+
+    <p>
+      Finally, I think you will get some idea of the things
+      decompilers can do and can <em>not</em> do, not only in Python but other
+      similar programming languages. <div style="color: blue;
+      background-color: LightYellow">[NEXT] #/3/1/2 ⟶ #/4</div>
+    </p>
+  </aside>
+
+</section>

@@ -1,0 +1,156 @@
+<section>
+  <h1>Chained Compare Bytecode</h1>
+  <div style="font-size: 60%">
+    <p>Python Expression:
+      <code style="font-size: smaller">
+	<span class="hljs-string">"a"</span>
+	<span class="hljs-keyword">&lt;=</span>
+	<span class="hljs-title">__file__</span>
+	<span class="hljs-keyword">&lt;=</span>
+	<span class="hljs-string">"b"</span>
+      </code>
+    </p>
+  </div>
+
+    <pre>
+      <code class="hljs language-pyasm"
+	style="line-height: 20px"
+	data-line-numbers="1-14|6,9">  1:     0 |64 00| LOAD_CONST           ("a")
+         2 |65 00| LOAD_NAME            (__file__)
+         4 |04 00| DUP_TOP
+         6 |03 00| ROT_THREE
+         8 |6b 01| COMPARE_OP           (<=)
+        10 |6f 12| JUMP_IF_FALSE_OR_POP (to 18)
+        12 |64 01| LOAD_CONST           ("b")
+        14 |6b 01| COMPARE_OP           (<=) ; TOS = (to 18) <= "b"
+        16 |6e 04| JUMP_FORWARD         (to 22)
+   >>   18 |02 00| ROT_TWO
+        20 |01 00| POP_TOP
+   >>   22 |01 00| POP_TOP
+        24 |64 02| LOAD_CONST           (None)
+        26 |53 00| RETURN_VALUE         return None
+      </code>
+    </pre>
+
+    <aside class="notes">
+      <p>
+	<div style="color: blue; background-color:
+		    LightYellow">#/14
+	</div>
+	However awesome the disassemble of in the last slide is, it
+	has limitations.
+      </p>
+
+      <p>
+	Here is an example of something that disassembly can't
+	reconstruct. The disassembler is great with code that doesn't
+	have jumps in it.
+	<div style="color: blue; background-color: LightYellow">[DOWN] #/14 ⟶ #/14/0/0</div>
+      </p>
+
+      <p>
+	But once we have jumps, like we have in the highlighted
+	instructions, a disassembler has to stop combining
+	instructions.
+      </p>
+
+      <p>
+	With each new Python release, decompilation of control
+	flow has become increasingly more difficult.
+      </p>
+
+      <p>
+	Nowadays, about 1/3 of the issues raised in the decompiler bug
+	trackers are related to control flow.
+      </p>
+
+      <p>
+	Grammars and the grammar-based approach we use, however, can
+	naturally parse nesting and sequencing control structures
+	quite well. So having a methodical way to characterize control
+	flow that fits into the decompiler parsing can give more
+	precision and accuracy that is not available in
+	general-purpose decompilers
+	<div style="color: blue; background-color: LightYellow">[DOWN]
+	  #/14/0/0 ⟶  #/14/1
+	</div>
+      </p>
+  </aside class="notes">
+</section>
+
+<section><h1>Chained Compare Parse Tree (new code)</h1>
+  <div style="font-size: 60%">
+    <p>Python Expression:
+      <code style="font-size: smaller">
+	<span class="hljs-string">"a"</span>
+	<span class="hljs-keyword">&lt;=</span>
+	<span class="hljs-title">__file__</span>
+	<span class="hljs-keyword">&lt;=</span>
+	<span class="hljs-string">"b"</span>
+      </code>
+    </p>
+  </div>
+
+  <pre>
+    <code
+      data-line-numbers="1-20|1,9,10,14,15,16,19,20"
+      style="line-height: 20px; width: 600px"
+      class="hljs language-decompile">BB_START 1 'Basic Block 1'
+compare_chained
+  0. expr
+      ...
+  1. compare_chained_middle
+      ...
+      4. jifop
+          0.   10  JUMP_IF_FALSE_OR_POP    18  'to 18'
+nnn          1.   10  BB_END         1  'Basic Block 1'
+      5.       12  BB_START       2  'Basic Block 2'
+      6. compare_chained_right
+          ...
+          2.   16  JUMP_FORWARD  22  'to 22'
+          3.   16  BB_END         2  'Basic Block 2'
+  2.           18  BB_START       3  'Basic Block 3'
+  3.           18  SIBLING_BLOCK
+  4.           18  ROT_TWO
+  5.           20  POP_TOP
+  6.           20  BB_END         3  'Basic Block 3'
+  7.           20  BLOCK_END_JOIN 3  'Basic Block DominatorSet<{3}>'
+    </code>
+  </pre>
+
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/14/1</div>
+    <p>
+      I won’t say much about how
+      <em>uncompyle6</em> and <em>decompile3</em> handle difficulties
+      that arise in disambiguating control-flow patterns.
+    </p>
+
+    <p>
+      Instead, I will be using the approach in an experimental
+      decompiler I’m working on. Below, is the AST from this
+      experimental decompiler.
+      <div style="color: blue; background-color: LightYellow">[DOWN]
+	#/14/1 ⟶ #/14/1/0</div></p>
+
+    <p>
+      The tokens in white: "BB_START", "BB_END", "SIBLING_BLOCK" and
+      "BLOCK_END_JOIN" are <em>pseudo</em> tokens. They get inserted
+      by a special control-flow process that I will show, briefly,
+      next.
+    </p>
+
+    <p>By the end of those slides, I hope you will understand a little
+      about "Basic Blocks " that you see this in orange. "BB" in the
+      token name is an abbreviation for "Basic Block". And I hope you
+      get some idea of what "SIBLING" and "JOIN" mean in the token names,
+      and what "Dominator" means in the orange operand.
+      <div style="color: blue; background-color: LightYellow">[NEXT]
+	#/14/1/0 ⟶ #/15
+      </div>
+    </p>
+
+
+  </aside class="notes">
+</section>

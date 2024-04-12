@@ -1,0 +1,216 @@
+<section data-transition="concave-in">
+  <h1>Survey</h1>
+  <p>
+    <ul>
+      <li class="fragment">How many people have used
+	<img src="images/ida-pro.webp" alt="Ida Pro"
+	     style="vertical-align: middle" height="50">,
+	<img src="images/ghidra.png" alt="Ghidra"
+	     style="vertical-align: middle" height="50">, or
+	<img src="images/binary-ninja.png" alt="Binary Ninja"
+	     style="vertical-align: middle" height="50">?
+      </li>
+      <li class="fragment">How many people have used the above to
+      decompile <em>Python</em> bytecode?</li>
+      <li class="fragment">How many people have
+      used <code style="font-size: smaller">uncompyle6</code>,
+      or <code style="font-size: smaller">decompyle3</code>?</li>
+    </ul>
+
+  </p>
+  <aside class="notes">
+
+    <p>
+      <div
+	 style="color: blue; background-color:
+		LightYellow">#/1
+      </div>
+      Let me start out with a little survey...
+      <div style="color:
+		  blue; background-color: LightYellow">[DOWN] #/1 ⟶ #1/0/0</div>
+    </p>
+
+    <p>Please raise your hand if use have used Hex-Rays Ida Pro,
+    Ghidra, or Binary Ninja? <em>Report count</em> I see a lot of
+    hands, Awesome! <div style="color: blue; background-color:
+    LightYellow">[DOWN] #1/0/0 ⟶ #1/0/1</div></p>
+
+    <p>How about using any of these to decompile <em>Python</em>
+    bytecode to <em>Python</em> source text?</p>
+
+    <p>Hmm... If you have your hand up, after the talk, I’d
+      <em>appreciate</em> it you’d let me know how you do
+      that!</p>
+
+    <p>As far as I know, there is no support for Python decompilation
+      in any of these. In preparation for this
+      talk, I spoke to one of the founders from one of these
+      reverse-engineering tool makers who confirmed this. More
+      generally, he says that <em>all</em> the above kinds of
+      decompiler tools, that start from machine code are
+      pretty <em>bad</em> when it comes to <em>any</em> interpreter
+      that runs off bytecode. <div style="color: blue;
+      background-color: LightYellow">[DOWN] #1/0/1 ⟶ #1/0/2</div></p>
+
+    <p>Now please raise your hand if you have
+    used <em>uncompyle6</em>, or <em>decompyle3</em>?</p>
+    <p><em>Report count</em>. Ok. After this talk, you'll <em>all</em>
+    know a bit about these.<div style="color: blue; background-color:
+    LightYellow">[DOWN] #/1/0/2 ⟶ #/1/1</div></p>
+
+  </aside>
+</section>
+<section>
+  <h1>Github commit statistics for <code style="font-size: smaller">uncompyle6</code></h1>
+
+  <p style="line-height: 40px">I am the current maintainer and developer
+    of <code style="font-size: smaller">uncompyle6</code>,
+    and <code style="font-size: smaller">decompyle3</code>.
+  </p>
+  <div>
+    <img src="images/uncompyle6-contributors.png" alt="uncompyle6-contributors"
+	 height="500">
+  </div>
+
+  <aside class="notes">
+
+    <div style="color: blue; background-color:
+    LightYellow">#1/1</div>
+
+    <p>I’m the current maintainer and developer
+      of <em>uncompyle6</em>, and <em>decompyle3</em>.  These are
+      Python programs that you can get from PyPI. I’m sorry for my
+      really bad choice of project names.
+    </p>
+
+    <p>This page shows github commit activity for <em>uncompyle6</em>
+      from 2012 to now. 31 people have contributed to this open-source
+      project, usually submitting one or two Pull Requests. These
+      are <em>greatly</em> appreciated. Keep up the good work! But
+      over the vast sea of time, I have been working on this largely
+      by myself. My contributions are in bottom left. The person who
+      is ranked second in commits, moagstar, is to the right. I
+      haven’t heard from him in a little over 7 years.</p>
+
+     <p>Back in 2016, I started this project on github from
+      a <em>tar</em> of a <em>copy</em> of an <em>archive</em> from an
+      obsolete version-control system. The code had been abandoned for
+      about 5 years. And that accounts for the big gap at the left.
+    </p>
+
+    <p>In 2018, I gave a talk at Python conference. So you see another
+      flurry of activity for 2018 in the middle of the graph.
+    </p>
+
+    <p>
+      This code works for Python bytecode from the very first version
+      in 1999, to Python version 3.8 which is no longer
+      current. Python 38 came on the scene a few years ago. But Python
+      38 is still supported and it is still in use.
+    </p>
+
+    <p>
+      Since code is old, large, and Python compilers have gotten more
+      sophisticated, the code needs better technology to keep up with
+      Python. So I forked the code, refactored it and reduced its
+      size. That accounts for the drop off in activity you see on the
+      right part of the graph from 2021 to now . The forked code goes
+      under the name <em>decompyle3</em>. It only handles Python 3.7
+      and 3.8.
+    </p>
+
+    <p>A fun fact: on the extreme right, you see a little uptick. That
+    is me working on the code in preparation for <em>this</em> talk.</p>
+
+    <p>
+      Unfortunately, even changes to decompyle3 weren’t aggressive
+      enough to track changes to Python bytecode and the Python
+      language. Therefore, I have an <em>experimental</em> decompiler
+      for Python 3.8 to 3.10.  Towards the end, I will show a little
+      bit of that. <div style="color: blue; background-color:
+      LightYellow">[DOWN] #/1/1/ ⟶ #/2</div>
+    </p>
+  </aside>
+</section>
+<section>
+  <h1>So, who <em>am</em> I?</h1>
+  <div class="fragment">
+    <img src="images/open-source-dependency-rocky.png"
+	 style="vertical-align: middle"
+	 alt="rocky"/><br/><div style="font-size:
+	 2vh">https://xkcd.com/2347/</div></img>
+    </div>
+
+  <aside class="notes">
+    <div style="color: blue; background-color:
+		LightYellow">#/1/2</div>
+    <p>
+      Who am I?
+      <div style="color: blue; background-color:
+		  LightYellow">[DOWN] #/1/2 ⟶ #/1/2/0</div>
+    </p>
+    <p>
+      That is me in the photo in this cartoon down at the bottom of
+      the tower. Except I live in New York City, and I have been
+      doing open-source work since 2000.</p>
+
+    <p>
+      When not doing my day job, I have been writing open-source
+      software. But now that I’m retired, I spend even more time on
+      this. <div style="color: blue; background-color:
+			LightYellow">[DOWN] #/1/2/0 ⟶ #/1/3</div>
+    </p>
+
+  </aside>
+
+</section>
+<section>
+  <h1>Some Open Source Software that Includes My Code:</h1>
+  <p style="vertical-align: bottom">
+    <img src="images/uses-my-code/vlc-logo.svg" alt="vlc/",
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/sound-juicer.jpeg" alt="juicer/",
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/kodi-logo.png" alt="kodi/",
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/mplayer-logo.png" alt="kodi/",
+	 style="vertical-align: bottom" height="115"/>
+    <img src="images/uses-my-code/fre:ac-logo.png" alt="fre:ac"
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/rufus-logo.jpg" alt="rufus"
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/Mathics3-logo.svg" alt="Mathics3"
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/BashdbPro-logo.svg" alt="BashdbPro"
+	 style="vertical-align: bottom" height="100"/>
+    <img src="images/uses-my-code/gnu-logo.png" alt="GNU FSF"
+	 style="vertical-align: bottom" height="100"/>
+  </p>
+
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/1/3</div>
+
+    <p>So the code I've written in <em>general</em> has had plenty of
+      time to spread around. If you have have software installed that
+      matches any of the logos on the first line, then you have code
+      I've written.</p>
+
+    <p>I don't have any cool logos for the software that I’m going to
+      be talking about today. But the software used by the projects
+      with the logos on the left, use a CD-reading library, called
+      "libcdio" that I started in 2000 and maintain.
+    </p>
+    <p>
+      And I’m interested in other things like an open-source
+      Mathematica, and debuggers. Most of the software, I have written
+      is GPL and I am a member of the Free Software Foundation.
+    </p>
+
+    <div style="color: blue; background-color: LightYellow">[NEXT]
+    #1/3 ⟶ #/2</div></p>
+
+    </p>
+
+  </aside>
+</section>

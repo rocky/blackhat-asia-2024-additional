@@ -1,0 +1,92 @@
+<section>
+  <h1>Source Code Differences</h1>
+  <span class="small">
+    <div id="left">
+    <h2>Source code:</h2>
+    <pre style="line-height: 20px; font-size: 0.70em">
+
+
+
+
+   </pre>
+    <pre style="line-height: 20px; font-size: 0.70em; margin-left: 0px;">
+      <code class="hljs language-python"
+	    style="width: 450px;"
+	    data-line-numbers="1-8,12|11">"""
+BlackHat Asia Example
+"""
+
+
+def five():
+    """Returns the string five"""
+    return "5"
+
+
+# Call the function we just defined.
+print(five())</code>
+    </pre>
+  </div>
+
+  <div id="right">
+    <h2 style="margin-left: 24px;">Decompiled code:</h2>
+    <pre style="line-height: 20px; font-size: 0.70em">
+      <code class="hljs language-python" data-line-numbers="7-16|1-6,18"># uncompyle6 version 3.9.1
+# Python bytecode version base 3.8.0 (3413)
+# Decompiled from: Python 3.12.2 (main, Feb 14 2024, 04:48:40) [GCC 13.2.0]
+# Embedded file name: five.py
+# Compiled at: 2024-02-17 10:16:08
+# Size of source mod 2**32: 153 bytes
+"""
+BlackHat Asia Example
+"""
+
+def five():
+    """Returns the string five"""
+    return "5"
+
+
+print(five())
+
+# okay decompiling /tmp/five-moved.pyc</code>
+    </pre>
+  </div>
+
+<aside class="notes">
+  <p><div style="color: blue; background-color:
+    LightYellow">#/7</div> As you can see here, the source and the decompiled code are
+    pretty much the same.
+  </p>
+
+  <p>People who are used to general-purpose decompilers, such as the
+    ones that you find in Ghidra, or Hex Rays, are
+    usually <em>amazed</em> at close the two are. This is one facet of
+    high-level bytecode: a lot of source information like the
+    variables names along with their types is preserved inside the
+    bytecode. <div style="color: blue; background-color:
+    LightYellow">[DOWN] [DOWN] #/7 ⟶ #/7/0/0</div>
+  </p>
+
+  <p>
+    The main differences between the two are the comments
+    produced. Comments from the source program don’t appear in the
+    reconstructed result. That is because those comments don’t appear
+    anywhere in the bytecode.
+  </p>
+
+  <p>
+    For example, line 11 on the left doesn’t appear anywhere on the
+    right.
+  </p>
+
+  <p>
+    One thing these decompilers do to <em>increase</em> the likelihood
+    of getting <em>exact</em> source text, is that they make an
+    attempt to format the way standard formatters for Python work. We
+    are more careful about this than other Python decompilers. But we
+    don't always get the formatting exactly the same.
+    <div style="color: blue; background-color: LightYellow">[NEXT]
+      #/7/0/0 ⟶ #/8
+    </div>
+  </p>
+  </aside>
+</section>

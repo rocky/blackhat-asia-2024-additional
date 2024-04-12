@@ -1,0 +1,87 @@
+<section>
+  <h1>How These Decompilers Work</h1>
+
+  <p class="fragment">Decompilation processed in a pipeline of these phases:
+
+    <ol style="font-size: smaller">
+      <li class="fragment">Get bytecode disassembly via
+	<a href="https://pypi.org/project/xdis/"<code
+						  style="font-size: smaller">
+	   xdis
+	   </code></a>
+      </li>
+      <li class="fragment">Tokenize or "lift" the disassembly</li>
+      <li class="fragment">Parse tokens into a Parse Tree</li>
+      <li class="fragment">Abstract the Parse Tree into an Abstract Syntax Tree</li>
+      <li class="fragment">Produce Source from the Abstract Syntax Tree</li>
+    </ol>
+  </p>
+
+  <aside class="notes">
+    <p>
+      <div style="color: blue; background-color:
+		  LightYellow">#/8
+      </div>
+      Now that we’ve given an example of Python decompilation, next we
+      show how our decompilers work. With this, you can then follow
+      along the decompiler’s thought process.</p>
+
+    <p>
+      <i>One of the unique features of these decompilers, is that we
+      provide a means for following along the decompilation
+      process!</i>. Machine-Language decompilers, even though they
+      have a language-based affinity like we have, currently have no
+      way to provide this level of detail.
+      <div style="color: blue; background-color:
+		  LightYellow">[DOWN] #/8 ⟶ #8/0/0</div>
+    </p>
+
+    <p>
+      Our decompilers go through five phases. This idea of running
+      through phases or constructing a pipeline is also how most
+      compilers work.</p>
+
+    <p>The phases are: <div style="color: blue; background-color:
+    LightYellow">[DOWN] #/8/0/0 ⟶  #/8/0/1</div>
+      <ol>
+	<li>Get bytecode disassembly
+	using <em>xdis</em>. <em>xdis</em> is the <em>cross-version</em>
+	<em>dis</em>assembly library that I wrote to be able to
+	support this project in particular also to support bytecode
+	analysis in general. <div style="color: blue;
+	background-color: LightYellow">[DOWN] #/8/0/1 ⟶
+	#/8/0/2</div></li>
+	<li>"tokenize" the disassembly. "Tokenize" is a
+	compiler-centric term. In other decompilers and code-analysis
+	tools, this process is sometimes called <em>lifting</em>,
+	as in "lifting the disassembly" or "lifting the machine
+	code". <div style="color: blue; background-color:
+	LightYellow">[DOWN] #/8/0/2 ⟶ #/8/0/3</div></li>
+	<li>Parse tokens to create a Parse Tree.
+	  <div style="color:
+		      blue; background-color: LightYellow">[DOWN] #/8/0/3 ⟶
+	    #/8/0/4</div></li>
+	<li>Abstract the parse tree to an "Abstract Syntax Tree", and finally:
+	  <div style="color: blue; background-color:
+		      LightYellow">
+	    [DOWN] #/8/0/4 ⟶  #8/0/5</li>
+	<li>Produce Python source text from the Abstract Syntax Tree.</li>
+      </ol>
+    </p>
+
+    <p>
+      Don’t worry if you don’t understand some of the above steps. I
+      will go over each step in more detail soon.
+    </p>
+
+    <p>
+      The scanning and parsing phases in the second and third step are
+      similar to the beginning steps that compilers use to produce
+      code. And this is the part that is most different between these
+      decompilers and other Python decompilers.
+      <div style="color: blue; background-color:
+		  LightYellow">[NEXT] #/8/0/5 ⟶ #/9</div>
+    </p>
+
+  </aside>
+</section>

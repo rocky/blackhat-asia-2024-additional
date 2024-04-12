@@ -1,0 +1,108 @@
+<section>
+  <h1>Phases 1 and 2: Bytecode to Tokens</h1>
+  <span line-height="40px";>
+    <div id="left1">
+      <p style="font-size: smaller">Bytecode Disassembly:</p>
+      <pre style="margin-left: 0px;">
+	<code class="hljs language-pyasm" style="width: 460px";
+	      data-line-numbers="1-7|1,5,6"
+	      style="width: 450px;"> 1: 0 LOAD_CONST       ('\nBlackHat Asia Example\n')
+    2 STORE_NAME       (__doc__)
+
+ 6: 4 LOAD_CONST       &lt;code object five&gt;
+    6 LOAD_CONST       ('five')
+    8 MAKE_FUNCTION    (No parameters)
+   10 STORE_NAME       (five)
+	</code>
+      </pre>
+    </div>
+
+    <div id="right1">
+      <p style="font-size: smaller; margin-left: 24px;">Parser Input Tokens:</p>
+      <pre>
+	<code class="hljs language-pyasm" style="width: 480px";
+	      data-line-numbers="1-7|1,5,6"> 1: 0  LOAD_STR          ('\nBlackHat Asia Example\n')
+    2  STORE_NAME        (__doc__)
+
+ 6: 4  LOAD_CODE          &lt;code_object five&gt;
+    6  LOAD_STR          ('five')
+    8  MAKE_FUNCTION_0   (No parameters)
+   10  STORE_NAME        (five)	</code>
+      </pre>
+    </div>
+  </span>
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/10</div>
+    <p>
+      In the left panel, you can see instructions that result from
+      decoding bytecode, using a <em>library</em> routine from
+      the <em>xdis</em> package. A small detail is that the decompiler
+      doesn’t call a command-line routine but instead users a library
+      API. So it has a disassembly <em>structure</em>.  On the left we
+      are showing the print representation corresponding to the
+      command-line utility.
+    </p>
+
+    <p>From this disassembly structure, we need to massage a little
+      and repackage the information to put in a form for input
+      that <em>parsers</em> typically use.  This is shown in the right
+      panel. Even though the two look almost the same, internally they
+      are different structures. On the left is
+      <em>output</em> of phase 1, and on the right is <em>parser
+      input</em> in phase 2.
+    </p>
+
+    <p>
+      Parsing will be coming up in the next slide.
+    </p>
+
+    <p>
+    The input to the parser is a stream of "token"s. "Token" is the
+    standard compiler term for the input atoms that are fed into a
+    parser. A token is based on the operation name in blue. In fact,
+    many times the instruction operation and token name are the
+    same. However, operand, the field in green to the
+    right, <em>sometimes</em> has <em>parts</em> of it folded into the
+    token name. Here are examples of this.
+    <div style="color: blue; background-color: LightYellow">[DOWN] [DOWN]
+      #/10 ⟶ #/10/0/1
+    </div>
+    </p>
+
+    <p>
+    In the first instruction, "LOAD_CONST" at offset 0 (offset numbers
+    are in purple), the operation has been specialized to
+    "LOAD_STRing". In general, a "LOAD_CONST"' operand can
+    be <em>any</em> Python constant literal, not just a string.</p>
+
+    <p>This aspect shows a difference between bytecode and machine
+    instructions. In machine code, operands are register values which
+    can be numbers, addresses, or <em>parts</em> of addresses. In
+    Python bytecode, operands are arbitrary
+    Python <em>objects!</em></p>
+
+    <p>In the highlighted instructions, the "LOAD_CONST" operand
+    is a string. We reflect this in the <em>token</em> name by
+    changing the token name from "LOAD_CONST" into "LOAD_STR".
+    </p>
+
+    <p>
+      The other operation name that is different from its
+      corresponding token name is "MAKE_FUNCTION".  And you see that
+      down at the bottom, at purple offset 8.  It gets a suffix added to
+      the name and becomes "MAKE_FUNCTION_0". Zero is the
+      bytecode-encoded way to indicate that the function signature for
+      this function doesn’t take any parameters. The instruction
+      sequence instructions <em>leading up to</em> "MAKE_FUNCTION" would
+      be change depending on the number of parameters a function
+      takes. So a parser needs this rough parameter information to be
+      able to match or parse the instructions leading up to the
+      "MAKE_FUNCTION".
+      <div style="color: blue; background-color: LightYellow">[NEXT]
+	#/10/0/1 ⟶ #/11
+      </div>
+    </p>
+
+  </aside>
+</section>

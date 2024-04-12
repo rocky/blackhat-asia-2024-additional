@@ -1,0 +1,181 @@
+<section>
+
+  <h1>LR Parsing (Postfix Order)</h1>
+
+  <div style="font-size: smaller">
+  <p>
+    Python Expression:
+    <code>
+      (<span class="hljs-title">a</span>
+      <span class="hljs-keyword">+</span>
+      <span class="hljs-title">b</span>)
+      <span class="hljs-keyword">/</span>
+      (<span class="hljs-title">c</span>
+      <span class="hljs-keyword">*</span>
+      <span class="hljs-title">d</span>)
+    </code>
+  </p>
+
+  <code>
+    <!-- a -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  <span class="hljs-title">a</span>
+	</p>
+      </div>
+      <div id="left">
+	<p>
+	  <code>&nbsp;0 LOAD_NAME(<span class="hljs-title">a</span>)</code>
+	</p>
+      </div>
+    </span>
+
+    <!-- b -->
+    <span class="fragment">
+	<div id="right">
+	  <p>
+	    <span class="hljs-string">match</span>
+	    <span class="hljs-title">b</span>
+	  </p>
+	</div>
+	<div id="left">
+	  <p>
+	    <code>&nbsp;2 LOAD_NAME(<span class="hljs-title">b</span>)</code>
+	  </p>
+	</div>
+    </span>
+
+    <!-- (a + b) -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  (<span class="hljs-title">a</span>
+	  <span class="hljs-keyword">+</span>
+	  <span class="hljs-title">b</span>)
+	</p>
+      </div>
+      <div id="left">
+	  <p>
+	    <code>&nbsp;4 <span class="hljs-keyword">BINARY_ADD</span></code>
+	  </p>
+
+      </div>
+    </span>
+
+    <!-- c -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  <span class="hljs-title">c</span>
+	</p>
+      </div>
+      <div id="left">
+	<p>
+	  <code>&nbsp;6 LOAD_NAME(<span class="hljs-title">c</span>)</code>
+	</p>
+      </div>
+    </span>
+
+    <!-- d -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  <span class="hljs-title">d</span>
+	</p>
+      </div>
+      <div id="left">
+	<p>
+	  <code>&nbsp;8 LOAD_NAME (<span class="hljs-title">d</span>)</code>
+	</p>
+      </div>
+    </span>
+
+    <!-- (c * d) -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  (<span class="hljs-title">c</span>
+	  <span class="hljs-keyword">*</span>
+	  <span class="hljs-title">d</span>)
+	</p>
+      </div>
+      <div id="left">
+	<p>
+	  <code>10 <span class="hljs-keyword">BINARY_MULTIPLY</span></code>
+	</p>
+      </div>
+    </span>
+
+    <!-- (a + b) / (c * d) -->
+    <span class="fragment">
+      <div id="right">
+	<p>
+	  <span class="hljs-string">match</span>
+	  (<span class="hljs-title">a</span>
+	  <span class="hljs-keyword">+</span>
+	  <span class="hljs-title">b</span>)
+	  <span class="hljs-keyword">/</span>
+	  (<span class="hljs-title">c</span>
+	  <span class="hljs-keyword">*</span>
+	  <span class="hljs-title">d</span>)<br/>
+	</p>
+      </div>
+      <div id="left">
+	<p>
+	  <code>12 <span class="hljs-keyword">BINARY_TRUE_DIVIDE</span></code>
+	</p>
+      </div>
+    </span>
+  </code>
+  </div>
+</section>
+
+<section>
+
+  <h1>Parse Tree Generation</h1>
+
+  <div style="font-size: smaller">
+  <p>
+    Python Expression:
+    <code>
+      (<span class="hljs-title">a</span>
+      <span class="hljs-keyword">+</span>
+      <span class="hljs-title">b</span>)
+    </code>
+  </p>
+
+  <p>&nbsp;</p>
+  <!-- a -->
+  <span class="fragment">
+      <pre><code>expr
+    L.   1         0  LOAD_NAME                a</code></pre>
+  </span>
+
+  <!-- b -->
+  <span class="fragment">
+      <pre><code class="hljs apache">expr
+                   2  LOAD_NAME                b</code></pre>
+  </span>
+
+  <!-- (a + b) -->
+  <span class="fragment">
+      <pre><code class="hljs apache">binary_operator
+                   4  BINARY_ADD</code></pre>
+  </span>
+  <span class="fragment">
+      <pre><code class="hljs apache">bin_op (3)
+     0. expr
+       L.   1         0  LOAD_NAME                a
+     1. expr
+                      2  LOAD_NAME                b
+     2. binary_operator
+                      4  BINARY_ADD</code></pre>
+  </span>
+  </div>
+</section>

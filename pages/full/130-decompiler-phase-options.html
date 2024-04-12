@@ -1,0 +1,68 @@
+<section>
+  <h1>
+    Decompiler Phase Options
+  </h1>
+
+  <p>
+    <ul style="font-size: 60%; margin-left: -230px" >
+      <li class="fragment">Disassembly and Tokenization:
+	<code  class="hljs-selector-id" style="font-size: smaller">--asm</code>
+	(<code class="hljs-selector-id" style="font-size: smaller">-a</code>),
+	or
+	<code class="hljs-selector-id" style="font-size: smaller">--asm++</code>
+	(<code class="hljs-selector-id" style="font-size: smaller">-A</code>)</li>
+      <li class="fragment">Parsing:
+	<code class="hljs-selector-id" style="font-size: smaller">--grammar</code>
+	(<code  class="hljs-selector-id" style="font-size: smaller">-g</code>)
+      <li class="fragment">Parse Tree, Abstract Syntax Tree:
+	<code  class="hljs-selector-id" style="font-size: smaller">--tree</code>
+	(<code class="hljs-selector-id" style="font-size: smaller">-t</code>),
+	or
+	<code  class="hljs-selector-id" style="font-size: smaller">--tree++</code>
+	(<code  class="hljs-selector-id" style="font-size: smaller">-T</code>)</li>
+      <li class="fragment">combined short options:
+	<code  class="hljs-selector-id" style="font-size: smaller">-AgT</code></li>
+    </ul>
+  </p>
+
+      <p class="fragment" style="font-size: 60%">
+	<code class="hljs language-shell">
+	  <span class="hljs-meta prompt_">$</span>
+	  uncompyle6  <span class="hljs-selector-id">-AgT</span>
+	  <span class="hljs-variable">/tmp/five-moved.pyc</code>
+      </p>
+    </div>
+  </p>
+
+  <aside class="notes">
+    <p>Now that we have gone over the phases of decompilation, we give
+    a rundown of "uncompyle6" or "decompyle3" command-line options.
+    These will show output from each of these phases. If you use these
+    programs, you should know about and use these when you have a
+    problem. If you want to see more complete output for the full
+    program that I showed in the last slides, use these options on
+    bytecode of your choice. <em>I</em> use these options a lot of the
+    time. [DOWN] #/13 ⟶ #/13/0
+    </p>
+
+    <p>The "dash dash asm" option or "-a" shows disassembly. To get in
+    addition the later-produced tokenized output use: "--asm++" or
+    "dash capital A". [DOWN] #/13/0/0 ⟶ #/13/0/1 </p>
+
+    <p>The "dash dash grammar" option or "-g", shows grammar
+      reductions. Output here can get very long. So unless you think
+      there is a problem in parsing, don’t use option. Unfortunately,
+      grammar problems occur more frequently than I would like. [DOWN]
+      #12/0/1 ⟶ #/13/0/2</p>
+
+    <p>The "dash dash tree" option with short option "-t" shows the
+    parse tree. To get the abstract syntax tree as well use "--tree++"
+    or dash Capital T. [DOWN] #/13/0/2 ⟶ #12/0/3</p>
+
+    <p>Short options can be combined without having to add more than one dash. [DOWN] #/13/0/3 ⟶ #12/0/4</p>
+
+    <p>This just shows a common invocation of the program that I use
+    when I need to follow the decompiler’s thought process.</p> [NEXT]
+    [DOWN] #/13/0/4 ⟶ #/14
+  </aside>
+</section>

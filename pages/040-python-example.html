@@ -1,0 +1,108 @@
+<section>
+  <h1>Simple Python Program</h1>
+  <p>In file <code style="font-size: smaller">five.py</code>:
+    <pre style="line-height: 20px; font-size: 0.70em">
+      <code class="hljs language-python">"""
+BlackHat Asia Example
+"""
+
+
+def five():
+    """Returns the string five"""
+    return "5"
+
+
+# Call the function we just defined.
+print(five())</code>
+    </pre>
+  <div class="fragment">
+    <p>Now run the code:
+      <pre style="line-height: 25px; font-size: 0.70em">
+	<code  class="hljs language-shell">$ python five.py
+	  5</code></pre>
+    </p>
+  </div>
+
+  <div class="fragment">
+    <p>Instruction bytecode of main program:
+      <pre>
+      <code>  0 |64 00 5a 00 64 01 64 02 |
+  8 |84 00 5a 01 65 02 65 00 |
+ 16 |83 00 83 01 01 00 64 03 |
+ 24 |53 00                   |</code>
+      </pre>
+    </p>
+  </div>
+
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/4</div>
+    <p>
+      Before I get <em>too</em> deep into Python decompilation, I
+      should say something about what it
+      is. Briefly, <em>decompilation</em> starts with bytecode as
+      input and produces source text as output. In this slide, we have
+      some Python. So where does the bytecode come in?  That gets
+      introduced in second.
+    </p>
+
+    <p>Let me first start off with some <em>basics</em> that go on
+      when you <em>run</em> a Python program.
+    </p>
+
+     <p>
+      I’m going to use this simple program in the examples later. The
+      programs prints the output of calling a function
+      named <em>five()</em>
+      <div style="color: blue; background-color: LightYellow">[DOWN]
+	#/4 ⟶ #/4/0/0
+      </div>
+    </p>
+
+    <p>
+      I run the code using the usual Python interpreter called
+      (CPython) and we get the expected output: 5.
+    </p>
+
+    <p>When I do this, under the covers, Python translates or
+      <em>compiles</em> the program into an intermediate
+      form called <em>bytecode</em> and interprets that
+      internal form. In this particular case, that bytecode stays
+      internal; it isn’t written out to disk.  <div style="color:
+      blue; background-color: LightYellow">[DOWN] #/4/0/0 ⟶
+      #/4/0/1</div></p>
+
+    <p>
+      Here are the bytecode bytes for the main routine. What these
+      instructions do is: call for the creation of the
+      function <em>five()</em>. In an interpreted language, there is
+      no linker loader, like you have in statically-compiled languages
+      &mdash; the tools that general-purpose analysis tools handle.
+      Instead, this kind of thing is done as the code runs. After
+      linking function <em>five()</em> into the main program, the five
+      function is called and the function return value is passed to
+      the built-in <em>print()</em> function which displays the output
+      shown.
+    </p>
+
+    <p>The instructions for doing all of that stuff that I just said,
+     takes up only 25 bytes!</p>
+
+    <p>For those of you who are familiar with machine code, 25 bytes
+      to do all of this is, like, <em>awesome</em>! There are metadata
+      sections that are in the bytecode and that adds a bit of space
+      too. I haven't shown that here, but we will see some of this a
+      little bit later.</p>
+
+    <p>
+      Everything, overall, is very very compact. Part of the
+      compactness is that the individual instructions themselves are
+      pretty high level. And we’ll see some of that later as
+      well.
+      <div style="color: blue; background-color: LightYellow">[NEXT]
+	#/4/0/1 ⟶ #/5
+      </div>
+    </p>
+  </aside>
+
+</section>

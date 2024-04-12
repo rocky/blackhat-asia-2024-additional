@@ -1,0 +1,155 @@
+<!doctype html>
+<!-- Slides for BlackHat Asia 2024 -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Python Decompilers: BlackHat Asia</title>
+
+    <meta name="author" content="Rocky Bernstein">
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+
+    <!-- Title-Footer plugin -->
+    <link rel="stylesheet" href="plugin/title-footer/title-footer.css">
+
+
+    <!-- Theme used for syntax highlighted code -->
+    <!-- <link rel="stylesheet" href="plugin/highlight/monokai.css"> -->
+    <link rel="stylesheet" href="plugin/highlight/monokai-rocky.css">
+    <!-- <link rel="stylesheet" href="plugin/highlight/zenburn.css"> -->
+
+    <!-- Rocky's customizations. -->
+    <link rel="stylesheet" href="css/rocky-customize.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+	  var link = document.createElement( 'link' );
+	  link.rel = 'stylesheet';
+	  link.type = 'text/css';
+	  link.href = 'css/print/pdf.css';
+	  document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+  </head>
+  <body>
+
+    <!-------------------------------------------
+     -- Individual Slides for BlackHat ASIA 2024
+     --------------------------------------------->
+
+    <div class="reveal">
+      <div class="slides">
+	<section data-external="http://localhost:8000/pages/000-title-page.html"></section>
+	<section data-external="http://localhost:8000/pages/010-intro.html"></section>
+	<section data-external="http://localhost:8000/pages/020-background.html"></section>
+	<section data-external="http://localhost:8000/pages/030-what-talk-is-about.html"></section>
+	<section data-external="http://localhost:8000/pages/040-python-example.html"></section>
+	<section data-external="http://localhost:8000/pages/050-compile-and-run-bytecode.html"></section>
+	<section data-external="http://localhost:8000/pages/060-bytecode-decompilation-example.html"></section>
+	<section data-external="http://localhost:8000/pages/070-source-code-differences.html"></section>
+	<section data-external="http://localhost:8000/pages/080-how-decompilation-works.html"></section>
+	<section data-external="http://localhost:8000/pages/090-pydisasm-example.html"></section>
+	<section data-external="http://localhost:8000/pages/100-disasm-vs-tokenize.html"></section>
+	<section data-external="http://localhost:8000/pages/110-parsing-tokens.html"></section>
+	<section data-external="http://localhost:8000/pages/120-intermission.html"></section>
+	<section data-external="http://localhost:8000/pages/130-bytecode-disassembly.html"></section>
+	<section data-external="http://localhost:8000/pages/140-chained-compare-cfg-code.html"></section>
+	<section data-external="http://localhost:8000/pages/150-control-flow.html"></section>
+	<section data-external="http://localhost:8000/pages/160-general-stuff.html"></section>
+	<section data-external="http://localhost:8000/pages/170-wrap-up.html"></section>
+	<section data-external="http://localhost:8000/pages/180-thanks.html"></section>
+	<section data-external="http://localhost:8000/pages/190-references.html"></section>
+	<!------------------------------------------------------------------------------------------->
+	<!---out takes -->
+	<!-- <section data-external="http://localhost:8000/pages/130-decompiler-phase-options.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/180-AI-and-Machine-Learning.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/190-call-for-help.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/200-expression-parsing.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/240-tree-printing.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/140-chained-compare-tree.html"></section> -->
+	<!-- <section data-external="http://localhost:8000/pages/vertical-slides.html"> -->
+	<!-- <section data-external="http://localhost:8000/pages/060-dis-example-detailed.html"></section> -->
+      </div>
+    </div>
+
+    <!-------------------------------------------
+     -- End of Individual Slide Section
+     --------------------------------------------->
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight-pp.js"></script>
+
+    <!--header code needs to be before initialize block-->
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+      Reveal.addEventListener( 'ready', function( event ) {
+	  var banners = '<div id="banners"><header \/><footer \/><\/div>';
+	  $('section').each(function (index, slide ) {
+              if ($(slide).children('section').length == 0) {
+		  var bannerText = $(slide).closest('[data-banner]').data('banner');
+		  if (bannerText) {
+		      var background = $(slide.slideBackgroundElement);
+		      background.append(banners);
+		      background.find('header,footer').text(bannerText);
+		  }
+              }
+	  });
+      });
+
+    </script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+	  hash: true,
+
+          // width: '100%',
+	  // height: '100%',
+
+	  // // Factor of the display size that should remain empty around
+	  // // the content
+	  // margin: 0.04,
+
+	  // // Bounds for smallest/largest possible scale to apply to content
+	  // minScale: 0.2,
+	  // maxScale: 2.0,
+
+	  // Learn about plugins: https://revealjs.com/plugins/
+	  plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ],
+	  dependencies: [
+	      {
+		  src: 'plugin/external/external.js',
+		  condition: function() {
+		      return !!document.querySelector( '[data-external],[data-external-replace]' );
+		  }
+	      },
+	      {
+		  src: 'plugin/title-footer/title-footer.js',
+		  async: true, callback: function() { title_footer.initialize(); }
+	      },
+	  ]
+      });
+      Reveal.configure({
+          // showNotes: 'separate-page',
+	  keyboard: {
+	      40: 'next', // go the right slide when the "5" key is pressed
+	      // 82: 'right', // go the right slide when the "5" key is pressed
+	      // 78: 'right', // go the right slide when the "n" key is pressed
+	      49: 'prev', // go the right slide when the "1" key is pressed
+	      50: 'next', // go the right slide when the "2" key is pressed
+	      51: 'prev', // go the right slide when the "3" key is pressed
+	      52: 'next', // go the right slide when the "4" key is pressed
+	  }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<section>
+  <h1>Disassembly Using <code class="hljs-title">pydisasm</code> from
+    <code class="hljs-title">xdis</code>
+  </h1>
+
+  <p class="small" line-height="40px">
+    <code  class="hljs language-shell";
+	   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-title">pydisasm</span> -F extended-bytes -S <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+
+    <pre class="fragment">
+      <code
+	data-line-numbers="1-24|2-6|16-17|25-27|27|35-39|40"
+	class="hljs language-pyasm"
+	style="width: 800px;"># pydisasm version 6.1.0.dev0
+# Python bytecode 3.8.0 (3413)
+# Disassembled from Python 3.8.18 (default, Sep  4 2023, 13:19:52)
+# [GCC 12.3.0]
+# Timestamp in code: 1708217267 (2024-02-17 19:47:47)
+# Source code size mod 2**32: 148 bytes
+# Method Name:       &lt;module&gt;
+# Filename:          five.py
+# Argument count:    0
+# Position-only argument count: 0
+# Keyword-only arguments: 0
+# Number of locals:  0
+# Stack size:        2
+# Flags:             0x00000040 (NOFREE)
+# First Line:        1
+# Constants:
+#    0: '\nBlackHat Asia Example 1\n'
+#    1: &lt;code object five at 0x7f64cb56c030, file "five.py", line 6&gt;
+#    2: 'five'
+#    3: None
+# Names:
+#    0: __doc__
+#    1: five
+#    2: print
+       # """\nBlackHat Asia Example 1\n"""
+ 1:      0 |64 00| LOAD_CONST        ("\nBlackHat Asia Example 1\n")
+         2 |5a 00| STORE_NAME        (__doc__) | __doc__ = '\nBlackHat Asia Example \n'
+
+       # def five():
+ 6:      4 |64 01| LOAD_CONST        (&lt;code object five at 0x7f64cb56c030, file "five.py", line 6&gt;)
+         6 |64 02| LOAD_CONST        ("five")
+         8 |84 00| MAKE_FUNCTION     (Neither defaults, keyword-only args, annotations, nor closures) | TOS = def five(...): ...
+        10 |5a 01| STORE_NAME        (five) | five = def five(...): ...
+
+       # print(five())
+12:     12 |65 02| LOAD_NAME         (print)
+        14 |65 01| LOAD_NAME         (five)
+        16 |83 00| CALL_FUNCTION     (0 positional arguments) | TOS = five()
+        18 |83 01| CALL_FUNCTION     (1 positional argument) | TOS = print(five())
+        20 |01 00| POP_TOP
+        22 |64 03| LOAD_CONST        (None)
+        24 |53 00| RETURN_VALUE      return None
+
+
+# Method Name:       five
+# Filename:          five.py
+# Argument count:    0
+# Position-only argument count: 0
+# Keyword-only arguments: 0
+# Number of locals:  0
+# Stack size:        1
+# Flags:             0x00000043 (NOFREE | NEWLOCALS | OPTIMIZED)
+# First Line:        6
+# Constants:
+#    0: 'Returns the string five'
+#    1: '5'
+       # def five():
+ 8:      0 |64 01| LOAD_CONST           ("5")
+         2 |53 00| RETURN_VALUE         return "5"
+      </code>
+    </pre>
+
+  <aside class="notes">
+  <p>There are a couple of limitations using the standard <em>dis</em>
+    code for disassembly. The biggest problem is that it can only
+    disassemble code for a single Python version, the Python version you
+    have installed. If you are running the latest version of Python,
+    such as the 3.12 series and want to look at bytecode from any other
+    version, like bytecode from 2.7, then you are out of luck.
+    Malware written in Python tends to use older versions of Python.</p>
+
+  <p>I wrote a disassembly that will work on <em>any</em> released
+    version of Python. This is called <em>xdis</em> for cross-Python
+    "dis"-assembler.</p>
+
+  <p>Aside from working across Python versions it has a number features you
+    do not find in the standard Python library disassembler. The two
+    options used here are:
+    <ol>
+      <li> basic interpretation of sequence of instructions,</li>
+      <li> showing the actual bytecode</li>
+      <li>the ability to intermingle the source code text with assembly
+    </ol>
+  </p>
+
+  <p>The first two items are bundled in option <code>-F</code>
+    "extended" "bytes". The option "-S" indicates that source code
+    should be included. Note though in reverse engineering, most of
+    the time you will not have the source code. There is of course no
+    harm in using that option though when there is no source code.</p>
+
+  <p>Now let's look at the output. [down]</p>
+
+  <p>First, you'll see that we have all of this stuff in orange at the
+    top again. [down]</p>
+  <p>In fact, some of this you've seen before in the <em>uncompyle6</em> listing.
+    It is metadata about the bytecode: version of bytecode
+    is getting disassembled, when the bytecode was decompiled, and the size of the
+    bytecode. [down]</p>
+  <p>A piece of metadata that we saw implictly in <em>dis</em> output
+    was this table of constants. Te first instruction of <em>dis</em>
+    output was "LOAD_CONST 0" where "BlackHat Asia" was shown in parenthesis.
+    I said was decoded from somewhere.  In particular, it came from
+    indexing into this constants list.</p>
+  <p>Now let's compare the assembly instructions. [down]</p>
+  <p>Again, this is similar, but there is more information. First,
+  we see the source-code for line 1. It is that Python docstring:
+    "BlackHat Asia Example 1" in green.
+  <p>Next we have between vertical bars in white is the actual bytecode
+  values. The first instruction is hex 64 which is the opcode for
+  "LOAD_CONST" in Python 3.8; Opcode numbers can change between Python
+  versions. The operand value is 0, but 0 is and index into that constants
+  list above.
+
+  <p>In the second instruction, we see something interesting happening off to the right [down]</p>
+
+  <p>After the parenthesis operand value "__doc__", we see an
+    assignment statement: <pre>__doc__ = Blackhat Asia Example 1</pre>.
+    The disassembler is describing the combined effect of the first two lines. In effect this
+    is how Python implements docstrings. It does this by assigning string value a variable called
+    <code>__doc__</code>. Here is a more complicated example of that: [down]</p>
+
+  <p>In the bottom highlighted instruction at purple offset 18, the
+    statement "TOS = print(five())" is an interpretations of all of the instruction from offset 12 to 18.
+    In fact, this constitutes all of source code of line 35.</p>
+
+  <p>Noticed that in <em>xdis</em> output we now see what what the "0"
+  and "1" mean in "CALL_FUNCTION". It gives the number of poisitional
+  arguments of that call. You might think that this is pretty easy to
+  decipher, until you realize that Python also s supports keyword
+  arguments and other kinds of arguments. So the operand has to encode
+  these as well. It just turns out that when we don't have these kinds
+  of arguments operand decoding is trivial.</p>
+
+  <p>The funny <code>TOS =</code> part is just saying that the top of
+    Python's interpreter evaluation stack has a has value returned
+    from calling <code>print</code>. [down]</p>
+
+  <p>The instruction below that at offset 20 removes this value from
+  the evaluation stack since it is not used in the code. [next]</p>
+
+  </aside>
+</section>
