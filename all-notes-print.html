@@ -1,14 +1,22 @@
 <html lang="en">
  <head>
-    <meta charset="utf-8">
-  <head>
-  <body>
+   <meta charset="utf-8">
+   <style>
+     body {
+	 font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
+	 background-color: linen;
+     }
+     h1 {
+	 font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
+	 background-color: linen;
+     }
+   </style>
+  </head>
+ <body>
     <h1>
-      <code style="font-size: smaller">
-	<a href="https://pypi.org/project/uncompyle6/">uncompyle6</a>
-      </code>
-      and <code style="font-size: smaller">
-	<a href="https://github.com/rocky/python-decompile3/">decompyle3</a></code>:
+      <a href="https://pypi.org/project/uncompyle6/">uncompyle6</a>
+      and
+	<a href="https://github.com/rocky/python-decompile3/">decompyle3</a>:
       How to Read and Write a High-Level Bytecode Decompiler
     </h1>
     <p>I have a lot of material to get through it all. Time is going
@@ -16,7 +24,7 @@
     abbreviated. I apologize in advance.
     </p>
     <p>If you can, I <em>strongly</em> recommend you follow along with
-      the printed version of the text. So let’s begin...
+      this printed version of the text. So let’s begin...
     </p>
     <hr/>
 
@@ -24,7 +32,7 @@
     <h1>Survey</h1>
 
     <p>Please raise your hand if use have used Hex-Rays Ida Pro,
-    Ghidra or Binary Ninja? Awesome!</p>
+    Ghidra or Binary Ninja?</p>
 
     <p>How about using any of these to decompile Python
     bytecode to Python source text?</p>
@@ -45,7 +53,7 @@
 
     <!--- 010-intro.html #/1/1 -->
 
-    <h1>Github commit statistics for <code style="font-size: smaller">uncompyle6</code></h1>
+    <h1>Github commit statistics for uncompyle6</h1>
 
     <p>I’m the current maintainer and developer
       of <em>uncompyle6</em>, and <em>decompyle3</em>.  I’m sorry for
@@ -54,7 +62,7 @@
 
     <p>This page shows github commit activity for <em>uncompyle6</em>
       from 2012 to now. 31 people have contributed to this open-source
-      project, usually submitting one or two pull requests. These
+      project, usually submitting one or two Pull Requests. These
       are greatly appreciated. Keep up the good work! But
       over the vast sea of time, I have been working on this largely
       by myself. My contributions are in the bottom left. The person who
@@ -83,8 +91,8 @@
       sophisticated, the code needs better technology to keep up with
       Python. So I forked the code, refactored it, and reduced its
       size. That accounts for the drop off in activity you see on the
-      right part of the graph from 2021 to now. The forked code goes
-      under the name decompyle3. It only handles Python 3.7
+      right part of the graph from 2021 to now . The forked code goes
+      under the name <em>decompyle3</em>. It only handles Python 3.7
       and 3.8.
     </p>
 
@@ -367,9 +375,9 @@
       instructions do is call for the creation of the
       function <em>five()</em>. In an interpreted language, there is
       no linker loader, like you have in statically-compiled languages
-      &mdash;the tools that general-purpose analysis tools handle.
+      &mdash; the tools that general-purpose analysis tools handle.
       Instead, this kind of thing is done as the code runs. After
-      linking function <em>five()</em> into the main program, the
+      linking function <em>five()</em> into the main program, the five
       function is called and the function return value is passed to
       the built-in <em>print()</em> function which displays the output
       shown.
@@ -377,7 +385,7 @@
 
     <p>
       The instructions for doing all of that stuff that I just said,
-      take up only 25 bytes!</p>
+      takes up only 25 bytes!</p>
 
     <p>For those of you who are familiar with machine code, 25 bytes
       to do all of this is, like, awesome! There are metadata
@@ -396,7 +404,7 @@
     <!--- 050-compile-and-run-bytecode.html #/5 -->
     <p>
       As I said, the interpreter doesn’t run the source text directly,
-      but instead runs bytecode. One implication of this is that the
+      but instead runs bytecode. One implication of this, is that the
       source text doesn’t need to exist after byte-code compilation is
       done.
     </p>
@@ -409,14 +417,14 @@
     </p>
 
     <p>
-      A "bytecode file" is a built-in Python code object which is
+      A "bytecode file" is a built-in Python Code object which is
       serialized and then written out a file using a routine called
       "marshal". There is a little extra data added like the
       source-text file name, and bytecode version. [*]
     </p>
 
-    <p>The short name of this file here is 5.cpython-38.pyc. The extension of a
-      bytecode file usually ends in .pyc as it is here, or .pyo . [*]
+    <p>The short name of this file here is "5.cpython-38.pyc". The extension of a
+      bytecode file usually ends in ".pyc" as it is here, or ".pyo" . [*]
     </p>
 
     <hr/>
@@ -428,15 +436,7 @@
     </p>
 
     <p>
-      And again, I get 5.  To show that the source code is no longer
-      needed, I will move the bytecode to a different location and
-      remove the Python source text file.
-    </p>
-
-    <p>
-      I run the bytecode, and again I get the same output 5.
-    </p>
-
+      And again, I get 5.
     </hr>
     <!--- 060-bytecode-decompilation-example.html #/6 -->
     <h1>Python Bytecode Decompilation Example</h1>
@@ -565,10 +565,10 @@
 	tools, this process is sometimes called <em>lifting</em>,
 	as in "lifting the disassembly" or "lifting the machine
 	code". [*]</li>
-	<li>Parse tokens to create a parse tree. [*]</li>
-	<li>Abstract the parse tree to an "abstract syntax tree", and
+	<li>Parse tokens to create a Parse Tree. [*]</li>
+	<li>Abstract the parse tree to an "Abstract Syntax Tree", and
 	finally: [*]</li>
-	<li>Produce Python source text from the abstract syntax tree.</li>
+	<li>Produce Python source text from the Abstract Syntax Tree.</li>
       </ol>
     </p>
 
@@ -623,7 +623,7 @@
 
     <p>
       I’ll go into this in more detail later. But the main thing to
-      note here is that the first two instructions com from
+      note here is that the first two instructions come from
       line one of the Python source text. Line one is indicated by the
       "1:" in white to the left.
     </p>
@@ -746,7 +746,7 @@
 
     <p>
       That one instruction, all by itself, is the complete
-      representation in bytecode for a particular Python expression.
+      representation in bytecode for a particular Python expression!
       Here, it would be what Python will produce for a literal string
       expression, "Blackhat Asia Example", with nothing else.</p>
 
@@ -767,9 +767,9 @@
       Because "LOAD_STR" is a complete expression, the parser matches
       that single token and emits a "grammar reduction
       rule". This is the "expr colon colon LOAD_STR" you see
-      here. This line is written in Backus-Naur form. You will see
+      here. This line is written in Backus-Naur Form. You will see
       this notation used in both Python's grammar specification and
-      its abstract syntax tree specification.  More generally, this is
+      its Abstract Syntax Tree specification.  More generally, this is
       the way syntax is specified in most programming languages.</p>
 
     <p>But the decompilers I've written also use grammars to
@@ -985,7 +985,7 @@
       </p>
 
       <p>
-	There is a disassember in the standard Python library
+	There is a disassember in the standard Python Library
 	called <em>dis</em>. Most novice decompilers use this&mdash;
 	it's the first thing that comes to mind. But that has some
 	serious limitations.  The biggest limitation is that it can
@@ -1029,13 +1029,13 @@
 
     <!--- 130-bytecode-disassembly.html #/13/1 -->
     <h1>Bytecode Disassembly</h1>
-    <p> Again,
-      At the top, again, is some metadata in orange. I went into some
+    <p>
+      Again, at the top, is some metadata in orange. I went into some
       of this earlier, so I have elided this.
     </p>
 
     <p>
-      A piece of metadata that we saw implicitly before was
+      A piece of metadata that we saw implicitly before, was
       this value from this constants table.
       The first instruction at offset 0 is "LOAD_CONST". The string
       operand of this instruction came from index zero of this
@@ -1108,12 +1108,11 @@
       Here is an example of something that disassembly can't
       reconstruct.
     </p>
-    <p>
 
-      The disassembler is great with code that doesn't
-      have jumps in it.
-      But once we have jumps, like we have in the highlighted instructions, a
-      disassembler has to stop combining instructions.
+    <p>
+      The disassembler is great with code that doesn't have jumps in
+      it.  But once we have jumps, like we have in the highlighted
+      instructions, a disassembler has to stop combining instructions.
     </p>
 
     <p>
@@ -1240,9 +1239,9 @@
       control-flow analysis.
     </p>
 
-    <p>First, instructions are broken into "basic blocks". A basic
-      block is straight-line code. There are no jumps into the middle
-      of the block, only the to beginning of the block. If there is a
+    <p>First, instructions are broken into "Basic Blocks". A Basic
+      Block is straight-line code. There are no jumps into the middle
+      of the block, only to the beginning of the block. If there is a
       jump anywhere in the sequence of instructions, it
       has to be at the last instruction.
     </p>
@@ -1268,7 +1267,7 @@
     </p>
 
     <p>
-      The easiest term to explain is "dominator region". This is just
+      The easiest term to explain is "Dominator Region". This is just
       another term for "scope" described in the last slide.  But it is
       a property that is computed on a directed graph, or
       more precisely a control-flow graph like this. This property is
@@ -1292,12 +1291,12 @@
       the block in 3D.</p>
 
     <p>To run an instruction in either Block 4 or Block 5 in brown,
-      you have to pass through the all instructions in the
-      other brown block: Block 3. Block 3 then dominates Blocks 3,
-      4, and 5.</p>
+      you have to pass through the all instructions in the other brown
+      block: Block 3. Block 3 then <em>dominates</em> Blocks 3, 4, and
+      5.</p>
 
     <p>But Block 3 is dominated by both lighter-colored
-      Blocks 2 and 1.  The hierarchy of dominator blocks is capturing
+      Blocks 2 and 1.  The hierarchy of Dominator Blocks is capturing
       the nesting level in the "count bits" program.
     </p>
 
@@ -1368,7 +1367,7 @@
     </p>
 
     <p>
-      Control flow in general-purpose decompilers is its own canned
+      Control Flow, in General-purpose decompilers, is its own canned
       phase. This phase doesn’t take into account the specific target
       programming language that produced the code and the specific set
       of control-flow structures that the source language has.
@@ -1474,7 +1473,8 @@
     <h1>Additional Information</h1>
     <p>Here is additional information for where you can get even more
       detail about things I've said today. Links are clickable in the
-      slides and in the PDF.
+      slides and in the PDF.  I believe all of this information is
+      available in the materials for this talk.
     </p>
 
     <ul style="font-size: smaller">
@@ -1487,7 +1487,6 @@
       <li>Text of this talk: <a href="https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print"</a>https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print</li>
       <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">https://rocky.github.io/blackhat-asia-2024-additional</a></li>
     </ul>
-
 
     <p>Thanks, Everybody!  [FIN]
 
