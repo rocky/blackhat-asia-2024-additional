@@ -23,7 +23,7 @@
     to be short. Some of what I have to say is very compact and
     abbreviated. I apologize in advance.
     </p>
-    <p>If you can, I <em>strongly</em> recommend you follow along with
+    <p>If you can, I <i>strongly</i> recommend you follow along with
       this printed version of the text. So let’s begin...
     </p>
     <hr/>
@@ -47,7 +47,7 @@
       that runs off bytecode.</p>
 
     <p>Now please raise your hand if you have
-    used <em>uncompyle6</em>, or <em>decompyle3</em>. [*]</p>
+    used <i>uncompyle6</i>, or <i>decompyle3</i>. [*]</p>
 
     <hr/>
 
@@ -56,26 +56,30 @@
     <h1>Github commit statistics for uncompyle6</h1>
 
     <p>I’m the current maintainer and developer
-      of <em>uncompyle6</em>, and <em>decompyle3</em>.  I’m sorry for
+      of <i>uncompyle6</i>, and <i>decompyle3</i>.  I’m sorry for
       my really bad choice of names for the projects.
     </p>
 
-    <p>This page shows github commit activity for <em>uncompyle6</em>
+    <p>
+      This page shows github commit activity for <i>uncompyle6</i>
       from 2012 to now. 31 people have contributed to this open-source
       project, usually submitting one or two Pull Requests. These
       are greatly appreciated. Keep up the good work! But
       over the vast sea of time, I have been working on this largely
       by myself. My contributions are in the bottom left. The person who
       is ranked second in commits, moagstar, is to the right. I
-      haven’t heard from him in a little over 7 years.</p>
+      haven’t heard from him in a little over 7 years.
+    </p>
 
-     <p>Back in 2016, I started this project on github from
+    <p>
+      Back in 2016, I started this project on github from
       a "tar" of a copy of an archive from an
       obsolete version-control system. The code had been abandoned for
       about 5 years. And that accounts for the big gap at the left.
     </p>
 
-    <p>In 2018, I gave a talk at Python conference. So you see another
+    <p>
+      In 2018, I gave a talk at Python conference. So you see another
       flurry of activity for 2018 in the middle of the graph.
     </p>
 
@@ -645,21 +649,20 @@
     <h1>Phase 3: Parsing Tokens into a Parse Tree</h1>
     <p>
       In the left panel, you can see instructions that result from
-      decoding bytecode, using a library routine from
-      the <em>xdis</em> package. A small detail is that the decompiler
-      doesn’t call a command-line routine but instead users a library
-      API. So it has a disassembly structure.  On the left we
-      are showing the print representation corresponding to the
-      command-line utility.
+      decoding bytecode A library routine from the <i>xdis</i> package
+      is used here. Because the the decompiler doesn’t call a
+      command-line routine but instead uses a library API, it has a
+      disassembly structure.  On the left we are showing the print
+      representation corresponding to the command-line utility.
     </p>
 
-    <p>From this disassembly structure, we need to massage a little
-      and repackage the information to put it into a form for input
-      that parsers typically use.  This is shown in the right
-      panel. Even though the two look almost the same, internally they
-      are different structures. On the left is
-      output of phase 1, and on the right is parser
-      input in phase 2.
+    <p>
+      From this disassembly structure, we need to massage a little
+      and repackage the information to put in a form for parser input.
+      This is shown in the right panel. Even though the two look
+      almost the same, internally they are different structures. On
+      the left is output of phase 1, and on the right is parser input
+      in phase 2.
     </p>
 
     <p>
@@ -677,48 +680,46 @@
     </p>
 
     <p>
-    In the first instruction, "LOAD_CONST" at offset 0 (offset numbers
-    are in purple), the operation has been specialized to
-    "LOAD_STR". In general, a "LOAD_CONST"' operand can
-    be any Python constant literal, not just a string.</p>
-
-    <p>This aspect shows a difference between bytecode and machine
-    instructions. In machine code, operands are register values which
-    can be numbers, addresses, or parts of addresses. In
-    Python bytecode, operands are arbitrary
-    Python objects!</p>
-
-    <p>In the highlighted instructions, the "LOAD_CONST" operand
-    is a string. We reflect this in the token name by
-    changing the token name from "LOAD_CONST" into "LOAD_STR".
+      In the first instruction, "LOAD_CONST" at offset 0 (offset
+      numbers are in purple), the operation has been specialized to
+      "LOAD_STRing". In general, a "LOAD_CONST"' operand can be any
+      Python constant literal, like a constant tuple of timezone
+      names, not just a string.
     </p>
 
-    <p>The other operation name that is different from its
-    corresponding token name is "MAKE_FUNCTION".  And you see that,
-    down at the bottom at purple offset 8.  It gets a suffix added to
-    the name and becomes "MAKE_FUNCTION_0". Zero is the
-    bytecode-encoded way to indicate that the function signature for
-    this function doesn’t take any parameters. The instruction
-    sequence instructions leading up to "MAKE_FUNCTION" would
-    change depending on the number of parameters a function
-    takes. So a parser needs this rough parameter information to be
-    able to match or parse the instructions leading up to the
-    "MAKE_FUNCTION". [*]
+    <p>
+      This aspect shows a difference between bytecode and machine
+      instructions. In machine code, operands are register values which
+      can be numbers, addresses, or parts of addresses. In
+      Python bytecode, operands are arbitrary
+      Python objects!</p>
+
+    <p>
+      The other operation name that is different from its
+      corresponding token name is "MAKE_FUNCTION".  And you see that
+      at purple offset 8 towards the bottom.  It gets a suffix added
+      to the name and becomes "MAKE_FUNCTION_0". Zero is the
+      bytecode-encoded way to indicate that the function signature for
+      this function doesn’t take any parameters. The instruction
+      sequence instructions leading up to "MAKE_FUNCTION" would change
+      depending on the number of parameters a function takes. So a
+      parser needs this rough parameter information to be able to
+      match or parse the instructions leading up to the
+      "MAKE_FUNCTION". [*]
     </p>
 
     <!--- 110-parsing-tokens.html #/11 -->
     <h1>Phase 3: Parsing Tokens Parse Tree</h1>
 
     <p>
-      In the last slide, we showed the first two phases of
-      decompilation. Those phases turned bytecode bytes into
-      bytecode instructions, and then into a stream of
-      tokens. The process next of scanning and parsing, that
+      In the last slide, we showed the first two phases which turned
+      bytecode bytes into bytecode instructions, and then into a
+      stream of tokens. The process next of scanning and parsing, that
       I will show now, will look familiar to those who have developed
-      compilers. But that is kind of a niche market, so I suspect that
-      for many of you, this will be new. If things go too
-      quickly, you may find some of this explained in one of those
-      compiler books of the images I showed earlier.
+      compilers. But that is a niche market, so I suspect that for
+      many of you, this will be new. If things go too quickly, you may
+      find some of this explained in one of those compiler books of
+      the images I showed earlier.
     </p>
 
     <p>
@@ -936,8 +937,8 @@
     </p>
 
     <p>
-      Notice that we have also simplified the tree as well. We no
-      longer have grammar symbols "expr" or "store".
+      Notice that we have also simplified the tree. We no longer have
+      grammar symbols "expr" or "store".
     </p>
 
     <p>
@@ -946,10 +947,10 @@
     </p>
 
     <p>
-      And finally we get to that actual source text.  The
-      source text is created by traversing this AST, calling routines
-      based on the name of the grammar symbol, here the grammar symbol
-      name is "docstring" in yellow. [*]
+      And finally we get to that actual source text.  The source text
+      is created by traversing this AST, calling routines based on the
+      name of the grammar symbol. Here, the grammar symbol is
+      "docstring" in yellow. [*]
     </p>
 
     <p>
@@ -961,13 +962,17 @@
 
     <!--- 120-intermission.html #/12 -->
     <h1>Intermission</h1>
-    <p>You have now successfully completed the
-      first part of the talk which gives an overview.</p>
+    <p>
+      You have now successfully completed the
+      first part of the talk which gives an overview.
+    </p>
 
     <p>
-      What's coming up may be rougher.</p>
-    <p>I next go over one disassembly in more detail, and a
-      new idea for the decompiler world which uses some
+      What's coming up may be rougher.
+    </p>
+    <p>
+      I next go over disassembly in a little more detail, and
+      introduce a new idea for Python decompilers; this uses some
       lesser-known compiler technology. [*]
     </p>
     <hr/>
