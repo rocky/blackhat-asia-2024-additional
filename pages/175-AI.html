@@ -1,0 +1,63 @@
+<section>
+  <h1>Can AI Save the Day?</h1>
+  <p>Overal Idea versus Exact Results?</p>
+  </ul>
+
+  <aside class="notes">
+    <p>
+      Because of the need and paucity of decompilers, AI has been
+      suggested as a possible way to get high-level information from
+      machine code.  After all, ChatGPT is pretty good at producing
+      convincing essays, and seems pretty good summarizing vast
+      disparte tracts of text. Is decompiling a program like that?
+    </p>
+    <p>
+      On the other hand, ChatCPT is not every good or efficient as a
+      way to add numbers, balance books, or compute load stresses on
+      bridges. AI is notoriously bad at giving plausable, but wrong
+      information.
+    <p>
+      But is decompilation more like human language communication or
+      hard computation?
+    </p>
+    <p>
+      I think it a little bit of both. One thing I have discovered in
+      decompilation in the way I will describe is that, as with human
+      language you might not have to understand everything in order to
+      be helpful. If I am translating from French to English, I might
+      not need to know the proper gender of nouns, just that they
+      exist and in English you can ignore that part. There can be that
+      feel in decomplation as well. There may be some extraneous
+      instructions in Python bytecode to pop off evaluation stack
+      entries in some branch of code. Understanding why the entries
+      need to be removed or even the semantics of the stack cleanup
+      operations, other than detecting that sometimes you see this
+      extraneous stuff.
+    </p>
+
+    <p>But on the other hand, in understanding malware there are
+    places where you do want exact detail. Not simply that this code
+    is decrypting something, but the exact details of how the
+    decryption works. Having a system that works 60% of the time
+    <em>overall</em> is of no comfort if some specific malware one that
+    is crucial to undersand falls outside of that 60%.
+
+    <p>Reconstructiong program control flow in Python bytecode can be
+      very tricky. Changing the target of a jump instruction to be
+      either the instruction before or after where it would normally
+      jump, in other words chaning a single bit in a byte, can wildy
+      change the control flow and thus the meaning of the program.
+    </p>
+    <p>ML programs like Tensorflow and PyTorch use a gradient princple
+    that by its nature assumes that the things it reasons about or
+    more or less continuous. And in programs can we have they very
+    sharp discontinuities as in changing a jump address.
+    </p>
+    <p>That said, I do think Machine Learning can be used to assist
+      decompiling programs. But for it to be more effective I think it
+      will need input that is not raw bits and bytes but has been
+      first been classified somewhat. I come back to this later after
+      understand more about how to think about decompilation. [NEXT]
+    </p>
+
+  </aside>

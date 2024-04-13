@@ -82,7 +82,7 @@
     <p>
       This code works for Python bytecode from the very first version
       in 1999 to Python version 3.8 which is no longer
-      current. It came on the scene a few years ago but it
+      current. It came on the scene a few years ago, but it
       is still supported and is still in use.
     </p>
 
@@ -153,7 +153,7 @@
       There is a big need for and interest in using decompilation to
       understand malware. A couple of people from Microsoft a while
       back, contacted me regarding a malware botnet that was
-      prevalent on Microsoft Windows. The malware was written in
+      active on Microsoft Windows. The malware was written in
       Python 2.7. As I mentioned before, the standard analysis tools
       like Hex Rays or Ghidra were of no use to them.
     </p>
@@ -203,19 +203,18 @@
 
     <p>
       There are systematic methods and tools for compiler
-      construction. These are just some of the books you can
-      find on amazon.com. Some of these have gone through several
-      editions over decades. Other books come in several variations
-      based on which programming language the book’s compiler
-      algorithms are written in. One expresses its algorithms in C,
-      another in ML, and another in Java. Some books specialize in
-      writing a compiler targeting a specific programming
-      language, like C. Or compilers running on a
-      specific CPU architecture, or a
-      particular operating system. Some books specialize in
-      writing interpreters.  Some books are aimed at advanced-compiler
-      technology. And finally, some are no longer in print, because
-      compiler-writing technology has evolved over time.
+      construction. These are just <em>some</em> of the books you
+      can find on amazon.com. Some of these, have gone through
+      several editions over decades. Other books come in several
+      variations based on which programming language the book’s
+      compiler algorithms are written in. Some books specialize in a
+      particular source or target language, a
+      particular <em>CPU</em> architecture, or a
+      particular <em>operating system</em>. Some books specialize in
+      writing interpreters, while others are aimed at
+      advanced-compiler technology. Finally, some are no longer in
+      print, because compiler-writing technology has evolved over
+      time.
     </p>
 
     <p>I think you get the idea that this is a well-trodden field. [*]
@@ -233,7 +232,7 @@
     <p>
       For decompiler construction, these are the only two I could
       find. Both are about a decade old. Neither is 100%
-      devoted to decompilers, and neither has gone through more than
+      devoted to decompilers. Neither has gone through more than
       one edition.</p>
 
     <p>
@@ -355,7 +354,7 @@
      <p>
       I’m going to use this simple program in the examples later. The
       programs prints the output of calling a function
-      named <em>five()</em> [*]
+      named <em>five()</em>. [*]
     </p>
 
     <p>
@@ -372,10 +371,10 @@
 
     <p>
       Here are the bytecode bytes for the main routine. What these
-      instructions do is call for the creation of the
+      instructions do is: call for the creation of the
       function <em>five()</em>. In an interpreted language, there is
-      no linker loader, like you have in statically-compiled languages
-      &mdash; the tools that general-purpose analysis tools handle.
+      no linker loader, like you have in the statically-compiled
+      languages handled by general-purpose analysis tools.
       Instead, this kind of thing is done as the code runs. After
       linking function <em>five()</em> into the main program, the five
       function is called and the function return value is passed to
