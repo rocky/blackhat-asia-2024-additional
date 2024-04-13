@@ -95,8 +95,8 @@
       sophisticated, the code needs better technology to keep up with
       Python. So I forked the code, refactored it, and reduced its
       size. That accounts for the drop off in activity you see on the
-      right part of the graph from 2021 to now . The forked code goes
-      under the name <em>decompyle3</em>. It only handles Python 3.7
+      right part of the graph from 2021 to now. The forked code goes
+      under the name <i>decompyle3</i>. It only handles Python 3.7
       and 3.8.
     </p>
 
@@ -237,7 +237,10 @@
       For decompiler construction, these are the only two I could
       find. Both are about a decade old. Neither is 100%
       devoted to decompilers. Neither has gone through more than
-      one edition.</p>
+      one edition. Does this mean that <em>nothing</em> has
+      changed to the compilers and decompilers that are covered by
+      these books in the last <em>10</em> years? I suspect not.
+    </p>
 
     <p>
       Nevertheless, the topic of how to write a decompiler is about as
@@ -446,8 +449,8 @@
 
     <p>
       With this introduction, we can now do our first Python
-      decompilation using <em>uncompyle6</em>. The simplest invocation
-      is: <em>uncompyle6</em> with a bytecode file name, here
+      decompilation using <i>uncompyle6</i>. The simplest invocation
+      is: <i>uncompyle6</i> with a bytecode file name, here
       "/tmp/five-moved.pyc". This is what we created in the last slide.
     </p>
 
@@ -479,7 +482,7 @@
 
     <p>
       The drift in bytecode from the first release in 1996 to the most
-      recent version is about as dramatic as the drift from Latin to
+      recent version, is about as dramatic as the drift from Latin to
       Italian.
     </p>
 
@@ -490,11 +493,12 @@
 
     <p>
       But if you ignore the orange comments in both the source Python
-      and the reconstructed Python shown here, you will see that the two
-      are very very close.</p>
+      and the reconstructed Python shown here, you will see that the
+      two are very very close.
+    </p>
 
     <p>
-      And let me show that side by side...
+      And let me show that side by side... [*]
     </p>
 
     <hr/>
@@ -559,7 +563,7 @@
     <p>The phases are:
       <ol>
 	<li>Get bytecode disassembly
-	using <em>xdis</em>. <em>xdis</em> is the cross-version
+	using <i>xdis</i>. <i>xdis</i> is the cross-version
 	disassembly library that I wrote to be able to
 	support this project in particular and also to support bytecode
 	analysis in general. [*] </li>
@@ -581,7 +585,7 @@
     <p>
       The scanning and parsing phases in the second and third step are
       similar to the beginning steps that compilers use to produce
-      code. And this is the part that is most differentiates these
+      code. And this is the part that most differentiates these
       decompilers from other Python decompilers. [*]
     </p>
 
@@ -648,10 +652,10 @@
     <!--- 100-parsing-tokens.html #/10 -->
     <h1>Phase 3: Parsing Tokens into a Parse Tree</h1>
     <p>
-      In the left panel, you can see instructions that result from
+      In the left panel, you see instructions that result from
       decoding bytecode A library routine from the <i>xdis</i> package
       is used here. Because the the decompiler doesn’t call a
-      command-line routine but instead uses a library API, it has a
+      command-line routine but instead uses a library API, so it has a
       disassembly structure.  On the left we are showing the print
       representation corresponding to the command-line utility.
     </p>
@@ -680,11 +684,12 @@
     </p>
 
     <p>
-      In the first instruction, "LOAD_CONST" at offset 0 (offset
-      numbers are in purple), the operation has been specialized to
-      "LOAD_STRing". In general, a "LOAD_CONST"' operand can be any
-      Python constant literal, like a constant tuple of timezone
-      names, not just a string.
+      The first instruction, "LOAD_CONST" is at offset 0. Offset
+      numbers are in purple. The "LOAD_CONST" operation at offset 0
+      and at offset 6 have been specialized to "LOAD_STRing". In
+      general, a "LOAD_CONST"' operand can be <em>any</em> Python
+      constant literal, like a constant tuple of timezone names, not
+      just a string.
     </p>
 
     <p>
@@ -817,8 +822,8 @@
 
     <p>
       When possible, we try to use the grammar-symbol names that are
-      similar to the names that Python's AST uses. The two are
-      similar, but they have to be different.
+      similar to the names that Python's AST uses. Overall, The two
+      grammars have similarities, but they have to be different.
     </p>
 
     <p>
@@ -830,7 +835,7 @@
       "car". As far as a sentence goes, bikes and cars are
       both nouns; "noun" is the grammar symbol that they both
       belong to. The grammatical structure of a sentence does not
-      change when you replace "bus" for "car" in that sentence.
+      change when you replace "bus" for "car" in any sentence.
     </p>
 
     <p>
@@ -990,7 +995,7 @@
 
       <p>
 	There is a disassember in the standard Python Library
-	called <em>dis</em>. Most novice decompilers use this&mdash;
+	called <i>dis</i>. Most novice decompilers use this&mdash;
 	it's the first thing that comes to mind. But that has some
 	serious limitations.  The biggest limitation is that it can
 	only disassemble code for a single Python version,
@@ -1002,13 +1007,13 @@
 	when Microsoft folks contacted me. [*]
       </p>
 
-      <p>To get around this limitation, <em>uncompyle6</em>
-	and <em>decompile3</em> use <em>xdis</em> &mdash; the
+      <p>To get around this limitation, <i>uncompyle6</i>
+	and <em>decompile3</em> use <i>xdis</i> &mdash; the
 	"cross-Python disassembler".
       </p>
 
     <p>
-      <em>xdis</em> has a disassembler on steroids that I’m going to
+      <i>xdis</i> has a disassembler on steroids that I’m going to
       show now briefly. [*]
     </p>
 
@@ -1047,7 +1052,7 @@
     </p>
 
     <p>
-      If you are familiar with Python's <em>dis</em> output, this is
+      If you are familiar with Python's <i>dis</i> output, this is
       similar. But there is more information.  First, we see the
       Python source text, in green, for line 1. It is that Python
       docstring.
@@ -1098,7 +1103,7 @@
 
     <p>
       Disassembly is easy and straight-forward. Decompilation is
-      hard. However, decompilation starts out with a disassembly of
+      hard. However, decompilation usually starts out with a disassembly of
       the bytecode.
     </p>
     <hr/>
@@ -1107,10 +1112,9 @@
     <h1>Chained Compare Bytecode</h1>
 
     <p>
-      However awesome the disassemble of in the last slide is, it has
-      limitations.
-      Here is an example of something that disassembly can't
-      reconstruct.
+      However awesome the disassembler of in the last slide is, it has
+      limitations.  Here is an example of something that disassembly
+      can't reconstruct.
     </p>
 
     <p>
@@ -1140,7 +1144,7 @@
     <h1>Chained Compare Parse Tree (new code)</h1>
     <p>
       I won’t say much about how
-      <em>uncompyle6</em> and <em>decompile3</em> handle difficulties
+      <i>uncompyle6</i> and <em>decompile3</em> handle difficulties
       that arise in disambiguating control-flow patterns.
     </p>
 
@@ -1160,10 +1164,10 @@
 
     <p>By the end of those slides, I hope you will understand a little
       about "Basic Blocks " that you see this in orange. "BB" in the
-      token name is an abbreviation for "Basic Block". And I hope you
-      get some idea of what "SIBLING" and "JOIN" mean in the token names,
-      and what "Dominator" means in the orange operand. [*]
-    <hr/>
+      token name is an abbreviation for "Basic Block". I hope you also
+      get some idea of what "SIBLING" and "JOIN" mean in the token
+      names, and what "Dominator" means in the orange operand. [*]
+      <hr/>
 
     <!--- 150-control-flow.html #/15 -->
     <h1>Classifying Scopes and Important Control-Flow Points</h1>
@@ -1176,20 +1180,17 @@
       characteristics:
     </p>
 
-    <p>Nested inside the main body of code is a <em>while</em> loop
+    <p>Nested inside the main body of code is a <i>while</i> loop
       ...
     </p>
 
     <p>
       Call this nesting level one. But nested inside
-      the <em>while</em> loop ...  there is an <em>if/then/else</em>
+      the <i>while</i> loop ...  there is an <i>if/then/else</i>
       statement.
     </p>
 
-    <p>Call this nesting level two.</p>
-
-    <p> There is one more nesting level. ...
-    </p>
+    <p> There is one more nesting level. ...</p>
 
     <p>... the <em>then</em> and <em>else</em> parts of
     the <em>if</em>. In contrast to the above nesting,
@@ -1201,9 +1202,9 @@
     different scopes.</p>
 
     <p>
-      What we want to do to make parsing easier is detect this
-      nesting level, or more precisely, the scope. And mark
-      scope boundaries inside the instruction sequence.
+      What we want to do to make parsing easier is detect this nesting
+      level, or rather more precisely, the scope. And mark scope
+      boundaries inside the instruction sequence.
     </p>
 
     <p>That brings us to these orange comments. These capture what I
@@ -1214,46 +1215,55 @@
 
     <p>
       In order to get to any code with the same block scope as one of
-      the orange instructions which has the word "dominator", you have
-      to pass through the "dominator" comment. Similarly, in order get
-      to any instruction that follows the scope you have to
-      pass through the matching comment that says "join".
+      the orange instructions that has the word "dominator", you have
+      to pass through the "dominator" comment. It acts as a
+      gatekeeper. In other words, the instruction or
+      block <em>dominates</em> other instructions or blocks in its
+      scope or nested scope underneath it.
     </p>
 
-    <p>So now, let’s look at how the Python interpreter
-    sees things...
+    <p>Similarly, in order get to any instruction
+      that <em>follows</em> the scope or a scope nested in it, you
+      have to pass through the matching comment that says "join".
+    </p>
+
+    <p>
+      So now, let’s look at how the Python interpreter sees things... [*]
     </p>
     <hr/>
 
 
     <!--- 150-control-flow.html #/15/1 -->
-    <h1>Control Flow Produced
-      from <a ref="https://github.com/rocky/python-control-flow"><code style="font-size:smaller">control_flow</code></a></h1>
+    <h1>
+      Control Flow Produced
+      from <a ref="https://github.com/rocky/python-control-flow"><code style="font-size:smaller">control_flow</code></a>
+    </h1>
 
     <p>
-      This is the way the Python interpreter sees the control
-      flow for the bytecode instructions for that Python text.
+      Here is the control flow reconstructed from the bytecode
+      instructions for that Python text.
     </p>
 
     <p>
-      This graph comes from the Python <em>control_flow</em> project.
-      I created this project to perform more accurate and faster
-      decompilation of Python control-flow structures. However, this
-      project can be used for other kinds of Python bytecode
-      control-flow analysis.
+      This graph reconstruction comes from the
+      Python <em>control_flow</em> project.  I created this project to
+      perform more accurate and faster decompilation of Python
+      control-flow structures. However, this project can also be used
+      for other kinds of Python bytecode control-flow analysis.
     </p>
 
-    <p>First, instructions are broken into "Basic Blocks". A Basic
-      Block is straight-line code. There are no jumps into the middle
-      of the block, only to the beginning of the block. If there is a
-      jump anywhere in the sequence of instructions, it
-      has to be at the last instruction.
+    <p>
+      First, instructions are broken into "Basic Blocks". A Basic
+      Block is straight-line code. There are no jumps into the middle,
+      only to the beginning of the block. If there is a jump anywhere
+      in the sequence of instructions, it has to be at the last
+      instruction.
     </p>
 
     <p>
       I don’t have time to describe the text in the boxes or what the
       colors and line styles mean. For that, look at companion
-      materials.
+      materials. [*]
     </p>
 
     <hr/>
@@ -1266,61 +1276,38 @@
       graph comes out of a later phase of the control-flow
       project.
     </p>
-    <p>There is a lot going on here, so let me break this down.
-      Let me first define "dominator region" and "dominator".
+    <p>
+      There is a lot going on here, so let me break this down.  Let me
+      first define "dominator region" and "dominator".
     </p>
 
     <p>
       The easiest term to explain is "Dominator Region". This is just
       another term for "scope" described in the last slide.  But it is
-      a property that is computed on a directed graph, or
+      a property that is <em>computed</em> on a directed graph, or
       more precisely a control-flow graph like this. This property is
       used quite a bit in the compiler data-flow analysis. See books
       on advanced compiler optimization for algorithms on how to
       compute this.
     </p>
 
-    <p>What does the "dominator" part of "dominator region"
-      mean? A dominator block is a block that you have to
-      pass through from the start of the program to get to anything
-      underneath it. It acts as a gatekeeper. In other words, the
-      instruction or block dominates other instructions or
-      blocks underneath it. For example, to get to any instruction in
-      the "count bits" program, you have to go through Basic Block 1
-      which contains the first instruction of the program. That has
-      the 3D box shape to indicate the block’s special role as a
-      dominator block. Technically, a block dominates itself. When
-      that is all it dominates, we don’t show the block in
-      3D. Only if it dominates another block do we decorate
-      the block in 3D.</p>
-
-    <p>To run an instruction in either Block 4 or Block 5 in brown,
-      you have to pass through the all instructions in the other brown
-      block: Block 3. Block 3 then <em>dominates</em> Blocks 3, 4, and
-      5.</p>
-
-    <p>But Block 3 is dominated by both lighter-colored
-      Blocks 2 and 1.  The hierarchy of Dominator Blocks is capturing
-      the nesting level in the "count bits" program.
+    <p>
+      What does the "dominator" part of "dominator region" mean? A
+      dominator block is a block that you have to pass through from
+      the start of the program to get to anything in its scope or a
+      scope nested underneath it. In other words, the instruction or
+      block dominates other instructions or blocks underneath it.
     </p>
 
-    <p>Notice that Blocks 3, 4, and 5 all have the same shade of
-      brown. This means they are all part of the same "dominator
-      region", and have scopes under the scope of Dominator Block 3.
-    </p>
-
-    <p>But notice Block 7 is a lighter tan color, the same color as
-      Block 2, Therefore, you don’t have to go through
-      darker-color Block 3 to get to Block 7.  Although
-      is possible by looping around to get there, that
-      doesn’t have to happen. In contrast, to get to Block 7
-      you must go through the parent dominator block for that
-      region, Block 2.
-    </p>
-
-    <p>The darker the color a block is, the more nested it is inside
+    <p>
+      The darker the color a block is, the more nested it is inside
       the other block regions it is. So block 3 is nested or dominated
       inside block regions 2 and 1.
+    </p>
+
+    <p>
+      The upside-down house shape shows a join point, which is the
+      other end of a dominator region. It is where a scope ends.
     </p>
 
     <p>I wave my hands wildly here. There are a lot more
@@ -1331,8 +1318,8 @@
       in the "chained comparison" example, are there to convey this
       nesting and sequencing information in a token stream format so
       that parser can understand and match blocks of code. I have an
-      unpublished technical paper that explains this in more more
-      detail.
+      unpublished technical paper that explains this in more
+      detail. [*]
     </p>
     <hr/>
 
