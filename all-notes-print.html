@@ -91,13 +91,13 @@
     </p>
 
     <p>
-      Since code is old and large, and Python compilers have gotten more
-      sophisticated, the code needs better technology to keep up with
-      Python. So I forked the code, refactored it, and reduced its
-      size. That accounts for the drop off in activity you see on the
-      right part of the graph from 2021 to now. The forked code goes
-      under the name <i>decompyle3</i>. It only handles Python 3.7
-      and 3.8.
+      Since this code is old and large, and Python compilers have
+      gotten more sophisticated, the code needs better technology to
+      keep up with Python. So I forked the code, refactored it, and
+      reduced its size. That accounts for the drop off in activity you
+      see on the right part of the graph from 2021 to now. The forked
+      code goes under the name <i>decompyle3</i>. It only handles
+      Python 3.7 and 3.8.
     </p>
 
     <p>
@@ -155,11 +155,11 @@
     <h1>Background</h1>
     <p>
       There is a big need for and interest in using decompilation to
-      understand malware. A couple of people from Microsoft a while
-      back, contacted me regarding a malware botnet that was
-      active on Microsoft Windows. The malware was written in
-      Python 2.7. As I mentioned before, the standard analysis tools
-      like Hex Rays or Ghidra were of no use to them.
+      understand malware. A while back, a couple of people from
+      Microsoft contacted me regarding a malware botnet that was
+      active on Microsoft Windows. The malware was written in Python
+      2.7. As I mentioned before, the standard analysis tools like Hex
+      Rays or Ghidra were of no use to them.
     </p>
 
     <p>
@@ -190,7 +190,7 @@
       call general-purpose decompilers. These are programs
       that convert machine code into a pseudo-source
       code. Usually, the resulting language is not something
-      that you can directly run through a compiler
+      that you can directly run through a compiler.
     </p>
 
     <p>
@@ -207,18 +207,16 @@
 
     <p>
       There are systematic methods and tools for compiler
-      construction. These are just <em>some</em> of the books you
-      can find on amazon.com. Some of these, have gone through
-      several editions over decades. Other books come in several
-      variations based on which programming language the book’s
-      compiler algorithms are written in. Some books specialize in a
-      particular source or target language, a
-      particular <em>CPU</em> architecture, or a
-      particular <em>operating system</em>. Some books specialize in
-      writing interpreters, while others are aimed at
-      advanced-compiler technology. Finally, some are no longer in
-      print, because compiler-writing technology has evolved over
-      time.
+      construction. These are just some of the books you can find on
+      amazon.com. Some of these, have gone through several editions
+      over decades. Other books come in several variations based on
+      which programming language the book’s compiler algorithms are
+      written in. Some specialize for a particular source or target
+      language, a particular CPU architecture, or for a particular
+      operating system. Some are aimed at writing interpreters, while
+      others are aimed at advanced-compiler technology. Finally, some
+      are no longer in print, because compiler-writing technology has
+      evolved over time.
     </p>
 
     <p>I think you get the idea that this is a well-trodden field. [*]
@@ -235,11 +233,11 @@
 
     <p>
       For decompiler construction, these are the only two I could
-      find. Both are about a decade old. Neither is 100%
-      devoted to decompilers. Neither has gone through more than
-      one edition. Does this mean that <em>nothing</em> has
-      changed to the compilers and decompilers that are covered by
-      these books in the last <em>10</em> years? I suspect not.
+      find. Both are about a decade old. Neither is 100% devoted to
+      decompilers. Neither has gone through more than one
+      edition. Does this mean that nothing has changed to the
+      compilers and bytecode that are covered by these books in the
+      last 10 years? I suspect and hope things have changed.
     </p>
 
     <p>
@@ -330,9 +328,9 @@
     </p>
 
     <p>
-      For those of you are familiar with machine code, I
-      think you will appreciate how high-level bytecode different from
-      machine code. [*]
+      For those of you are familiar with machine code, I think you
+      will appreciate how high-level bytecode is different from
+      machine code.
     </p>
 
     <p>
@@ -381,12 +379,12 @@
       instructions do is: call for the creation of the
       function <em>five()</em>. In an interpreted language, there is
       no linker loader, like you have in the statically-compiled
-      languages handled by general-purpose analysis tools.
-      Instead, this kind of thing is done as the code runs. After
-      linking function <em>five()</em> into the main program, the five
+      languages handled by general-purpose analysis tools.  Instead,
+      this kind of thing is done as the code runs. After linking
+      function <em>five()</em> into the main program, the five
       function is called and the function return value is passed to
-      the built-in <em>print()</em> function which displays the output
-      shown.
+      the built-in <em>print()</em> function which then displays the
+      output shown.
     </p>
 
     <p>
@@ -687,9 +685,9 @@
       The first instruction, "LOAD_CONST" is at offset 0. Offset
       numbers are in purple. The "LOAD_CONST" operation at offset 0
       and at offset 6 have been specialized to "LOAD_STRing". In
-      general, a "LOAD_CONST"' operand can be <em>any</em> Python
-      constant literal, like a constant tuple of timezone names, not
-      just a string.
+      general, a "LOAD_CONST"' operand can be any Python constant
+      literal, like a constant tuple of timezone names, not just a
+      string.
     </p>
 
     <p>
@@ -783,7 +781,7 @@
 
       <p>
 	The word to the right of "::=" in yellow is called
-	a <em>grammar symbol</em> . The ::= is
+	a <i>grammar symbol</i> . The ::= is
 	pronounced "transforms into" because an "expr" grammar symbol
 	can "transform into" a LOAD_STR token. But since we are
 	working bottom up (or token up), the parser recognizes this
@@ -977,7 +975,7 @@
     </p>
     <p>
       I next go over disassembly in a little more detail, and
-      introduce a new idea for Python decompilers; this uses some
+      introduce a new idea for Python decompilers. This uses some
       lesser-known compiler technology. [*]
     </p>
     <hr/>
@@ -1008,7 +1006,7 @@
       </p>
 
       <p>To get around this limitation, <i>uncompyle6</i>
-	and <em>decompile3</em> use <i>xdis</i> &mdash; the
+	and <i>decompile3</i> use <i>xdis</i> &mdash; the
 	"cross-Python disassembler".
       </p>
 
@@ -1039,16 +1037,16 @@
     <!--- 130-bytecode-disassembly.html #/13/1 -->
     <h1>Bytecode Disassembly</h1>
     <p>
-      Again, at the top, is some metadata in orange. I went into some
-      of this earlier, so I have elided this.
+      At the top of the disassembly output, again, is some metadata in
+      orange. I went into some of this earlier, so I have elided this.
     </p>
 
     <p>
-      A piece of metadata that we saw implicitly before, was
-      this value from this constants table.
-      The first instruction at offset 0 is "LOAD_CONST". The string
-      operand of this instruction came from index zero of this
-      constants table.  Now let's compare the assembly instructions.
+      A piece of metadata that we saw implicitly before, was this
+      value from this constants table.  The first instruction at
+      purple offset 0 is "LOAD_CONST". The string operand for this
+      instruction came from index zero of this constants table.  Now
+      let's compare the assembly instructions.
     </p>
 
     <p>
@@ -1072,7 +1070,7 @@
     <p>
       In the second instruction, we see something interesting
       happening off to the far right...  This is after the
-      parenthesized operand value, <em>__doc__</em> in green. There is
+      parenthesized operand value, <i>__doc__</i> in green. There is
       additional text &mdash; an assignment statement that starts in
       white: <pre>__doc__ = 'BlackHat Asia Example'</pre>
     </p>
@@ -1093,12 +1091,11 @@
     <p>Don't get confused between <em>disassembly</em>
       and <em>decomplation</em>. Even though there is some
       higher-level interpretation, what we have here is a
-      <em>disassembly</em>. Internals of the interpreter are
-      exposed. For example, the "Top of Stack" or "toss equal" refer
-      how the interpreter works. And the "POP_TOP"
-      instruction which is greyed out, just below the last
-      CALL_FUNCTION, has no corresponding meaning in the source
-      code.
+      disassembly. Internals of the interpreter are exposed. For
+      example, the "Top of Stack" or "toss equal" refer how the
+      interpreter works. And the "POP_TOP" instruction which is greyed
+      out, just below the last CALL_FUNCTION, has no corresponding
+      meaning in the source code.
     </p>
 
     <p>
@@ -1112,9 +1109,9 @@
     <h1>Chained Compare Bytecode</h1>
 
     <p>
-      However awesome the disassembler of in the last slide is, it has
-      limitations.  Here is an example of something that disassembly
-      can't reconstruct.
+      However awesome the disassembler shown in the last slide is, it
+      has limitations.  Here is an example of something that
+      disassembly can't reconstruct.
     </p>
 
     <p>
@@ -1124,7 +1121,7 @@
     </p>
 
     <p>
-      With each new Python release, decompilation of control
+      With each new Python release, decompulation of control
       flow has become increasingly more difficult.
       Nowadays, about 1/3 of the issues raised in the decompiler bug
       trackers are related to control flow.
@@ -1144,7 +1141,7 @@
     <h1>Chained Compare Parse Tree (new code)</h1>
     <p>
       I won’t say much about how
-      <i>uncompyle6</i> and <em>decompile3</em> handle difficulties
+      <i>uncompyle6</i> and <i>decompile3</i> handle difficulties
       that arise in disambiguating control-flow patterns.
     </p>
 
@@ -1192,14 +1189,14 @@
 
     <p> There is one more nesting level. ...</p>
 
-    <p>... the <em>then</em> and <em>else</em> parts of
-    the <em>if</em>. In contrast to the above nesting,
-    we have more than one item at the same nesting
-    level. Even though the two blocks are at the
-    same nesting level, the they are distinct
-    and separate. In some programming languages like Java and
-    JavaScript, variables declared in each block would be in
-    different scopes.</p>
+    <p>
+      ... the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
+      contrast to the above nesting, we have more than one item at the
+      same nesting level. Even though the two blocks are at the same
+      nesting level, the they are distinct and separate. In some
+      programming languages like Java and JavaScript, variables declared
+      in each block would be in different scopes.
+    </p>
 
     <p>
       What we want to do to make parsing easier is detect this nesting
@@ -1246,7 +1243,7 @@
 
     <p>
       This graph reconstruction comes from the
-      Python <em>control_flow</em> project.  I created this project to
+      Python <i>control_flow</i> project.  I created this project to
       perform more accurate and faster decompilation of Python
       control-flow structures. However, this project can also be used
       for other kinds of Python bytecode control-flow analysis.
@@ -1284,11 +1281,11 @@
     <p>
       The easiest term to explain is "Dominator Region". This is just
       another term for "scope" described in the last slide.  But it is
-      a property that is <em>computed</em> on a directed graph, or
-      more precisely a control-flow graph like this. This property is
-      used quite a bit in the compiler data-flow analysis. See books
-      on advanced compiler optimization for algorithms on how to
-      compute this.
+      a property that is computed on a directed graph, or more
+      precisely a control-flow graph like this. This property is used
+      quite a bit in the compiler data-flow analysis. See books on
+      advanced compiler optimization for algorithms on how to compute
+      this.
     </p>
 
     <p>
@@ -1310,16 +1307,16 @@
       other end of a dominator region. It is where a scope ends.
     </p>
 
-    <p>I wave my hands wildly here. There are a lot more
-      details to cover, especially in the practical setting of a
-      decompiler. But I hope you can see how a program can capture
-      block nesting versus alternation and the instruction
-      level. Those wacky pseudo-tokens inserted into the token stream
-      in the "chained comparison" example, are there to convey this
-      nesting and sequencing information in a token stream format so
-      that parser can understand and match blocks of code. I have an
-      unpublished technical paper that explains this in more
-      detail. [*]
+    <p>
+      I wave my hands wildly here. There are a lot more details to
+      cover, especially in the practical setting of a decompiler. But
+      I hope you can see how a program can capture block nesting
+      versus alternation at the instruction level. Those wacky
+      pseudo-tokens inserted into the token stream in the "chained
+      comparison" example, are there to convey this nesting and
+      sequencing information in a way that the parser can understand
+      and match blocks of code. I have an unpublished technical paper
+      that explains this in more detail. [*]
     </p>
     <hr/>
 
