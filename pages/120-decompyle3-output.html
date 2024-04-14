@@ -1,0 +1,414 @@
+<section>
+  <h1>Decompyle3 Debug Output</h1>
+  <p style="font-size: smaller">Debug output using
+    <code class="hljs-code" style="font-size: smaller">decompyle3</code>:
+  </h1>
+
+  <p class="fragment" style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell";
+	   style="width: 600px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+    LightYellow">#/13</div>
+      <p>
+	I’m going to focus a little more on disassembly for one
+	important reason: There aren’t good decompilers for the
+	most-recent Python-bytecode versions. And that
+	is <em>likely</em> to continue forever. So the reality is: you
+	may have to understand bytecode malware from a disassembly
+	listing.
+      </p>
+
+      <p>
+	There is a disassember in the standard Python Library
+	called <i>dis</i>. Most novice decompilers use this &mdash;
+	it's the first thing that comes to mind. But that has some
+	serious limitations.  The biggest limitation is that it can
+	only disassemble code for a <em>single</em> Python version,
+	the version that runs the decompiler. If you are running the
+	latest version of Python, such 3.12, but the bytecode you want
+	to analyze is from an earlier version, like bytecode from 2.7,
+	then you are out of luck.  Malware written in Python, tends to
+	use <em>older</em> versions of Python. This was the situation
+	when Microsoft folks contacted me.
+	<div style="color: blue; background-color:  LightYellow">[DOWN]
+	  #/13 ⟶ #/13/0/0
+	</div>
+      </p>
+
+      <p>
+	To get around this limitation, <i>uncompyle6</i>
+	and <i>decompyle3</i> use <i>xdis</i> &mdash; the
+	"<em>cross</em>-Python <em>dis</em>-assembler".
+      </p>
+
+
+      <p>
+	<i>xdis</i> has a disassembler on steroids that I’m going to
+	show now briefly.
+	<div style="color: blue; background-color: LightYellow">[DOWN]
+	  #/13/0/0 ⟶ #/13/0/1
+	</div>
+      </p>
+
+      <p>
+	Command-line options in yellow of the disassembler that I use in this
+	invocation are:
+	<ul>
+	  <li>basic interpretation of <em>sequences</em> of
+	    instructions</li>
+	  <li>showing the actual bytecode, and</li>
+	  <li>the ability to intermingle the source-code text with
+	    assembly.</li>
+	</ul>
+      </p>
+
+    <p>
+      In reverse engineering, most of the time you will not have the
+      source text. There is, of course, no harm in asking for source
+      text when it doesn’t exist.  Now let's look at the output.
+      <div style="color: blue; background-color: LightYellow">[DOWN]
+	#/13/0/1 ⟶ #/13/1
+      </div>
+    </p>
+
+  </aside>
+</section>
+
+<section>
+  <h1>Decompyle3 Debug Output: Phase 1 Disassembly</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code
+	class="hljs language-pyasm"
+	style="width: 800px; margin-left: -48px; line-height: 20px"># ---- disassembly:
+  1:      0 LOAD_CONST           ("\nBlackHat Asia Example 1\n")
+          2 STORE_NAME           (__doc__) ; __doc__ = '\nBlackHat Asia Exa...
+
+  6:      4 LOAD_CONST           (&lt;Code38 code object five, file five.py&gt;, line 6)
+          6 LOAD_CONST           ("five")
+          8 MAKE_FUNCTION        (No arguments) ; TOS = def five(...): ...
+         10 STORE_NAME           (five) ; five = def five(...): ...
+
+ 12:     12 LOAD_NAME            (print)
+         14 LOAD_NAME            (five)
+         16 CALL_FUNCTION        (0 positional arguments) ; TOS = five()
+         18 CALL_FUNCTION        (1 positional argument) ; TOS = print(five())
+         20 POP_TOP
+         22 LOAD_CONST           (None)
+         24 RETURN_VALUE         return None</code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
+<section>
+  <h1>Decompyle3 Debug Output: Phase 2 Tokenization</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code
+	class="hljs language-pyasm"
+	style="width: 800px; margin-left: -48px; line-height: 20px"># ---- tokenization:
+
+ L.   1         0  LOAD_STR                 '\nBlackHat Asia Example 1\n'
+                2  STORE_NAME               __doc__ = '\nBlackHat Asia Exa...
+
+ L.   6         4  LOAD_CODE                <code_object five>
+                6  LOAD_STR                 'five'
+                8  MAKE_FUNCTION_0          'No arguments'
+               10  STORE_NAME               five = def five(...): ...
+
+ L.  12        12  LOAD_NAME                print
+               14  LOAD_NAME                five
+               16  CALL_FUNCTION         0  'five()'
+               18  CALL_FUNCTION         1  'print(five())'
+               20  POP_TOP
+               22  LOAD_CONST               None
+               24  RETURN_VALUE</code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
+<section>
+  <h1>Decompyle3 Debug Output: Phase 3 &mdash; Grammar Parse</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code class="hljs grammar"
+	style="width: 800px; margin-left: -48px; line-height: 20px">L.  6:   4     expr ::= LOAD_CODE (3)
+L.  6:   4     expr ::= LOAD_CODE (3)
+L.  6:   4     return_expr ::= expr (3)
+L.  6:   4     return_expr ::= expr (3)
+         6     expr ::= LOAD_STR (4)
+L.  6:   4-8   mkfunc ::= LOAD_CODE LOAD_STR MAKE_FUNCTION_0 (5)
+        10     store ::= STORE_NAME (6)
+L.  6:   4-10  function_def ::= mkfunc store (6)
+L.  6:   4     stmt ::= function_def (6)
+               stmts ::= stmts stmt (6)
+L.  6:   4     stmts ::= stmt (6)
+L.  6:   4     sstmt ::= stmt (6)
+L.  6:   4     c_stmt ::= stmt (6)
+               START ::= |- stmts (6)
+               _stmts ::= stmts (6)
+L.  6:   4     _stmts ::= stmts (6)
+               stmts ::= stmts sstmt (6)
+L.  6:   4     stmts ::= sstmt (6)
+L.  6:   4     c_stmts ::= c_stmt (6)
+               c_stmts ::= c_stmts c_stmt (6)
+               c_stmts ::= _stmts (6)
+L.  6:   4     c_stmts ::= _stmts (6)
+L. 12:  12     expr ::= LOAD_NAME (7)
+L. 12:  12     return_expr ::= expr (7)
+L. 12:  12     return_expr ::= expr (7)
+        14     expr ::= LOAD_NAME (8)
+        14-16  call ::= expr CALL_FUNCTION_0 (9)
+        14     expr ::= call (9)
+L. 12:  12-18  call ::= expr expr CALL_FUNCTION_1 (10)
+L. 12:  12     expr ::= call (10)
+L. 12:  12     return_expr ::= expr (10)
+L. 12:  12     return_expr ::= expr (10)
+               expr_stmt ::= expr POP_TOP (11)
+               stmt ::= expr_stmt (11)
+               stmts ::= stmts stmt (11)
+               stmts ::= stmt (11)
+               sstmt ::= stmt (11)
+               c_stmt ::= stmt (11)
+               stmts ::= stmts stmt (11)
+               start ::= |- stmts (11)
+      </code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
+<section>
+  <h1>Decompyle3 Debug Output: Phase 3 &mdash; Parse Tree</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code class="hljs language-decompile";
+	    style="width: 800px; margin-left: -48px; line-height: 20px"># ---- parse tree:
+ stmts (3)
+     0. assign (2)
+         0. expr
+             L.   1         0  LOAD_STR                 '\nBlackHat Asia Example 1\n'
+         1. store
+                            2  STORE_NAME               __doc__ = '\nBlackHat Asia Exa...
+     1. function_def (2)
+         0. mkfunc (3)
+             0.  L.   6         4  LOAD_CODE                &lt;code_object five&gt;
+             1.                 6  LOAD_STR                 'five'
+             2.                 8  MAKE_FUNCTION_0          'No arguments'
+         1. store
+                           10  STORE_NAME               five = def five(...): ...
+     2. expr_stmt (2)
+         0. expr
+            call (3)
+                 0. expr
+                     L.  12        12  LOAD_NAME                print
+                 1. expr
+                    call (2)
+                         0. expr
+                                           14  LOAD_NAME                five
+                         1.                16  CALL_FUNCTION_0       0  'five()'
+                 2.                18  CALL_FUNCTION_1       1  'print(five())'
+         1.                20  POP_TOP
+      </code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
+<section>
+  <h1>Decompyle3 Debug Output: Phase 4 &mdash; AST</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code class="hljs language-decompile";
+	    style="width: 800px; margin-left: -48px; line-height: 20px"># ---- transformed abstract tree:
+ stmts (3)
+     0. docstring (2) (transformed by transform)
+         0. L. L.   1         0  LOAD_STR                 '\nBlackHat Asia Example 1\n'
+         1.                   2  STORE_NAME               __doc__ = '\nBlackHat Asia Exa...
+     1. function_def (2): ('\n\n%|def %c\n', -2)
+         0. mkfunc (4) (transformed by n_mkfunc)
+             0. L. L.   6         4  LOAD_CODE                &lt;code_object five&gt;
+             1.                   6  LOAD_STR                 'five'
+             2. docstring (transformed by n_mkfunc)
+                                 -1  LOAD_STR                 'Returns the string five'
+             3.                   8  MAKE_FUNCTION_0          'No arguments'
+         1. store
+                             10  STORE_NAME               five = def five(...): ...
+     2. expr_stmt (2): ('%|%p\n', (0, 'expr', 39))
+         0. expr
+            call (3), precedence 2: ('%c(%P)', (0, 'expr'), (1, -1, ', ', 29))
+                 0. expr
+                    L. L.  12        12  LOAD_NAME                print
+                 1. expr
+                    call (2), precedence 2: ('%c(%P)', (0, 'expr'), (1, -1, ', ', 29))
+                         0. expr
+                                             14  LOAD_NAME                five
+                         1.                  16  CALL_FUNCTION_0       0  'five()'
+                 2.                  18  CALL_FUNCTION_1       1  'print(five())'
+         1.                  20  POP_TOP
+
+      </code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
+<section>
+  <h1>Decompyle3 Debug Output: Phase 5 &mdash; Reconstructed Python from AST</h1>
+  <p style="line-height: 40px; font-size: 40%">
+    <code  class="hljs language-shell"
+		   style="width: 800px; font-size: smaller;">
+      <span class="hljs-meta prompt_">$</span>
+      <span class="hljs-code">decompyle3</span>
+      <span class="hljs-selector-id">-AgT</span>
+      <span class="hljs-variable">__pycache__/five.cpython-38.pyc</span>
+    </code>
+  </p>
+
+    <pre>
+      <code class="hljs language-decompile";
+	    style="width: 800px; margin-left: -48px; line-height: 20px">"""
+BlackHat Asia Example 1
+"""
+
+def five() ...
+
+
+print(five())</code>
+    </pre>
+
+    <aside class="notes">
+      <div style="color: blue; background-color:
+		  LightYellow">#/13/1</div>
+
+      <p>
+ 	Disassembly is easy and straight-forward. Decompilation is
+	hard. However, decompilation usually starts out with a
+	disassembly.
+
+	<div style="color: blue; background-color: LightYellow">[NEXT]
+	  #/13/1/6 ⟶ #/13/2
+	</div>
+      </p>
+
+  </aside>
+</section>
