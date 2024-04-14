@@ -1,0 +1,177 @@
+<section>
+  <h1>Bytecode Drift Python 1.5 vs. Python 2.7</h1>
+  <span line-height="40px";>
+    <div id="left1">
+      <p style="font-size: smaller">Python 1.5 Bytecode:</p>
+      <pre style="margin-left: 0px;">
+	<code class="hljs language-pyasm"
+	      style="width: 450px">               0 SET_LINENO     0
+
+  0:           3 LOAD_CONST     ("\nBlackHat Asia Example\n")
+               6 STORE_NAME     (__doc__)
+               9 SET_LINENO     3
+
+  3:          12 SET_LINENO     6
+
+  6:          15 LOAD_CONST     (&lt;Code15 file five.py&gt, line 6)
+              18 MAKE_FUNCTION  (no parameters)
+              21 STORE_NAME     (five)
+              24 SET_LINENO     12
+
+ 12:          27 LOAD_NAME      (five)
+              30 CALL_FUNCTION  (no parameters)
+              33 PRINT_ITEM
+              34 PRINT_NEWLINE
+              35 LOAD_CONST     (None)
+              38 RETURN_VALUE
+	</code>
+      </pre>
+    </div>
+
+    <div id="right1">
+      <p style="font-size: smaller; margin-left: 24px;">Python 2.7 bytecode:</p>
+      <pre>
+	<code class="hljs language-pyasm"
+	      style="width: 480px">  3:           0 LOAD_CONST     ("\nBlackHat Asia Example\n")
+               3 STORE_NAME     (__doc__)
+
+  6:           6 LOAD_CONST     (&ltCode2  file five.py&gt, line 6)
+               9 MAKE_FUNCTION  (no parameters)
+              12 STORE_NAME     (five)
+
+ 12:          15 LOAD_NAME      (five)
+              18 CALL_FUNCTION  (no parameters)
+              21 PRINT_ITEM
+              22 PRINT_NEWLINE
+              23 LOAD_CONST     (None)
+              26 RETURN_VALUE
+	</code>
+      </pre>
+    </div>
+  </span>
+  <aside class="notes">
+    <div style="color: blue; background-color: LightYellow">#/3
+    </div>
+    <p>
+      In the left panel, we have Python 1.5 bytecode. In the right panel Python 2.7
+    </p>
+
+  </aside>
+  </section>
+
+<section>
+  <h1>Bytecode Drift Python 2.7 vs. Python 3.8</h1>
+  <span line-height="40px";>
+    <div id="left1">
+      <p style="font-size: smaller">Python 2.7 Bytecode:</p>
+      <pre style="margin-left: 0px;">
+	<code class="hljs language-pyasm"
+	      style="width: 450px; height=400px">  3:           0 LOAD_CONST      ("\nBlackHat Asia Example\n")
+               3 STORE_NAME     (__doc__)
+
+  6:           6 LOAD_CONST     (&ltCode2  file five.py&gt, line 6)
+               9 MAKE_FUNCTION  (no parameters)
+              12 STORE_NAME     (five)
+
+ 12:          15 LOAD_NAME      (five)
+              18 CALL_FUNCTION  (no parameters)
+              21 PRINT_ITEM
+              22 PRINT_NEWLINE
+              23 LOAD_CONST     (None)
+              26 RETURN_VALUE
+	</code>
+      </pre>
+    </div>
+
+    <div id="right1">
+      <p style="font-size: smaller; margin-left: 24px;">Python 3.8 bytecode:</p>
+      <pre>
+	<code class="hljs language-pyasm"
+	      style="width: 480px">  1:           0 LOAD_CONST      ("\nBlackHat Asia Example\n")
+               2 STORE_NAME      (__doc__)
+
+  6:           4 LOAD_CONST      (&lt;code object file "five.py", line 6&gt;)
+               6 LOAD_CONST      ("five")
+               8 MAKE_FUNCTION   (no parameters)
+              10 STORE_NAME      (five)
+
+ 12:          12 LOAD_NAME       (print)
+              14 LOAD_NAME       (five)
+              16 CALL_FUNCTION   (no parameters)
+              18 CALL_FUNCTION   (1 positional argument)
+              20 POP_TOP
+              22 LOAD_CONST      (None)
+              24 RETURN_VALUE    return None
+	</code>
+      </pre>
+    </div>
+  </span>
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/3/1</div>
+    <p>
+      In the left panel, we have Python 2.7 bytecode. In the right panel Python 3.8.
+    </p>
+  </aside>
+</section>
+
+<section>
+  <h1>Bytecode Drift Python 3.8 vs. Python 3.12</h1>
+  <span line-height="40px";>
+    <div id="left1">
+      <p style="font-size: smaller">Python 3.8 Bytecode:</p>
+      <pre style="margin-left: 0px;">
+	<code class="hljs language-pyasm"
+	      style="width: 450px; height=400px">  1:           0 LOAD_CONST      ("\nBlackHat Asia Example\n")
+               2 STORE_NAME      (__doc__)
+
+  6:           4 LOAD_CONST      (&lt;code object file "five.py", line 6&gt;)
+               6 LOAD_CONST      ("five")
+               8 MAKE_FUNCTION   (no parameters)
+              10 STORE_NAME      (five)
+
+ 12:          12 LOAD_NAME       (print)
+              14 LOAD_NAME       (five)
+              16 CALL_FUNCTION   (no parameters)
+              18 CALL_FUNCTION   (1 positional argument)
+              20 POP_TOP
+              22 LOAD_CONST      (None)
+              24 RETURN_VALUE    return None
+	</code>
+      </pre>
+    </div>
+
+    <div id="right1">
+      <p style="font-size: smaller; margin-left: 24px;">Python 3.12 bytecode:</p>
+      <pre>
+	<code class="hljs language-pyasm"
+	      style="width: 480px">  0:           0 RESUME          0
+
+  1:           2 LOAD_CONST      ("\nBlackHat Asia Example\n")
+               4 STORE_NAME      (__doc__)
+
+  6:           6 LOAD_CONST      (&lt;code object five, file "five.py", line 6&gt;)
+               8 MAKE_FUNCTION   (No arguments)
+              10 STORE_NAME      (five)
+
+ 12:          12 PUSH_NULL
+              14 LOAD_NAME       (print)
+              16 PUSH_NULL
+              18 LOAD_NAME       (five)
+              20 CALL            0
+              28 CALL            1
+              36 POP_TOP
+              38 RETURN_CONST    (None)
+	</code>
+      </pre>
+    </div>
+  </span>
+  <aside class="notes">
+    <div style="color: blue; background-color:
+    LightYellow">#/3/2</div>
+    <p>
+      In the left panel, we have Python 3.8 bytecode. In the right panel Python 3.12.
+    </p>
+
+  </aside>
+</section>
