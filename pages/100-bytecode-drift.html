@@ -53,7 +53,13 @@
     <div style="color: blue; background-color: LightYellow">#/3
     </div>
     <p>
-      In the left panel, we have Python 1.5 bytecode. In the right panel Python 2.7
+      In the left panel, we have Python 1.5 bytecode. In the right
+      panel Python 2.7. <code>SET_LINENO</code> was used in 1.x to
+      indicate line numbers. In 2.x on this is done using a line
+      number table in the code object byt outside of the instruction
+      bytes. In Python 2.x <code>PRINT_ITEM</code>
+      and <code>PRINT_NEWLINE</code> handle the builtin print
+      function.
     </p>
 
   </aside>
@@ -110,8 +116,16 @@
     <div style="color: blue; background-color:
     LightYellow">#/3/1</div>
     <p>
-      In the left panel, we have Python 2.7 bytecode. In the right panel Python 3.8.
+      In the left panel, we have Python 2.7 bytecode. In the right
+      panel Python 3.8. Python 2.7's. In Python
+      2.x <code>PRINT_ITEM</code> and <code>PRINT_NEWLINE</code> are
+      removed. <em>print</em> was redone in 3.x. This accounts for the
+      additional <code>CALL_FUNCTION</code> in the 3.8 code. Information
+      needed to creating function <em>five</em> in 3.8 requires one
+      more piece of information.
     </p>
+    <p>In Pytho 3.6 instruction sizes change from a variable length
+    1-byte or 3-byte format to a fixed 2-byte format.
   </aside>
 </section>
 
@@ -170,7 +184,10 @@
     <div style="color: blue; background-color:
     LightYellow">#/3/2</div>
     <p>
-      In the left panel, we have Python 3.8 bytecode. In the right panel Python 3.12.
+      In the left panel, we have Python 3.8 bytecode. In the right
+      panel Python 3.12.  Changes in 3.11 were made to cache
+      information to speed up calls. White operation names are new
+      instructions that do not exist in 3.8.
     </p>
 
   </aside>
