@@ -1,0 +1,177 @@
+<!-- <section> -->
+<!--   <h1>Chained Compare Parse Tree (released code)</h1> -->
+
+<!--   <div style="font-size: 60%;"> -->
+<!--   <p> -->
+<!--     Python Expression: -->
+<!--     <code class="smaller"> -->
+<!--       <span class="hljs-string">"a"</span> -->
+<!--       <span class="hljs-keyword">&lt;=</span> -->
+<!--       <span class="hljs-title">__file__</span> -->
+<!--       <span class="hljs-keyword">&lt;=</span> -->
+<!--       <span class="hljs-string">"b"</span> -->
+<!--     </code> -->
+<!--   </p> -->
+<!--   </div> -->
+
+<!--   <pre class="fragment"> -->
+<!--     <code -->
+<!--       style="line-height: 20px" -->
+<!--       class="hljs language-pyasm;">L.   1    0  LOAD_STR             'a' -->
+<!--           2  LOAD_NAME             __file__ -->
+<!--           4  DUP_TOP -->
+<!--           6  ROT_THREE -->
+<!--           8  COMPARE_OP            &lt;= -->
+<!--          10  JUMP_IF_FALSE_OR_POP  18  'to 18' -->
+<!--          12  LOAD_STR              'b' -->
+<!--          14  COMPARE_OP            &lt;= -->
+<!--          16  JUMP_FORWARD          22  'to 22' -->
+<!--        18_0  COME_FROM             10  '10' -->
+<!--          18  ROT_TWO -->
+<!--          20  POP_TOP -->
+<!--          22  POP_TOP -->
+<!--          24  LOAD_CONST            None -->
+<!--          26  RETURN_VALUE</code> -->
+<!--   </pre> -->
+
+<!--   <aside class="notes"> -->
+<!--     <p> -->
+<!--       <em>xdis</em> can build up complex expressions, but only when we -->
+<!--       have code without jumps into, or out of, a consecutive sequence of -->
+<!--       bytecode instructions. -->
+<!--     </p> -->
+
+<!--     <p> -->
+<!--       In this Python expression, we are checking that a variable is -->
+<!--       in-between two values. [DOWN] </p> -->
+
+<!--     <p> -->
+<!--       The bytecode generated for this simple expression is too complex -->
+<!--       for the disassembler to figure out, even though the Python -->
+<!--       expression does not seem to have any explicit jumps. -->
+<!--     </p> -->
+
+<!--     <p> -->
+<!--       Let me show how this is parsed. But before I do, we can already -->
+<!--       guess from what we have seen before, that all of the "LOAD_STR" -->
+<!--       instructions will be parsed as "expressions". -->
+<!--     <p> -->
+<!--       Also, keep in mind that parsing is matched just on the blue -->
+<!--       tokens, not any of the other stuff you see shown. -->
+<!--     </p> -->
+
+<!--     <p> With this, here is a parse of this code... [DOWN]</p> -->
+
+<!--   </aside> -->
+<!-- </section> -->
+
+<section><h1>Chained Compare Parse Tree (released code)</h1>
+  <div style="font-size: 60%">
+  <p>Python Expression:
+    <code style="font-size: smaller">
+      <span class="hljs-string">"a"</span>
+      <span class="hljs-keyword">&lt;=</span>
+      <span class="hljs-title">__file__</span>
+      <span class="hljs-keyword">&lt;=</span>
+      <span class="hljs-string">"b"</span>
+    </code>
+  </p>
+  </div>
+
+  <pre>
+    <code
+      data-line-numbers="1-19|7-8|16,19|10,16"
+      style="line-height: 20px"
+      class="hljs language-decompile">compare_chained
+  0. expr
+      L.   1         0  LOAD_STR                   'a'
+  1. compared_chained_middle
+      0. expr
+                        02  LOAD_NAME               __file__
+      1.                04  DUP_TOP
+      2.                06  ROT_THREE
+      3.                08  COMPARE_OP              &lt;=
+      4.                10  JUMP_IF_FALSE_OR_POP    18  'to 18'
+      5. compare_chained_right
+          0. expr
+                            12  LOAD_STR            'b'
+          1.                14  COMPARE_OP          &lt;=
+          2.                16  JUMP_FORWARD        22  'to 22'
+      6.              18_0  COME_FROM               10  '10'
+  2.                18  ROT_TWO
+  3.                20  POP_TOP
+      4.              22_0  COME_FROM               16  '16'
+    </code>
+  </pre>
+
+  <aside class="notes">
+    <p>
+      <em>xdis</em> can build up complex expressions, but only when we
+      have code without jumps into, or out of, a consecutive sequence of
+      bytecode instructions.
+    </p>
+
+    <p>
+      In this Python expression, we are checking that a variable is
+      in-between two values. [DOWN] </p>
+
+    <p>
+      The bytecode generated for this simple expression is too complex
+      for the disassembler to figure out, even though the Python
+      expression does not seem to have any explicit jumps.
+    </p>
+
+    <p>
+      Let me show how this is parsed. But before I do, we can already
+      guess from what we have seen before, that all of the "LOAD_STR"
+      instructions will be parsed as "expressions".
+    <p>
+      Also, keep in mind that parsing is matched just on the blue
+      tokens, not any of the other stuff you see shown.
+    </p>
+
+    <p> With this, here is a parse of this code... [DOWN]</p>
+
+    <p>
+      Here, we see a lot of new tokens from new instructions that we haven't
+      seen before. Let me talk a little about some of these. [DOWN]</p>
+
+    <p>
+      "DUP_TOP" and "ROT_THREE" are instructions that do not have
+      operands; they change Python's evaluation stack. "DUP_TOP"
+      duplicates the top item of the stack. "ROT_THREE" reorders the
+      top three elements of the stack.
+      </p>
+
+    <p>
+      The decompilers, and in particular the parser, do not have have
+      any deep knowledge of what "DUP_TOP" or "ROT_THREE" do. We just
+      know that you can find this in Python 3.8 bytecode as part of
+      this kind of chained comparison expression.
+    </p>
+
+    <p>
+      There is another a new kind of token, I'd like to draw your
+      attention to ... [DOWN]
+    </p>
+
+    <p>
+      "COME_FROM" is not a Python bytecode operation. It was added by
+      the tokenizer, and it indicates that a jump instruction jumps
+      here. For example "COME_FROM 10", indicates that the instruction
+      at offset 10 jumps the real instruction below this one.
+    </p>
+    <p>
+      Here is the instruction.[DOWN]
+    </p>
+
+    <p>
+      So that explains the funny offset of "18_0":
+      the underscore zero indicates that these are pseudo instructions
+      that needed to get inserted between two real instructions with
+      real offsets.  [NEXT]
+      </p>
+
+    <p>
+  </aside class="notes">
+</section>
