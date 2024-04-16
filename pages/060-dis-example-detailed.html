@@ -36,82 +36,109 @@ Disassembly of &lt;code object five at 0x7f7d613ca450, file "five.py", line 6&gt
   </p>
 
   <aside class="notes">
-    <p>The first step in Python decomplation getting a disassembly
-    listing of the bytecode.</p>
-
-    <p>Running the Python <em>dis</em> module which is part of its
-    standard library is the most common way people get a bytecode
-    disassembly for Python source. Notice that we are passing the name
-    of Python <em>source</em> text file to the <em>dis</em> module.
-
-    <p>Internally, the command-line interface to the <code>dis</code>
-    creates bytecode, and disassembles the bytecode it
-    created. Although with <code>dis</code> you can't disassemble
-    bytecode directly from the command-line, there are
-    internal <code>dis</code> library routines that allow you to start
-    out with just the bytecode.</p>
-
-    <p>Now let's look at the output [down]</p>
-
-    <p>In the the first column white is a line
-    number. Here we have line 1. The second instruction doesn't have a
-    line number so it too belongs to line 1. You'll see there is a
-    blank line after that, so that ends the group of instructions that
-    forms line one. The numbers in purple are bytecode offsets to the
-    start of instructions In Python after version 3.6 this offset
-    always goes up by two.</p>
-
-    <p>In blue, we have the bytecode operation like "LOAD_CONST" or "STORE_NAME".</p>
-
-    <p>After this we sometimes have an integer. This is an operand
-    value. When there is more on the line in parenthesis the operand
-    value is an index into one of several lists in a Python code
-    object, the right table is selected based on the opcode. The value
-    in parenthesis is the value that comes from the appropriate
-    table. [down]</p>
-
-
-   However, if you are familiar with assembly-language, you'll
-   see things that look like labels on the left in white are
-   source-code line numbers.  Here, first instruction starts line
-   1. The second instruction doesn't have a line number so it too
-   belongs to line 1. You'll see there is a blank line after that, so
-   that ends the group of instructions that forms line one.
-
-   <p>The numbers in purple are bytecode offsets from the start of the code.</p>
-
-    <p>In blue, we have the bytecode operation like "LOAD_CONST" or
-    "STORE_NAME". This bit of information will be useful when we get
-    to tokenization.
+    <p>
+      The first step in Python decomplation getting a disassembly
+      listing of the bytecode.
     </p>
 
-    <p>Next is an optional operand. Internally this is encoded as a
+    <p>
+      Running the Python <em>dis</em> module which is part of its
+      standard library is the most common way people get a bytecode
+      disassembly for Python source. Notice that we are passing the name
+      of Python <em>source</em> text file to the <em>dis</em> module.
+    </p>
+
+    <p>
+      Internally, the command-line interface to the <code>dis</code>
+      creates bytecode, and disassembles the bytecode it
+      created. Although with <code>dis</code> you can't disassemble
+      bytecode directly from the command-line, there are
+      internal <code>dis</code> library routines that allow you to
+      start out with just the bytecode.
+    </p>
+
+    <p>
+      Now let's look at the output [down]
+    </p>
+
+    <p>
+      In the the first column white is a line
+      number. Here we have line 1. The second instruction doesn't have a
+      line number so it too belongs to line 1. You'll see there is a
+      blank line after that, so that ends the group of instructions that
+      forms line one. The numbers in purple are bytecode offsets to the
+      start of instructions In Python after version 3.6 this offset
+      always goes up by two.
+    </p>
+
+    <p>
+      In blue, we have the bytecode operation like "LOAD_CONST" or "STORE_NAME".
+    </p>
+
+    <p>
+      After this we sometimes have an integer. This is an operand
+      value. When there is more on the line in parenthesis the operand
+      value is an index into one of several lists in a Python code
+      object, the right table is selected based on the opcode. The value
+      in parenthesis is the value that comes from the appropriate
+      table. [down]
+    </p>
+
+    <p>
+      However, if you are familiar with assembly-language, you'll
+      see things that look like labels on the left in white are
+      source-code line numbers.  Here, first instruction starts line
+      1. The second instruction doesn't have a line number so it too
+      belongs to line 1. You'll see there is a blank line after that, so
+      that ends the group of instructions that forms line one.
+    </p>
+
+    <p>
+      The numbers in purple are bytecode offsets from the start of the code.
+    </p>
+
+    <p>
+      In blue, we have the bytecode operation like "LOAD_CONST" or
+      "STORE_NAME". This bit of information will be useful when we get
+      to tokenization.
+    </p>
+
+    <p>
+      Next is an optional operand. Internally this is encoded as a
       small number. When there is a parenthesis afterwards, that is
-      the decoded operand value.</p> [down]
+      the decoded operand value. [down]
+    </p>
 
-    <p>In <em>dis</em> output, sometimes there are no parenthesis
-      showing a interpreted operand value. Here, you will have to
-      know what the encoding is by reading the Python docs on the
-      opcode. Or use a better disassembler which I will show in the next slide using <em>xdis</em>.</p>[down]
+    <p>
+      In <em>dis</em> output, sometimes there are no parenthesis
+      showing a interpreted operand value. Here, you will have to know
+      what the encoding is by reading the Python docs on the
+      opcode. Or use a better disassembler which I will show in the
+      next slide using <em>xdis</em>.
+    </p>[down]
 
-    <p>Sometimes a bytecode instruction has no operand at all. Later
+    <p>
+      Sometimes a bytecode instruction has no operand at all. Later
     when we get to grammar reduction, we will show more information
-    about what is happening on here.[down]</p>
+      about what is happening on here.[down]
+    </p>
 
-    <p>Finally, code groups into sections. The first section is the
-    main program. Part of the reason it is long is that <em>at run
-    time</em> we create functions. [down]</p>
-    <p>The code section ofr the function five also appears. It is pretty short.
+    <p>
+      Finally, code groups into sections. The first section is the
+      main program. Part of the reason it is long is that <em>at run
+      time</em> we create functions. [down]
+    </p>
 
-    <p>Don't get confused between disassembly and decomplation as I
+    <p>The code section for the function five also appears. It is pretty short.
+
+    <p>
+      Don't get confused between disassembly and decomplation as I
       see happen in various help forums. This slide shows
       disasasembly, which gives some sort of assembly code.  In
       previous slides, we should <em>decompilation></em> which gives
       Python source code.
+      [down]
     <p>
-
-
-      [down]</p>
 
   </aside>
 </section>
