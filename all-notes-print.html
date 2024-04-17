@@ -12,16 +12,17 @@
      }
    </style>
   </head>
- <body>
+<body>
     <h1>
       <a href="https://pypi.org/project/uncompyle6/">uncompyle6</a>
       and
 	<a href="https://github.com/rocky/python-decompile3/">decompyle3</a>:
       How to Read and Write a High-Level Bytecode Decompiler
     </h1>
-    <p>I have a lot of material to get through it all. Time is going
-    to be short. Some of what I have to say is very compact and
-    abbreviated. I apologize in advance.
+    <p>
+      I have a lot of material to get through it all. Time is going to
+      be short. Some of what I have to say is very compact and
+      abbreviated. I apologize in advance.
     </p>
     <p>If you can, I <i>strongly</i> recommend you follow along with
       this printed version of the text. So let’s begin...
@@ -31,23 +32,30 @@
     <!--- 010-intro.html #/1 -->
     <h1>Survey</h1>
 
-    <p>Please raise your hand if use have used Hex-Rays Ida Pro,
-    Ghidra or Binary Ninja?</p>
+    <p>
+      Please raise your hand if use have used Hex-Rays Ida Pro,
+      Ghidra or Binary Ninja?
+    </p>
 
-    <p>How about using any of these to decompile Python
-    bytecode to Python source text?</p>
+    <p>
+      How about using any of these to decompile Python
+      bytecode to Python source text?
+    </p>
 
-    <p>As far as I know, there is no support for Python decompilation
+    <p>
+      As far as I know, there is no support for Python decompilation
       in IDA Pro, Ghidra or Binary Ninja. In preparation for this
       talk, I spoke to one of the founders from one of these
       reverse-engineering tool makers who confirmed this. More
-      generally, he says that all these kinds of
-      decompiler tools which start from machine code are
-      pretty bad when it comes to any interpreter
-      that runs off bytecode.</p>
+      generally, he says that all these kinds of decompiler tools
+      which start from machine code are pretty bad when it comes to
+      any interpreter that runs any bytecode.
+    </p>
 
-    <p>Now please raise your hand if you have
-    used <i>uncompyle6</i>, or <i>decompyle3</i>. [*]</p>
+    <p>
+      Now please raise your hand if you have
+      used <i>uncompyle6</i>, or <i>decompyle3</i>. [*]
+    </p>
 
     <hr/>
 
@@ -57,25 +65,25 @@
 
     <p>I’m the current maintainer and developer
       of <i>uncompyle6</i>, and <i>decompyle3</i>.  I’m sorry for
-      my really bad choice of names for the projects.
+      my really bad choice of project names.
     </p>
 
     <p>
       This page shows github commit activity for <i>uncompyle6</i>
       from 2012 to now. 31 people have contributed to this open-source
-      project, usually submitting one or two Pull Requests. These
-      are greatly appreciated. Keep up the good work! But
-      over the vast sea of time, I have been working on this largely
-      by myself. My contributions are in the bottom left. The person who
-      is ranked second in commits, moagstar, is to the right. I
-      haven’t heard from him in a little over 7 years.
+      project, usually submitting one or two Pull Requests. These are
+      greatly appreciated. But over the vast sea of time, I have been
+      working on this largely by myself. My contributions are in the
+      bottom left. The person who is ranked second in commits,
+      moagstar, is to the right. I haven’t heard from him in a little
+      over 7 years.
     </p>
 
     <p>
-      Back in 2016, I started this project on github from
-      a "tar" of a copy of an archive from an
-      obsolete version-control system. The code had been abandoned for
-      about 5 years. And that accounts for the big gap at the left.
+      Back in 2016, I started this project on github from a "tar" of a
+      copy of an archive from an obsolete version-control system. The
+      code had been abandoned for about 5 years. And that accounts for
+      the big gap at the left.
     </p>
 
     <p>
@@ -133,16 +141,18 @@
     <!--- 010-intro.html #/1/3 -->
     <h1>Some Open Source Software that Includes My Code:</h1>
 
-    <p>So the code I've written in general has had plenty of
+    <p>
+      So the code I've written in general has had plenty of
       time to spread around. If you have have software installed that
       matches any of the logos on the first line, then you have code
       I've written.</p>
 
-    <p>I don't have any cool logos for the software that I’m going to
+    <p>
+      I don't have any cool logos for the software that I’m going to
       be talking about today. But the software used by the projects
-      with the logos on the left, all use a CD-reading library,
-      called with the logos on the left, use a CD-reading library,
-      called "libcdio" that I started in 2000 and still maintain.
+      with the logos on the left, all use a CD-reading library, called
+      with the logos on the left, use a CD-reading library, called
+      "libcdio" that I started in 2000 and I still maintain it.
     </p>
     <p>
       And I’m interested in other things like an open-source
@@ -195,10 +205,10 @@
 
     <p>
       However, for languages that work off of high-level bytecode,
-      like Python, Ruby, or Ethereum VM, there is very
-      little general theory other than
-      what I have written and talked about. The last talk I gave was 5
-      years ago, and much has happened since then. [*]
+      like Python, Ruby, or Ethereum VM, there is very little general
+      theory other than what I have written and talked about. The last
+      talk I gave was 5 years ago, and much has happened since
+      then. [*]
     </p>
     </hr>
 
@@ -212,14 +222,15 @@
       over decades. Other books come in several variations based on
       which programming language the book’s compiler algorithms are
       written in. Some specialize for a particular source or target
-      language, a particular CPU architecture, or for a particular
-      operating system. Some are aimed at writing interpreters, while
-      others are aimed at advanced-compiler technology. Finally, some
-      are no longer in print, because compiler-writing technology has
-      evolved over time.
+      language, or for a particular CPU architecture, or for a
+      particular operating system. Some are aimed at writing
+      interpreters, while others are aimed at advanced-compiler
+      technology. Finally, some are no longer in print, because
+      compiler-writing technology has evolved over time.
     </p>
 
-    <p>I think you get the idea that this is a well-trodden field. [*]
+    <p>
+      I think you get the idea that this is a well-trodden field. [*]
     </p>
 
     </hr>
@@ -228,12 +239,13 @@
     <p>None of the compiler books in the last slide mention
       "decompiler", as far as I know.</p>
 
-    <p>So how about books on decompilers? [*]
+    <p>
+      So how about books on decompilers? [*]
     </p>
 
     <p>
       For decompiler construction, these are the only two I could
-      find. Both are about a decade old. Neither is 100% devoted to
+      find. Both are about a decade old. Neither is completelydevoted to
       decompilers. Neither has gone through more than one
       edition. Does this mean that nothing has changed to the
       compilers and bytecode that are covered by these books in the
@@ -241,13 +253,12 @@
     </p>
 
     <p>
-      Nevertheless, the topic of how to write a decompiler is about as
-      rich, deep, and involved as the subject of how to write a
-      compiler. In fact, a decompiler is a kind of compiler. Both take
-      code expressed in one language and translate it to equivalent
-      code in another language.  Conventional compiler wisdom,
-      however, needs to be adapted.  You’ll get a small sense of this
-      in this talk. [*]
+      The topic of how to write a decompiler is about as rich, deep,
+      and involved as the subject of how to write a compiler. In fact,
+      a decompiler is a kind of compiler. Both take code expressed in
+      one language and translate it to equivalent code in another
+      language.  Conventional compiler wisdom, however, needs to be
+      adapted.  You’ll get a small sense of this in this talk. [*]
     </p>
 
     </hr>
@@ -260,7 +271,8 @@
       from machine code.
     </p>
 
-    <p>For this talk, I recently looked at two Python decompilers that
+    <p>
+      For this talk, I recently looked at two Python decompilers that
       use machine learning. Can AI save the day?
     </p>
 
@@ -272,7 +284,9 @@
     </hr>
 
     <!--- 030-what-talk-is-about.html #/3 -->
-    <p>Why am I here? Why am I giving this talk?</p>
+    <p>
+      Why am I here? Why am I giving this talk?
+    </p>
 
     <p>
       I’ve mentioned that general-purpose decompilers found in Ghidra,
@@ -289,15 +303,17 @@
       accepted.
     </p>
 
-    <p>A couple years ago, to raise awareness, I started a discussion
+    <p>
+      A couple years ago, to raise awareness, I started a discussion
       in the Wikipedia "talk" section for
       "Decompilers". Unfortunately, there hasn’t been much discussion
       or movement on this. [*]
     </p>
 
-    <p>I will soon describe the decompilation process, and I will
-      introduce a rarely used, if not entirely new, approach
-      to decompilation. I treat decompilation as a human-language
+    <p>
+      I will soon describe the decompilation process, and I will
+      introduce a rarely used, if not entirely new, approach to
+      decompilation. I treat decompilation as a human-language
       translation problem. In some ways, it can be like the kind of
       thing Google Translate does. [*]
     </p>
@@ -316,15 +332,16 @@
     <!--- 030-what-talk-is-about.html #/3/1 -->
     <h1>Key Takeaways</h1>
 
-    <p>At a more technical level, I hope you understand the phases of
+    <p>
+      At a more technical level, I hope you understand the phases of
       decompilation in these Python decompilers. This can be useful in
       submitting bug reports or fixing bugs.
     </p>
 
-    <p> A common misconception I see on reverse-engineering forums is
-      confusion between decompilation and disassembly. As we go through
-      the process, I think the differences will be
-      clear.
+    <p>
+      A common misconception I see on reverse-engineering forums is
+      confusion between decompilation and disassembly. As we go
+      through the process, I think the differences will be clear.
     </p>
 
     <p>
@@ -352,11 +369,12 @@
       introduced in a second.
     </p>
 
-    <p>Let me first start off with some basics that go on
-      when you run a Python program.
+    <p>
+      Let me first start off with some basics that go on when you run
+      a Python program.
     </p>
 
-     <p>
+    <p>
       I’m going to use this simple program in the examples later. The
       programs prints the output of calling a function
       named <em>five()</em>. [*]
@@ -372,7 +390,8 @@
       <em>compiles</em> the program into an intermediate
       form called <em>bytecode</em> and interprets that
       internal form. In this particular case, that bytecode stays
-      internal; it isn’t written out to disk.</p>
+      internal; it isn’t written out to disk.
+    </p>
 
     <p>
       Here are the bytecode bytes for the main routine. What these
@@ -380,7 +399,7 @@
       function <em>five()</em>. In an interpreted language, there is
       no linker loader, like you have in the statically-compiled
       languages handled by general-purpose analysis tools.  Instead,
-      this kind of thing is done as the code runs. After linking
+      this kind of thing is done in running the code. After linking
       function <em>five()</em> into the main program, the five
       function is called and the function return value is passed to
       the built-in <em>print()</em> function which then displays the
@@ -391,11 +410,13 @@
       The instructions for doing all of that stuff that I just said,
       takes up only 25 bytes!</p>
 
-    <p>For those of you who are familiar with machine code, 25 bytes
-      to do all of this is, like, awesome! There are metadata
-      sections that are in the bytecode and that adds a bit of space
-      too. I haven't shown that here, but we will see some of this a
-      little bit later.</p>
+    <p>
+      For those of you who are familiar with machine code, 25 bytes to
+      do all of this is, like, awesome! There are metadata sections
+      that are in the bytecode and that adds a bit of space too. I
+      haven't shown that here, but we will see some of this a little
+      bit later.
+    </p>
 
     <p>
       Everything, overall, is very very compact. Part of the
@@ -412,12 +433,14 @@
       source text doesn’t need to exist after byte-code compilation is
       done.
     </p>
-    <p>For certain kinds of Python source text, called "modules", the
-      internal bytecode is written to disk automatically.</p>
     <p>
-      However, we can force the bytecode to get written to
-      disk using the Python
-      <code>compileall</code> module. This is the invocation.
+      For certain kinds of Python source text, called "modules", the
+      internal bytecode is written to disk automatically.
+    </p>
+    <p>
+      However, we can force the bytecode to get written to disk using
+      the Python <code>compileall</code> module. This is the
+      invocation.
     </p>
 
     <p>
@@ -427,8 +450,10 @@
       source-text file name, and bytecode version.
     </p>
 
-    <p>The short name of this file here is "5.cpython-38.pyc". The extension of a
-      bytecode file usually ends in ".pyc" as it is here, or ".pyo" . [*]
+    <p>
+      The short name of this file here is "5.cpython-38.pyc". The
+      extension of a bytecode file usually ends in ".pyc" as it is
+      here, or ".pyo" . [*]
     </p>
 
     <hr/>
@@ -449,7 +474,8 @@
       With this introduction, we can now do our first Python
       decompilation using <i>uncompyle6</i>. The simplest invocation
       is: <i>uncompyle6</i> with a bytecode file name, here
-      "/tmp/five-moved.pyc". This is what we created in the last slide.
+      "/tmp/five-moved.pyc". This is what we created in the last
+      slide.
     </p>
 
     <p>
@@ -461,13 +487,15 @@
     </p>
 
     <p>
-      Each bytecode has a unique number for the bytecode variant. Here,
-      it is 3413, and this variant covers Python version 3.8.
+      Each bytecode has a unique number for the bytecode
+      variant. Here, it is 3413, and this variant covers Python
+      version 3.8.
     </p>
 
     <p>
-      Major releases of Python typically can alter the
-      programming language and/or the bytecode a little.
+      Major releases of Python typically can alter the programming
+      language and/or the bytecode, and/or the way the source text
+      gets translated.
     </p>
 
     <p>
@@ -481,7 +509,7 @@
     <p>
       The drift in bytecode from the first release in 1996 to the most
       recent version, is about as dramatic as the drift from Latin to
-      Italian.
+      Italian, except that the drift happens much quicker.
     </p>
 
     <p>
@@ -496,7 +524,7 @@
     </p>
 
     <p>
-      And let me show that side by side... [*]
+      Let me show that side by side... [*]
     </p>
 
     <hr/>
@@ -522,8 +550,8 @@
       anywhere in the bytecode.
     </p>
 
-    <p>For example, line 11 on the left doesn’t appear anywhere on the
-      right.</p>
+    <p>
+      Line 11 on the left doesn’t appear anywhere on the right.</p>
 
     <p>
       One thing these decompilers do to increase the
@@ -542,27 +570,29 @@
     <p>
       Now that we’ve given an example of Python decompilation, next we
       show how our decompilers work. And with this, you can then
-      follow along the decompiler’s thought process.</p>
+      follow along the decompiler’s thought process.
+    </p>
 
     <p>
-      <i>One of the unique features of these decompilers, is that we
+      One of the unique features of these decompilers, is that we
       provide a means for following along the decompilation
-      process.</i> Machine-language decompilers, even though they
-      have a language-based affinity like we have, currently have no
-      way to provide this level of detail.
+      process. Machine-language decompilers, even though they have a
+      language-based affinity like we have, currently have no way to
+      provide this level of detail.
     </p>
 
     <p>
       Our decompilers go through five phases. This idea of running
       through phases or constructing a pipeline is also how most
-      compilers work.</p>
+      compilers work.
+    </p>
 
     <p>The phases are:
       <ol>
 	<li>Get bytecode disassembly using <i>xdis</i>. <i>xdis</i> is
 	the cross-version disassembly library that I wrote to be able
-n	to support this project in particular, but also to support
-	bytecode analysis in general. [*] </li>
+ 	to support these decompilers. It is also useful in other
+	projects that work with Python bytecode. [*] </li>
 	<li>"Tokenize" the disassembly. "Tokenize" is a
 	compiler-centric term. In other decompilers and code-analysis
 	tools, this process is sometimes called <em>lifting</em>,
@@ -582,7 +612,7 @@ n	to support this project in particular, but also to support
 
     <p>
       The scanning and parsing phases in the second and third step are
-      similar to the beginning steps that compilers use to produce
+      similar to the beginning steps that a compiler uses to produce
       code. And this is the part that most differentiates these
       decompilers from other Python decompilers. [*]
     </p>
@@ -603,12 +633,11 @@ n	to support this project in particular, but also to support
     </h1>
 
     <p>
-      The first step in decompilation is extracting a list of bytecode
-      instructions, from bytecode bytes. Here, I will use the
-      bytecode file that we generated earlier as input. And for
-      demonstration purposes, I will use the standalone program
-      "pydisasm" from the cross-version disassembler
-      package. [*]
+      The first step in decompulation is carving bytecode bytes into
+      bytecode instruction. Here, I will use the bytecode file that we
+      generated earlier as input. And for demonstration purposes, I
+      will use the standalone program, "pydisasm", from the
+      cross-version disassembler package. [*]
     </p>
 
     <p>
@@ -640,9 +669,9 @@ n	to support this project in particular, but also to support
 
     <p>
       Each bytecode instruction consists of an operation name in
-      blue. For example "LOAD_CONST", or "STORE_NAME". The instruction
-      is then followed by an optional operand. These are listed in
-      parentheses. [*]
+      blue. For example "LOAD_CONST", or "STORE_NAME". The operation
+      name is then followed by an optional operand. These are listed
+      in parentheses. [*]
     </p>
 
     <hr/>
@@ -651,9 +680,9 @@ n	to support this project in particular, but also to support
     <h1>Phase 3: Parsing Tokens into a Parse Tree</h1>
     <p>
       In the left panel, you see instructions that result from
-      decoding bytecode A library routine from the <i>xdis</i>
+      decoding bytecode a library routine from the <i>xdis</i>
       package.  Because the the decompiler doesn’t call a command-line
-      routine but instead uses a library API, so it has a disassembly
+      routine but instead uses a library API, it has a disassembly
       structure.  On the left we are showing the print representation
       corresponding to the command-line utility.
     </p>
@@ -675,7 +704,7 @@ n	to support this project in particular, but also to support
     The input to the parser is a stream of "tokens". "Token" is the
     standard compiler term for the input atoms that are fed into a
     parser. A token is based on the operation name in blue. In fact,
-    many times the instruction’s operation name and token name are the
+    many times ane instruction’s operation name and token name are the
     same. However, operand, the field in green to the right, sometimes
     has parts of it folded into the token name. Here are examples of
     this. [*]
@@ -686,8 +715,8 @@ n	to support this project in particular, but also to support
       numbers are in purple. The "LOAD_CONST" operation at offset 0
       and at offset 6 have been specialized to "LOAD_STRing". In
       general, a "LOAD_CONST"' operand can be any Python constant
-      literal, like a constant tuple of timezone names, not just a
-      string.
+      literal, like boolean values True or False, or a constant tuple
+      of string timezones, not just a string.
     </p>
 
     <p>
@@ -737,10 +766,12 @@ n	to support this project in particular, but also to support
       complex examples. But in order to run, it helps to walk
       first. So let's start out with first line of the Python
       program. It was just a simple Python docstring shown in green at
-      the top.</p>
+      the top.
+    </p>
 
-<p>And let's start out with the first instruction. [*]
-</p>
+    <p>
+      And let's start out with the first instruction. [*]
+    </p>
 
     <p>
       Note that we just use the token name "LOAD_STR". The string
@@ -751,19 +782,20 @@ n	to support this project in particular, but also to support
       That one instruction, all by itself, is the complete
       representation in bytecode for a particular Python expression!
       Here, it would be what Python will produce for a literal string
-      expression, "Blackhat Asia Example", with nothing else.</p>
+      expression, "Blackhat Asia Example", with nothing else.
+    </p>
 
     <p>
       For those of you who are familiar with programming-language
-      systems that compile to machine code, again this is
-      strange.  In machine code, you rarely have one
-      instruction fully covering one source-code expression. That's
-      what makes this high-level bytecode.
+      systems that compile to machine code, again this is strange.  In
+      machine code, you rarely have one instruction fully covering one
+      source-code expression. That's what makes this high-level
+      bytecode.
     </p>
 
-<p>Of course, many or most Python expressions require more than
-  one instruction to represent them in
-      bytecode.  [*]
+    <p>
+      Of course, most Python expressions require more than one
+      instruction to represent them in bytecode.  [*]
     </p>
 
     <p>
@@ -773,22 +805,24 @@ n	to support this project in particular, but also to support
       here. This line is written in Backus-Naur Form. You will see
       this notation used in both Python's grammar specification and
       its Abstract Syntax Tree specification.  More generally, this is
-      the way syntax is specified in most programming languages.</p>
+      the way syntax is specified in most programming languages.
+    </p>
 
-    <p>But the decompilers I've written also use grammars to
+    <p>
+      But the decompilers I've written also use grammars to
       do their work. And this is one of the 50 or so grammar rules for
-      decompiling Python 3.8.</p>
+      decompiling Python 3.8.
+    </p>
 
-      <p>
-	The word to the right of "::=" in yellow is called
-	a <i>grammar symbol</i> . The ::= is
-	pronounced "transforms into" because an "expr" grammar symbol
-	can "transform into" a LOAD_STR token. But since we are
-	working bottom up (or token up), the parser recognizes this
-	reduction possibility only after the fact. So the
-	recognition is from the right to left, or alternatively, from
-	the token to grammar symbol... [*]
-     </p>
+    <p>
+      The word to the right of "::=" in yellow is called a <i>grammar
+      symbol</i> . The ::= is pronounced "transforms into" because an
+      "expr" grammar symbol can "transform into" a LOAD_STR token. But
+      since we are working bottom up (or token up), the parser
+      recognizes this reduction possibility only after the fact. So
+      the recognition is from the right to left, or alternatively,
+      from the token or tokens to grammar symbol... [*]
+    </p>
 
     <p>
       In performing this reduction rule, the parser creates a simple
@@ -821,7 +855,8 @@ n	to support this project in particular, but also to support
     <p>
       When possible, we try to use the grammar-symbol names that are
       similar to the names that Python's AST uses. Overall, The two
-      grammars have similarities, but they have to be different.
+      grammars have similarities at the top, but they have to be
+      different and have to be different.
     </p>
 
     <p>
@@ -851,8 +886,8 @@ n	to support this project in particular, but also to support
     <!--- 110-parsing-tokens.html #/11/2 -->
     <h1>Parsing Tokens to Parse Tree (Part 3)</h1>
     <p>
-      Again, the parser has matched "expr" and "store" grammar
-      symbols, and built these trees for them.</p>
+      The parser has matched "expr" and "store" grammar symbols, and
+      built these trees for them.</p>
 
     <p>After finishing with the "store" reduction rule, the parser now
       notices that we have matched "expr" and "store" grammar symbols
@@ -874,7 +909,8 @@ n	to support this project in particular, but also to support
 
     <p>
       Continuing, an assignment statement is a kind of statement. And
-      we have a grammar rule to indicate that.</p>
+      we have a grammar rule to indicate that.
+    </p>
 
     <p>Notice that after seeing the second token "STORE_NAME" in blue
       from early on, we kicked off a flurry of reduction rules. This
@@ -894,21 +930,20 @@ n	to support this project in particular, but also to support
     <!--- 110-parsing-tokens.html #/11/4 -->
     <h1>Parse Tree to Source Code</h1>
 
-    <p>This is an ASCII representation of the graph from the last
+    <p>
+      This is an ASCII representation of the graph from the last
       slide.  It has more information shown than we saw in the graph.
-      That is because we are also showing
-      token attributes in addition to the
-      token names.
+      That is because we are also showing token attributes in addition
+      to the token names.
     </p>
 
     <p>
       For example, we now see instruction offsets and instruction
-      operand values. Grammar parsing uses just token names,
-      but tokens themselves do store these other bits of information.
+      operand values.
     </p>
 
     <p>
-      All of this is good, but recall that we didn’t actually have an
+      All of this is great, but recall that we didn’t actually have an
       assignment statement at the top of the source code. Instead,
       what we had was a docstring.  However, docstrings are
       implemented in Python by creating a special
@@ -917,18 +952,18 @@ n	to support this project in particular, but also to support
     </p>
 
     <p>
-      So where does this get changed into something more familiar?  I’m
-      glad you asked! Because, this comes in the next phase
-      ... [*]
+      So where does this get changed into something more familiar? [*]
     </p>
 
-    <p>Phase 4 takes the parse tree we just created and transforms
-      that into an abstract syntax tree. We look for tree patterns
-      like this special kind of assignment statement. When the process
+    <p>
+      Phase 4 takes the parse tree we just created and transforms that
+      into an abstract syntax tree. We look for tree patterns like
+      this special kind of assignment statement. When the process
       finds something of interest that matches, that part of the tree
       is replaced. In a sense, we are "abstracting" the specifics we
       found into something that is more the way the Python programmer
-      wrote the program.</p>
+      wrote the program.
+    </p>
 
     <p>
       Strictly speaking, we don't have to do this here, and sometimes this
@@ -968,7 +1003,7 @@ n	to support this project in particular, but also to support
     <p>
       You have now successfully completed the
       first part of the talk which gives an overview.
-    </p>
+     </p>
 
     <p>
       What's coming up may be rougher.
@@ -976,7 +1011,7 @@ n	to support this project in particular, but also to support
     <p>
       I next go over disassembly in a little more detail, and
       introduce a new idea for Python decompilers. This uses some
-      lesser-known compiler technology. [*]
+      advanced compiler technology. [*]
     </p>
     <hr/>
 
@@ -996,19 +1031,20 @@ n	to support this project in particular, but also to support
 	called <i>dis</i>. Most novice decompilers use this&mdash;
 	it's the first thing that comes to mind. But that has some
 	serious limitations.  The biggest limitation is that it can
-	only disassemble code for a single Python version,
-	the version that runs the decompiler. If you are running the
-	latest version of Python, such 3.12, but the bytecode you want
-	to analyze is from an earlier version, like bytecode from 2.7,
+	only disassemble code for a single Python version, the version
+	that is runining the decompiler. If you are running the latest
+	version of Python, such 3.12, but the bytecode you want to
+	analyze is from an earlier version, like bytecode from 2.7,
 	then you are out of luck.  Malware written in Python tends to
-	use older versions of Python. This was the situation
-	when Microsoft folks contacted me. [*]
+	use older versions of Python. This was the situation when
+	Microsoft folks contacted me. [*]
       </p>
 
-      <p>To get around this limitation, <i>uncompyle6</i>
-	and <i>decompile3</i> use <i>xdis</i> &mdash; the
-	"cross-Python disassembler".
-      </p>
+    <p>
+      To get around this limitation, <i>uncompyle6</i>
+      and <i>decompile3</i> use <i>xdis</i> &mdash; the "cross-Python
+      disassembler".
+    </p>
 
     <p>
       <i>xdis</i> has a disassembler on steroids that I’m going to
@@ -1059,12 +1095,13 @@ n	to support this project in particular, but also to support
     <p>
       Below that, in white, we have, between vertical bars, the actual
       bytecode values. This is also at the top of the slide in
-      hex.</p>
+      hex.
+    </p>
 
-    <p>The first byte of the first instruction is hex 64. This is the
+    <p>
+      The first byte of the first instruction is hex 64. This is the
       opcode in Python 3.8, for "LOAD_CONST". The operand value is 0,
-      but 0 is an index into that orange constants table
-      above.
+      but 0 is an index into that orange constants table above.
     </p>
 
     <p>
@@ -1084,18 +1121,15 @@ n	to support this project in particular, but also to support
 
     <p>
      Here is a more complicated example. Companion materials explain
-     this in more detail.
-    </p>
-    <hr/>
+     this in more detail.</p>
 
-    <p>Don't get confused between <em>disassembly</em>
-      and <em>decomplation</em>. Even though there is some
-      higher-level interpretation, what we have here is a
-      disassembly. Internals of the interpreter are exposed. For
-      example, the "Top of Stack" or "toss equal" refer how the
-      interpreter works. And the "POP_TOP" instruction which is greyed
-      out, just below the last CALL_FUNCTION, has no corresponding
-      meaning in the source code.
+    <p>But don't get confused between <em>disassembly</em>
+     and <em>decomplation</em>. Even though there is some higher-level
+     interpretation, what we have here is a disassembly. Internals of
+     the interpreter are exposed. For example, the "Top of Stack" or
+     "toss equal" refer how the interpreter works. And the "POP_TOP"
+     instruction which is greyed out, just below the last
+     CALL_FUNCTION, has no corresponding meaning in the source code.
     </p>
 
     <p>
@@ -1129,11 +1163,11 @@ n	to support this project in particular, but also to support
 
     <p>
       Grammars and the grammar-based approach we use, however, can
-      naturally parse nesting and sequencing control structures
-      quite well. So having a methodical way to characterize control
-      flow that fits into the decompiler parsing can give more
-      precision and accuracy than is available in
-      general-purpose decompilers [*]
+      naturally parse nesting and sequencing control structures quite
+      well. So having a methodical way to characterize control flow
+      that fits into the decompiler parsing can give more precision
+      and accuracy that is not available in general-purpose
+      decompilers [*]
     </p>
     <hr/>
 
@@ -1169,7 +1203,8 @@ n	to support this project in particular, but also to support
     <!--- 150-control-flow.html #/15 -->
     <h1>Classifying Scopes and Important Control-Flow Points</h1>
 
-    <p>Let’s now consider this simple Python program to compute the
+    <p>
+      Let’s now consider this simple Python program to count the
       number of 1 bits in a positive integer.  If you are interested
       in algorithms, you might find this code interesting. But the
       only thing that concerns us when thinking about the control
@@ -1269,13 +1304,20 @@ n	to support this project in particular, but also to support
     <h1>Dominator Regions and Dominators</h1>
     <p>
       Here, we have the control-flow graph from before, but now
-      altered to show dominators regions and dominators. This
-      graph comes out of a later phase of the control-flow
-      project.
+      altered to show dominators regions and dominators. This graph
+      comes out of a later phase of the "control-flow" project. There
+      is a lot going on here that I don’t have time to explain. See
+      companion materials for this.
     </p>
     <p>
-      There is a lot going on here, so let me break this down.  Let me
-      first define "dominator region" and "dominator".
+      But let me introduce the terms "Dominator Region" and
+      "Dominator". The easiest term to explain is "Dominator
+      Region". This is just another term for "scope" described when
+      showing the source text.  But it is a property that is computed
+      on a directed graph, or more precisely a control-flow graph like
+      this. This property is used quite a bit in the compiler
+      data-flow analysis. See books on advanced compiler optimization
+      for algorithms on how to get this information.
     </p>
 
     <p>
@@ -1308,15 +1350,17 @@ n	to support this project in particular, but also to support
     </p>
 
     <p>
-      I wave my hands wildly here. There are a lot more details to
-      cover, especially in the practical setting of a decompiler. But
-      I hope you can see how a program can capture block nesting
-      versus alternation at the instruction level. Those wacky
+      I am sorry I am talking fast and I am glossing
+      over <em>lot</em>. For those of you who have been taking
+      pictures of the talk with you phones, this is a picture you
+      should old on to.  Additional material is in the companion
+      materials for the talk. But I hope you can see how a program can
+      capture block nesting, and tell tell the difference between
+      nesting and alternation at the instruction level. Those wacky
       pseudo-tokens inserted into the token stream in the "chained
       comparison" example, are there to convey this nesting and
       sequencing information in a way that the parser can understand
-      and match blocks of code. I have an unpublished technical paper
-      that explains this in more detail. [*]
+      and match blocks of code. [*]
     </p>
     <hr/>
 
