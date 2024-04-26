@@ -58,7 +58,7 @@
 
     <p>
       Now please raise your hand if you have
-      used <i>uncompyle6</i>, or <i>decompyle3</i>. [*]
+      used <i>uncompyle6</i>, or <i>decompyle3</i>.
     </p>
 
     <hr/>
@@ -124,7 +124,7 @@
       enough to track changes to python bytecode and the python
       language. therefore, i have an experimental decompiler
       for python 3.8 to 3.10.  towards the end, i will show a little
-      bit of that. [*]
+      bit of that.
     </p>
     <hr/>
 
@@ -216,7 +216,7 @@
       like Python, Ruby, or Ethereum VM, there is very little general
       theory other than what I have written and talked about. The last
       talk I gave was 5 years ago, and much has happened since
-      then. [*]
+      then.
     </p>
     </hr>
 
@@ -291,7 +291,7 @@
 
     <p>
       Well... No, not yet. If you are interested in how to fix this, I can
-      share my ideas afterwards. [*]
+      share my ideas afterwards.
     </p>
 
     </hr>
@@ -339,7 +339,7 @@
       the compiler books that I showed images of before. I am going to
       show this process adapted to perform decompilation. And
       I think this kind of adaption can be extended to create
-      decompilers for other high-level bytecode. [*]
+      decompilers for other high-level bytecode.
     </p>
     <hr/>
 
@@ -468,7 +468,7 @@
     <p>
       The short name of this file here is "5.cpython-38.pyc". The
       extension of a bytecode file usually ends in ".pyc" as it is
-      here, or ".pyo" . [*]
+      here, or ".pyo".
     </p>
 
     <hr/>
@@ -550,6 +550,8 @@
     <p>
       As you can see, the source and the decompiled code are
       pretty much the same.
+    </p>
+    <img alt="slide-7" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-7.png"/>
 
     <p>
       People who are used to general-purpose decompilers, such as the
@@ -567,7 +569,10 @@
     </p>
 
     <p>
-      Line 11 on the left doesn’t appear anywhere on the right.</p>
+      Line 11 on the left doesn’t appear anywhere on the right.
+    </p>
+
+    <img alt="slide-7-0-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-7-0-1.png"/>
 
     <p>
       One thing these decompilers do to increase the
@@ -575,7 +580,7 @@
       make an attempt to format the way standard formatters for Python
       work. We are more careful about this than other Python
       decompilers. But we don't always get the formatting exactly the
-      same. [*]
+      same.
     </p>
 
     <hr/>
@@ -650,7 +655,7 @@
     </h1>
 
     <p>
-      The first step in decompulation is carving bytecode bytes into
+      The first step in decompilation is carving bytecode bytes into
       bytecode instruction. Here, I will use the bytecode file that we
       generated earlier as input. And for demonstration purposes, I
       will use the standalone program, "pydisasm", from the
@@ -1159,7 +1164,7 @@
 
     <!--- 140-chained-compare-cfg-code.html #/14 -->
     <h1>Chained Compare Bytecode</h1>
-
+    <img alt="slide-14" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-14.png"/>
     <p>
       However awesome the disassembler shown in the last slide is, it
       has limitations.  Here is an example of something that
@@ -1173,10 +1178,10 @@
     </p>
 
     <p>
-      With each new Python release, decompulation of control
-      flow has become increasingly more difficult.
-      Nowadays, about 1/3 of the issues raised in the decompiler bug
-      trackers are related to control flow.
+      With each new Python release, control flow decompilation has
+      become increasingly more difficult.  Nowadays, about 1/3 of the
+      issues raised in the decompiler bug trackers are related to
+      control flow.
     </p>
 
     <p>
@@ -1531,8 +1536,8 @@
     <p>
       Here is additional information for where you can get even more
       detail about things I've said today. Links are clickable in the
-      slides and in the PDF.  I believe all of this information is
-      available in the materials for this talk.
+      nodes here. (Slides are images so the links are indicated but
+      not clickable.
     </p>
 
     <ul style="font-size: smaller">
@@ -1542,11 +1547,18 @@
       <li>Older Decompiler Paper: <a href="https://rocky.github.io/Deparsing-Paper.pdf">https://rocky.github.io/Deparsing-Paper.pdf</a></li>
       <li>PyCon Columbia 2018 talk slides: <a href="https://rocky.github.io/pycon2018-light.co">https://rocky.github.io/pycon2018-light.co</a></li>
       <li>PyCon Columbia 2018 talk video: <a href="https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be">https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be</a></li>
-      <li>Text of this talk: <a href="https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print"</a>https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print</li>
-      <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">https://rocky.github.io/blackhat-asia-2024-additional</a></li>
+      <li>Text of this talk:
+	<a href="https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print">
+	   https://rocky.github.io/blackhat-asia-2024-additional/all-notes-print</a>
+      </li>
+      <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">
+	  https://rocky.github.io/blackhat-asia-2024-additional
+      </li>
     </ul>
 
     <hr/>
-    <video alt="rocky-ending" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/Rocky-And-Friends-end.mp4"></video>
+    <p> Bye now, we're late <em>again</em>...
+      <video alt="rocky-ending" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/Rocky-And-Friends-end.mp4"></video>
+      (old clip from "The Adventures of Rocky and Bullwinkle". video has sound and is playable).
 </body>
 </html>
