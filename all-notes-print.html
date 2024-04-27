@@ -50,9 +50,21 @@
      <li><a href="#survey">Survey</a></li>
      <li><a href="#stats">Github commit statistics for uncompyle6</a></li>
      <li><a href="#who">Who am I?</a></li>
-     <li><a href="#open-source">Open Source Software that Includes My Code</a></li>
+     <li><a href="#open-source">Open Source Software that Includes my Code</a></li>
      <li><a href="#background">Background</a></li>
+     <li><a href="#compiler-books">Books on making Compilers</a></li>
+     <li><a href="#decompiler-books">Books on making Decompilers</a></li>
+     <li><a href="#AI">Can AI Save the Day?</a></li>
+     <li><a href="#whats-up">What is this Talk About?</a></li>
+     <li><a href="#takeaways">Key Takeaways</a></li>
+     <li><a href="#simple-python-program">Simple Python Program</a></li>
+     <li><a href="#running-bytecode">Running Python Bytecode</a></li>
+     <li><a href="#decompilation-example">Python Bytecode Decompilation Example</a></li>
+     <li><a href="#source-differences">Source Code Differences</a></li>
+     <li><a href="#how-works">How These Decompilers Work</a></li>
+     <li><a href="#intermission">Intermission</a></li>
    </ol>
+
   <h1 id="title-page">
       <a href="https://pypi.org/project/uncompyle6/">uncompyle6</a>
       and
@@ -190,7 +202,7 @@
 
     <img alt="slide-1-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1-3.png"/>
     <p>
-      So the code I've written in general has had plenty of
+      So the code I’ve written in general has had plenty of
       time to spread around. If you have have software installed that
       matches any of the logos on the first line, then you have code
       I've written.</p>
@@ -231,7 +243,7 @@
 
     <p>
       Decompilers have been around since the dawn of programming
-      languages in the early 1960's. [*]</p>
+      languages in the early 1960’s. </p>
 
     <p>
       However, the ideas I’m going to present here are somewhat new or
@@ -240,7 +252,7 @@
       said, that code was abandoned for 5 years before I came across
       it. It took me a while to distill, correct, and expand upon the
       ideas embodied in the code. I’m not even sure I now have the
-      final word on this. [*]
+      final word on this.
     </p>
 
 
@@ -262,13 +274,16 @@
     </hr>
 
     <!--- 020-background.html #/2/1 -->
-    <h1>Books on making compilers:</h1>
+    <h1 id="compiler-books">Books on making compilers:</h1>
 
-    <img alt="slide-2-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-1.png"/>
     <p>
       There are systematic methods and tools for compiler
       construction. These are just some of the books you can find on
-      amazon.com. I am sorry these images are not larger.  Here is a
+      amazon.com.
+    </p>
+    <img alt="slide-2-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-1.png"/>
+    <p>
+      I am sorry these images are not larger.  Here is a
       summary of them from left to right. Some of these, have gone
       through several editions over decades. Other books come in
       several variations based on which programming language the
@@ -282,23 +297,26 @@
     </p>
 
     <p>
-      I think you get the idea that this is a well-trodden field. [*]
+      I think you get the idea that this is a well-trodden field.
     </p>
 
     </hr>
     <!--- 020-background.html #/2/2 -->
-    <h1>Books on making decompilers:</h1>
+    <h1 id="decompiler-books">Books on making Decompilers</h1>
     <p>None of the compiler books in the last slide mention
       "decompiler", as far as I know.</p>
 
-    <img alt="slide-2-2-0" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-2-0.png"/>
     <p>
-      So how about books on decompilers? [*]
+      So how about books on decompilers?
     </p>
 
     <p>
-      For decompiler construction, these are the only two I could
-      find. Both are about a decade old. Neither is completelydevoted to
+      For decompiler construction, these are the only two I could find:
+    </p>
+    <img alt="slide-2-2-0"
+    src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-2-0.png"/>
+    <p>
+      Both are about a decade old. Neither is completelydevoted to
       decompilers. Neither has gone through more than one
       edition. Does this mean that nothing has changed to the
       compilers and bytecode that are covered by these books in the
@@ -311,14 +329,13 @@
       a decompiler is a kind of compiler. Both take code expressed in
       one language and translate it to equivalent code in another
       language.  Conventional compiler wisdom, however, needs to be
-      adapted.  You’ll get a small sense of this in this talk. [*]
+      adapted.  You’ll get a small sense of this in this talk.
     </p>
 
     </hr>
 
     <!--- 020-background.html #/2/3 -->
-    <h1>Can AI Save the Day?</h1>
-    <img alt="slide-2-3-0" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-3-0.png"/>
+    <h1 id="AI">Can AI Save the Day?</h1>
     <p>
       Because of the need for, but scarcity of, decompilers, AI might
       seem like a possible way to get high-level information
@@ -329,6 +346,7 @@
       For this talk, I recently looked at two Python decompilers that
       use machine learning. Can AI save the day?
     </p>
+    <img alt="slide-2-3-0" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-2-3-0.png"/>
 
     <p>
       Well... No, not yet. If you are interested in how to fix this, I can
@@ -338,11 +356,12 @@
     </hr>
 
     <!--- 030-what-talk-is-about.html #/3 -->
-    <img alt="slide-3-0-2" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-3-0-2.png"/>
+    <h1 id="whats-up">What is this Talk About?</h1>
     <p>
       Why am I here? Why am I giving this talk?
     </p>
 
+    <img alt="slide-3-0-2" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-3-0-2.png"/>
     <p>
       I’ve mentioned that general-purpose decompilers found in Ghidra,
       Binary Ninja, or Hex Rays are of little-to-no use for bytecode
@@ -362,7 +381,7 @@
       A couple years ago, to raise awareness, I started a discussion
       in the Wikipedia "talk" section for
       "Decompilers". Unfortunately, there hasn’t been much discussion
-      or movement on this. [*]
+      or movement on this.
     </p>
 
     <p>
@@ -370,7 +389,7 @@
       introduce a rarely used, if not entirely new, approach to
       decompilation. I treat decompilation as a human-language
       translation problem. In some ways, it can be like the kind of
-      thing Google Translate does. [*]
+      thing Google Translate does.
     </p>
 
     <p>
@@ -385,7 +404,7 @@
     <hr/>
 
     <!--- 030-what-talk-is-about.html #/3/1 -->
-    <h1>Key Takeaways</h1>
+    <h1 id="takeaways">Key Takeaways</h1>
     <img alt="slide-3-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-3-1.png"/>
 
     <p>
@@ -415,7 +434,7 @@
     <hr/>
 
     <!--- 040-python-example.html #/4 -->
-    <h1>Simple Python Program</h1>
+    <h1 id="simple-python-program">Simple Python Program</h1>
     <p>
       Before I get too deep into Python decompilation, I should say
       something about what it is. Briefly, decompilation starts with
@@ -432,7 +451,7 @@
     <p>
       I’m going to use this simple program in the examples later. The
       programs prints the output of calling a function
-      named <em>five()</em>. [*]
+      named <em>five()</em>.
     </p>
     <img alt="slide-4-0-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-4-0-1.png"/>
     <p>
@@ -469,7 +488,7 @@
       For those of you who are familiar with machine code, 25 bytes to
       do all of this is, like, awesome! There are metadata sections
       that are in the bytecode and that adds a bit of space too. I
-      haven't shown that here, but we will see some of this a little
+      haven’t shown that here, but we will see some of this a little
       bit later.
     </p>
 
@@ -477,7 +496,7 @@
       Everything, overall, is very very compact. Part of the
       compactness is that the individual instructions themselves are
       pretty high level. And we’ll see some of that later as
-      well. [*]
+      well.
     </p>
 
     <hr/>
@@ -514,7 +533,7 @@
     <hr/>
 
     <!--- 050-compile-and-run-bytecode.html #/5/1 -->
-    <h1>Running Python Bytecode</h1>
+    <h1 id="running-bytecode">Running Python Bytecode</h1>
     <img alt="slide-5-0-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-5-0-3.png"/>
     <p>Now that we have this bytecode object, I can run just the
       bytecode.
@@ -524,7 +543,7 @@
       And again, I get 5.
     </hr>
     <!--- 060-bytecode-decompilation-example.html #/6 -->
-    <h1>Python Bytecode Decompilation Example</h1>
+    <h1 id="decompilation-example">Python Bytecode Decompilation Example</h1>
     <p>
       With this introduction, we can now do our first Python
       decompilation using <i>uncompyle6</i>. The simplest invocation
@@ -571,7 +590,7 @@
     <p>
       The name of the bytecode file is "five-moved", seen in white at
       the top.  The name of the original Python file is "five.py" and
-      that is seen in orange, a little down from the top. [*]
+      that is seen in orange, a little down from the top.
 
     <p>
       But if you ignore the orange comments in both the source Python
@@ -580,12 +599,12 @@
     </p>
 
     <p>
-      Let me show that side by side... [*]
+      Let me show that side by side...
     </p>
 
     <hr/>
     <!--- 070-source-code-differences.html #/7 -->
-    <h1>Source Code Differences</h1>
+    <h1 id="source-differences">Source Code Differences</h1>
 
     <p>
       As you can see, the source and the decompiled code are
@@ -626,8 +645,7 @@
     <hr/>
 
     <!--- 080-how-decompilation-works.html #/8 -->
-    <h1>How These Decompilers Work</h1>
-    <img alt="slide-8-0-5" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-8-0-5.png"/>
+    <h1 id="how-works">How These Decompilers Work</h1>
 
     <p>
       Now that we’ve given an example of Python decompilation, next we
@@ -649,21 +667,33 @@
       compilers work.
     </p>
 
+    <img alt="slide-8-0-5" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-8-0-5.png"/>
+
     <p>The phases are:
       <ol>
-	<li>Get bytecode disassembly using <i>xdis</i>. <i>xdis</i> is
-	the cross-version disassembly library that I wrote to be able
- 	to support these decompilers. It is also useful in other
-	projects that work with Python bytecode. [*] </li>
-	<li>"Tokenize" the disassembly. "Tokenize" is a
-	compiler-centric term. In other decompilers and code-analysis
-	tools, this process is sometimes called <em>lifting</em>,
-	as in "lifting the disassembly" or "lifting the machine
-	code". [*]</li>
-	<li>Parse tokens to create a Parse Tree. [*]</li>
-	<li>Abstract the parse tree to an "Abstract Syntax Tree", and
-	finally: [*]</li>
-	<li>Produce Python source text from the Abstract Syntax Tree.</li>
+	<li>
+	  Get bytecode disassembly using <i>xdis</i>. <i>xdis</i> is
+	  the cross-version disassembly library that I wrote to be able
+	  to support these decompilers. It is also useful in other
+	  projects that work with Python bytecode.
+	</li>
+	<li>"
+	  Tokenize" the disassembly. "Tokenize" is a
+	  compiler-centric term. In other decompilers and code-analysis
+	  tools, this process is sometimes called <em>lifting</em>,
+	  as in "lifting the disassembly" or "lifting the machine
+	  code".
+	</li>
+	<li>
+	  Parse tokens to create a Parse Tree.
+	</li>
+	<li>
+	  Abstract the parse tree to an "Abstract Syntax Tree", and
+	  finally:
+	</li>
+	<li>
+	  Produce Python source text from the Abstract Syntax Tree.
+	</li>
       </ol>
     </p>
 
@@ -676,7 +706,7 @@
       The scanning and parsing phases in the second and third step are
       similar to the beginning steps that a compiler uses to produce
       code. And this is the part that most differentiates these
-      decompilers from other Python decompilers. [*]
+      decompilers from other Python decompilers.
     </p>
 
     <hr/>
@@ -699,7 +729,7 @@
       bytecode instruction. Here, I will use the bytecode file that we
       generated earlier as input. And for demonstration purposes, I
       will use the standalone program, "pydisasm", from the
-      cross-version disassembler package. [*]
+      cross-version disassembler package.
     </p>
 
     <p>
@@ -733,7 +763,7 @@
       Each bytecode instruction consists of an operation name in
       blue. For example "LOAD_CONST", or "STORE_NAME". The operation
       name is then followed by an optional operand. These are listed
-      in parentheses. [*]
+      in parentheses.
     </p>
 
     <hr/>
@@ -769,7 +799,7 @@
     many times ane instruction’s operation name and token name are the
     same. However, operand, the field in green to the right, sometimes
     has parts of it folded into the token name. Here are examples of
-    this. [*]
+    this.
     </p>
 
     <p>
@@ -799,7 +829,7 @@
       depending on the number of parameters a function takes. So a
       parser needs this rough parameter information to be able to
       match or parse the instructions leading up to the
-      "MAKE_FUNCTION". [*]
+      "MAKE_FUNCTION".
     </p>
 
     <!--- 110-parsing-tokens.html #/11 -->
@@ -832,7 +862,7 @@
     </p>
 
     <p>
-      And let's start out with the first instruction. [*]
+      And let's start out with the first instruction.
     </p>
 
     <p>
@@ -857,7 +887,7 @@
 
     <p>
       Of course, most Python expressions require more than one
-      instruction to represent them in bytecode.  [*]
+      instruction to represent them in bytecode.
     </p>
 
     <p>
@@ -883,7 +913,7 @@
       since we are working bottom up (or token up), the parser
       recognizes this reduction possibility only after the fact. So
       the recognition is from the right to left, or alternatively,
-      from the token or tokens to grammar symbol... [*]
+      from the token or tokens to grammar symbol...
     </p>
 
     <p>
@@ -955,7 +985,7 @@
       notices that we have matched "expr" and "store" grammar symbols
       in succession. The grammar I wrote for the decompilers dictate
       that when these two are seen in succession, that constitutes an
-      assignment statement. So another rule is triggered. [*]
+      assignment statement. So another rule is triggered.
     </p>
 
     <p>
@@ -966,7 +996,7 @@
     <h1>Parsing Tokens to Parse Tree (Part 4)</h1>
     <p>
      To recap: We basically matched an assignment
-      statement. [*]
+      statement.
     </p>
 
     <p>
@@ -1014,7 +1044,7 @@
     </p>
 
     <p>
-      So where does this get changed into something more familiar? [*]
+      So where does this get changed into something more familiar?
     </p>
 
     <p>
@@ -1050,7 +1080,7 @@
       And finally we get to that actual source text.  The source text
       is created by traversing this AST, calling routines based on the
       name of the grammar symbol. Here, the grammar symbol is
-      "docstring" in yellow. [*]
+      "docstring" in yellow.
     </p>
 
     <p>
@@ -1061,7 +1091,7 @@
     <hr/>
 
     <!--- 120-intermission.html #/12 -->
-    <h1>Intermission</h1>
+    <h1 id="intermission">Intermission</h1>
     <img alt="slide-12" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-12.png"/>
     <p>
       You have now successfully completed the
@@ -1074,7 +1104,7 @@
     <p>
       I next go over disassembly in a little more detail, and
       introduce a new idea for Python decompilers. This uses some
-      advanced compiler technology. [*]
+      advanced compiler technology.
     </p>
     <hr/>
 
@@ -1100,7 +1130,7 @@
 	analyze is from an earlier version, like bytecode from 2.7,
 	then you are out of luck.  Malware written in Python tends to
 	use older versions of Python. This was the situation when
-	Microsoft folks contacted me. [*]
+	Microsoft folks contacted me.
       </p>
 
     <p>
@@ -1111,7 +1141,7 @@
 
     <p>
       <i>xdis</i> has a disassembler on steroids that I’m going to
-      show now briefly. [*]
+      show now briefly.
     </p>
 
     <p>
@@ -1130,7 +1160,7 @@
       In reverse engineering, most of the time you will not have the
       source text. There is, of course, no harm in asking for source
       text when it doesn’t exist.  Now let's look at the
-      output. [*]
+      output.
     </p>
 
     <!--- 130-bytecode-disassembly.html #/13/1 -->
@@ -1230,7 +1260,7 @@
       well. So having a methodical way to characterize control flow
       that fits into the decompiler parsing can give more precision
       and accuracy that is not available in general-purpose
-      decompilers [*]
+      decompilers
     </p>
     <hr/>
 
@@ -1245,7 +1275,7 @@
     <p>
       Instead, I will be using the approach in an experimental
       decompiler I’m working on. Below, is the AST from this
-      experimental decompiler. [*]
+      experimental decompiler.
     </p>
 
 
@@ -1260,7 +1290,7 @@
       about "Basic Blocks " that you see this in orange. "BB" in the
       token name is an abbreviation for "Basic Block". I hope you also
       get some idea of what "SIBLING" and "JOIN" mean in the token
-      names, and what "Dominator" means in the orange operand. [*]
+      names, and what "Dominator" means in the orange operand.
       <hr/>
 
     <!--- 150-control-flow.html #/15 -->
@@ -1323,7 +1353,7 @@
     </p>
 
     <p>
-      So now, let’s look at how the Python interpreter sees things... [*]
+      So now, let’s look at how the Python interpreter sees things...
     </p>
     <hr/>
 
@@ -1359,7 +1389,7 @@
     <p>
       I don’t have time to describe the text in the boxes or what the
       colors and line styles mean. For that, look at companion
-      materials. [*]
+      materials.
     </p>
 
     <hr/>
@@ -1428,7 +1458,7 @@
       the instruction level. Those wacky pseudo-tokens inserted into
       the token stream in the "chained comparison" example, are there
       to convey this nesting and sequencing information in a way that
-      the parser can understand and match blocks of code. [*]
+      the parser can understand and match blocks of code.
     </p>
     <hr/>
 
@@ -1450,7 +1480,7 @@
 
       <p>However, they are a bit more ad hoc. None use the
       grammar-based approach here. The phases are fewer and a little
-      less distinct. [*]
+      less distinct.
     </p>
 
      <p>
@@ -1463,7 +1493,7 @@
       example. The ability to match specific patterns is what makes
       these decompilers produce extremely intuitive and accurate
       results and written in the programming language that the source
-      text was also written in. [*]
+      text was also written in.
     </p>
 
     <p>
@@ -1533,7 +1563,7 @@
       grammar-based approach for a toy Python decompiler.  Hartmut
       Goebels wrote the first version that covered a full version of
       Python. In fact, it handed several Python releases from Python
-      1.5 to about Python 2.3. [*]
+      1.5 to about Python 2.3.
     </p>
 
     <p>I would like to thank the organizers and program-selection
@@ -1549,7 +1579,7 @@
 
     <p>
       In preparation for this talk, I go over the software that I will
-      be talking about add new features and remove bugs. [*]</p>
+      be talking about add new features and remove bugs. </p>
 
     <p>I would like to thank Phil Young for coaching me on this talk. I
       spend a much more time writing code, than I do speaking about the
@@ -1561,7 +1591,7 @@
     English.</p>
 
     <p>Also, I thank Lidia Giuliano for organizing and running the
-      speaker-coaching program. [*]
+      speaker-coaching program.
     </p>
 
     <p>Finally, that you all for listening to me talk about this
