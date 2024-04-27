@@ -62,7 +62,28 @@
      <li><a href="#decompilation-example">Python Bytecode Decompilation Example</a></li>
      <li><a href="#source-differences">Source Code Differences</a></li>
      <li><a href="#how-works">How These Decompilers Work</a></li>
+     <li><a href="#pyasm-disassembly">Disassembly using
+pp	 <code>pydisasm</code> from <code>xdis </code>
+       </a>
+     </li>
+     <li><a href="#phase3">Parsing Tokens into a Parse Tree</a></li>
+     <li><a href="#ast-to-source">Parse Tree to Source Code</a></li>
      <li><a href="#intermission">Intermission</a></li>
+     <li><a href="#pyasm">Bytecode Disassembly &mdash; Sequence of instructions</a></li>
+     <li><a href="#pyasm-2">Bytecode Disassembly</a></li>
+     <li><a href="#chained-compare">Chained Compare Bytecode</a></li>
+     <li><a href="#chained-compare-new">Chained Compare Parse Tree (new code)</a></li>
+     <li><a href="#control-flow-points">Classifying Scopes and Important
+	 Control-Flow Points</a></li>
+     <li><a href="#cfg">
+	 Control Flow Produced
+	 from <code>control_flow</code></a>
+     </li>
+     <li><a href="#dominators">Dominator Regions and Dominators</a></li>
+     <li><a href="#general-remarks">General Remarks</a></li>
+     <li><a href="#wrap-up">Wrapping Up</a></li>
+     <li><a href="#thanks">Thanks</a></li>
+     <li><a href="#refs">Additional Information</a></li>
    </ol>
 
   <h1 id="title-page">
@@ -712,16 +733,17 @@
     <hr/>
 
     <!--- 090-pydisasm-example.html #/9 -->
-    <h1>Disassembly using
+    <h1 id="pyasm-disassembly">Disassembly using
       <code
 	class="hljs-title"
 	style="font-size: smaller">
 	pydisasm
       </code>from
-      <a href="https://pypi.org/project/xdis/"
+      <code><a href="https://pypi.org/project/xdis/"
 	 style="font-size: smaller">
 	xdis
-      </a>
+	</a>
+      </code>
     </h1>
 
     <p>
@@ -769,7 +791,7 @@
     <hr/>
 
     <!--- 100-parsing-tokens.html #/10 -->
-    <h1>Phase 3: Parsing Tokens into a Parse Tree</h1>
+    <h1 id="phase3">Parsing Tokens into a Parse Tree</h1>
     <p>
       In the left panel, you see instructions that result from
       decoding bytecode a library routine from the <i>xdis</i>
@@ -1020,7 +1042,7 @@
     <hr/>
 
     <!--- 110-parsing-tokens.html #/11/4 -->
-    <h1>Parse Tree to Source Code</h1>
+    <h1 id="ast-to-source">Parse Tree to Source Code</h1>
 
     <p>
       This is an ASCII representation of the graph from the last
@@ -1109,7 +1131,7 @@
     <hr/>
 
     <!--- 130-bytecode-disassembly.html #/13 -->
-    <h1>Bytecode Disassembly &mdash; Sequence of instructions</h1>
+    <h1 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
 
       <p>I’m going to focus a little more on disassembly for one
 	important reason: There aren’t good decompilers for the
@@ -1164,7 +1186,7 @@
     </p>
 
     <!--- 130-bytecode-disassembly.html #/13/1 -->
-    <h1>Bytecode Disassembly</h1>
+    <h1 id="pyasm-2">Bytecode Disassembly</h1>
     <p>
       At the top of the disassembly output, again, is some metadata in
       orange. I went into some of this earlier, so I have elided this.
@@ -1233,7 +1255,7 @@
     <hr/>
 
     <!--- 140-chained-compare-cfg-code.html #/14 -->
-    <h1>Chained Compare Bytecode</h1>
+    <h1 id="chained-compare">Chained Compare Bytecode</h1>
     <img alt="slide-14" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-14.png"/>
     <p>
       However awesome the disassembler shown in the last slide is, it
@@ -1265,7 +1287,7 @@
     <hr/>
 
     <!--- 140-chained-compare-cfg-code.html #/14/1 -->
-    <h1>Chained Compare Parse Tree (new code)</h1>
+    <h1 id="chained-compare-new">Chained Compare Parse Tree (new code)</h1>
     <p>
       I won’t say much about how
       <i>uncompyle6</i> and <i>decompile3</i> handle difficulties
@@ -1294,7 +1316,7 @@
       <hr/>
 
     <!--- 150-control-flow.html #/15 -->
-    <h1>Classifying Scopes and Important Control-Flow Points</h1>
+    <h1 id="control-flow-points">Classifying Scopes and Important Control-Flow Points</h1>
 
     <p>
       Let’s now consider this simple Python program to count the
@@ -1359,16 +1381,16 @@
 
 
     <!--- 150-control-flow.html #/15/2 -->
-    <h1>
+    <h1 id="cfg">
       Control Flow Produced
       from <a ref="https://github.com/rocky/python-control-flow"><code style="font-size:smaller">control_flow</code></a>
     </h1>
-    <img alt="slide-15-2" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-15-2.png"/>
-
     <p>
       Here is the control flow reconstructed from the bytecode
       instructions for that Python text.
     </p>
+
+    <img alt="slide-15-2" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-15-2.png"/>
 
     <p>
       This graph reconstruction comes from the
@@ -1395,7 +1417,7 @@
     <hr/>
 
     <!--- 150-control-flow.html #/15/3 -->
-    <h1>Dominator Regions and Dominators</h1>
+    <h1 id="dominators">Dominator Regions and Dominators</h1>
     <img alt="slide-15-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-15-3.png"/>
     <p>
       Here, we have the control-flow graph from before, but now
@@ -1463,7 +1485,7 @@
     <hr/>
 
     <!--- 160-general-stuff.html #/16 -->
-    <h1>General Remarks</h1>
+    <h1 id="general-remarks">General Remarks</h1>
     <img alt="slide-16-0-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-16-0-3.png"/>
     <p>
       Now that I have given a whirlwind tour of bytecode decompilation
@@ -1529,7 +1551,7 @@
     <hr/>
 
     <!--- 170-wrap-up.html #/17 -->
-    <h1>Wrapping Up</h1>
+    <h1 id="wrap-up">Wrapping Up</h1>
     <img alt="slide-17" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-17.png"/>
     <p>
       I have shown how two of the best and most-popular Python
@@ -1557,7 +1579,7 @@
 
     <!--- 180-thanks.html #/18 -->
 
-    <h1>Thanks</h1>
+    <h1 id="thanks">Thanks</h1>
 
     <p>It was John Aycott who first had the idea for using a
       grammar-based approach for a toy Python decompiler.  Hartmut
@@ -1601,14 +1623,14 @@
     <hr/>
 
     <!--- 190-references.html #/19 -->
-    <h1>Additional Information</h1>
-    <img alt="slide-19" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-19.png"/>
+    <h1 id="refs">Additional Information</h1>
     <p>
       Here is additional information for where you can get even more
       detail about things I've said today. Links are clickable in the
       nodes here. (Slides are images so the links are indicated but
       not clickable.
     </p>
+    <img alt="slide-19" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-19.png"/>
 
     <ul style="font-size: smaller">
       <li>Python Decompilers: <a href="https://pypi.org/project/uncompyle6/">https://pypi.org/project/uncompyle6</a>, and <a href="https://pypi.org/project/decompyle3/">https://pypi.org/project/decompyle3/</a></li>
