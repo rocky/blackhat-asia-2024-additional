@@ -106,9 +106,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <hr/>
 
     <!--- 010-intro.html #/1 -->
-    <h1 id="survey">Survey</h1>
-
-    <img alt="slide-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1.png"/>
+    <img id="survey" alt="slide-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1.png"/>
     <p>
       Please raise your hand if use have used Hex-Rays Ida Pro,
       Ghidra or Binary Ninja? <br/>
@@ -205,8 +203,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <hr/>
 
     <!--- 010-intro.html #/1/2 -->
-    <h1 id="who">Who am i?</h1>
-    <img alt="slide-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1-2-0.png"/>
+    <img id="who" alt="slide-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1-2-0.png"/>
     <p>
       That is me in the photo in this cartoon down at the bottom of
       the tower. Except I live in New York City, and I have been
@@ -219,9 +216,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <hr/>
 
     <!--- 010-intro.html #/1/3 -->
-    <h1 id="open-source">Open Source Software that Includes my Code:</h1>
-
-    <img alt="slide-1-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1-3.png"/>
+    <img  id="open-source" alt="slide-1-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-1-3.png"/>
     <p>
       So the code I’ve written in general has had plenty of
       time to spread around. If you have have software installed that
@@ -425,8 +420,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <hr/>
 
     <!--- 030-what-talk-is-about.html #/3/1 -->
-    <h1 id="takeaways">Key Takeaways</h1>
-    <img alt="slide-3-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-3-1.png"/>
+    <img  id="takeaways" alt="slide-3-1" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-3-1.png"/>
 
     <p>
       At a more technical level, I hope you understand the phases of
@@ -522,6 +516,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
     <hr/>
     <!--- 050-compile-and-run-bytecode.html #/5 -->
+    <h1 id="running-bytecode">Running Python Bytecode</h1>
     <p>
       As I said, the interpreter doesn’t run the source text directly,
       but instead runs bytecode. One implication of this, is that the
@@ -551,10 +546,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
       here, or ".pyo".
     </p>
 
-    <hr/>
-
     <!--- 050-compile-and-run-bytecode.html #/5/1 -->
-    <h1 id="running-bytecode">Running Python Bytecode</h1>
     <img alt="slide-5-0-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-5-0-3.png"/>
     <p>Now that we have this bytecode object, I can run just the
       bytecode.
@@ -1383,7 +1375,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <!--- 150-control-flow.html #/15/2 -->
     <h1 id="cfg">
       Control Flow Produced
-      from <a ref="https://github.com/rocky/python-control-flow"><code style="font-size:smaller">control_flow</code></a>
+      from <a href="https://github.com/rocky/python-control-flow"><code>control_flow</code></a>
     </h1>
     <p>
       Here is the control flow reconstructed from the bytecode
@@ -1417,8 +1409,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
     <hr/>
 
     <!--- 150-control-flow.html #/15/3 -->
-    <h1 id="dominators">Dominator Regions and Dominators</h1>
-    <img alt="slide-15-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-15-3.png"/>
+    <img id="dominators" alt="slide-15-3" src="https://rocky.github.io/blackhat-asia-2024-additional/slide-images/slide-15-3.png"/>
     <p>
       Here, we have the control-flow graph from before, but now
       altered to show dominators regions and dominators. This graph
