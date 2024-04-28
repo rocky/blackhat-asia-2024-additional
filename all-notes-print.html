@@ -553,7 +553,8 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
     <p>
       And again, I get 5.
-    </hr>
+    </p>
+    <hr/>
     <!--- 060-bytecode-decompilation-example.html #/6 -->
     <h1 id="decompilation-example">Python Bytecode Decompilation Example</h1>
     <p>
@@ -730,922 +731,930 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 	style="font-size: smaller">
 	pydisasm
       </code>from
-      <code><a href="https://pypi.org/project/xdis/"
-	 style="font-size: smaller">
-	xdis
+      <code>
+	<a href="https://pypi.org/project/xdis/"
+	   style="font-size: smaller">
+	  xdis
 	</a>
       </code>
     </h1>
 
-    <p>
-      The first step in decompilation is carving bytecode bytes into
-      bytecode instruction. Here, I will use the bytecode file that we
+   <p>
+     The first step in decompilation is carving bytecode bytes into
+     bytecode instruction. Here, I will use the bytecode file that we
       generated earlier as input. And for demonstration purposes, I
       will use the standalone program, "pydisasm", from the
       cross-version disassembler package.
     </p>
 
     <img alt="slide-9-0-0" src="slide-images/slide-9-0-0.png"/>
-    <p>
-      First you’ll see that, again, there are comments in orange at the top.
-      And again, this is metadata about the bytecode
-    </p>
-    <img alt="slide-9-0-1" src="slide-images/slide-9-0-1.png"/>
+   <p>
+     First you’ll see that, again, there are comments in orange at the top.
+     And again, this is metadata about the bytecode
+   </p>
+
+   <img alt="slide-9-0-1" src="slide-images/slide-9-0-1.png"/>
 
    <p>
-      In fact, this particular metadata is exactly the
-      same. For example, the version of bytecode that have here is, as
-      before, 3413.
+     In fact, the information on line 2 is exactly the
+     same. For example, the version of bytecode that have here is, as
+     before, 3413.
     </p>
+
+   <p>
+     Now let’s get to the actual Python bytecode
+     instructions:
+   </p>
 
     <img alt="slide-9-0-2" src="slide-images/slide-9-0-2.png"/>
-    <p>
-      Now let’s get to the actual Python bytecode
-      instructions...
+
+   <p>
+     I’ll go into this in more detail later. But the main thing to
+     note here is that the first two instructions come from
+     line one of the Python source text. Line one is indicated by the
+     "1:" in white to the left.
+   </p>
+
+   <p>
+     In the part that is greyed out below the one colon, you may see a "6:".
+     That is the beginning of the source text for line 6.
+   </p>
+
+   <p>
+     Each bytecode instruction consists of an operation name in
+     blue. For example "LOAD_CONST", or "STORE_NAME". The operation
+     name is then followed by an optional operand. These are listed
+     in parentheses.
+   </p>
+
+   <hr/>
+
+   <!--- 100-parsing-tokens.html #/10 -->
+   <h1 id="phase3">Parsing Tokens into a Parse Tree</h1>
+   <p>
+     In the left panel, you see instructions that result from
+     decoding bytecode a library routine from the <i>xdis</i>
+     package.  Because the the decompiler doesn’t call a command-line
+     routine but instead uses a library API, it has a disassembly
+     structure.  On the left we are showing the print representation
+     corresponding to the command-line utility.
+   </p>
+
+   <p>
+     From this disassembly structure, we need to massage a little
+     and repackage the information to put in a form for parser input.
+     This is shown in the right panel. Even though the two look
+     almost the same, internally they are different structures. On
+     the left is output of phase 1, and on the right is parser input
+     in phase 2.
+   </p>
+
+   <p>
+     Parsing will be coming up in the next slide.
+   </p>
+
+   <p>
+     The input to the parser is a stream of "tokens". "Token" is the
+     standard compiler term for the input atoms that are fed into a
+     parser. A token is based on the operation name in blue. In fact,
+     many times an instruction’s operation name and token name are the
+     same. However, operand, the field in green to the right, sometimes
+     has parts of it folded into the token name. Here are examples of
+     this.
+   </p>
+
+   <p>
+     The first instruction, "LOAD_CONST" is at offset 0. Offset
+     numbers are in purple. The "LOAD_CONST" operation at offset 0
+     and at offset 6 have been specialized to "LOAD_STRing". In
+     general, a "LOAD_CONST"' operand can be any Python constant
+     literal, like boolean values True or False, or a constant tuple
+     of string timezones, not just a string.
+   </p>
+
+   <p>
+     This aspect shows a difference between bytecode and machine
+     instructions. In machine code, operands are register values which
+     can be numbers, addresses, or parts of addresses. In
+     Python bytecode, operands are arbitrary
+     Python objects!</p>
+
+   <p>
+     The other operation name that is different from its
+     corresponding token name is "MAKE_FUNCTION".  And you see that
+     at purple offset 8 towards the bottom.  It gets a suffix added
+     to the name and becomes "MAKE_FUNCTION_0". Zero is the
+     bytecode-encoded way to indicate that the function signature for
+     this function doesn’t take any parameters. The instruction
+     sequence instructions leading up to "MAKE_FUNCTION" would change
+     depending on the number of parameters a function takes. So a
+     parser needs this rough parameter information to be able to
+     match or parse the instructions leading up to the
+     "MAKE_FUNCTION".
+   </p>
+
+   <!--- 110-parsing-tokens.html #/11 -->
+   <h1>Phase 3: Parsing Tokens Parse Tree</h1>
+
+   <p>
+     In the last slide, we showed the first two phases which turned
+     bytecode bytes into bytecode instructions, and then into a
+     stream of tokens. The process next of scanning and parsing, that
+     I will show now, will look familiar to those who have developed
+     compilers. But that is a niche market, so I suspect that for
+     many of you, this will be new. If things go too quickly, you may
+     find some of this explained in one of those compiler books of
+     the images I showed earlier.
+   </p>
+
+   <p>
+     To simplify things, we will focus on just the source text from
+     the very first line. Even though this is a small part
+     of the code, it covers all of the basic
+     concepts very well.
+   </p>
+
+   <p>
+     The companion materials has more detail if you want to see more
+     complex examples. But in order to run, it helps to walk
+     first. So let's start out with first line of the Python
+     program. It was just a simple Python docstring shown in green at
+     the top.
+   </p>
+
+   <p>
+     And let's start out with the first instruction.
     </p>
 
-    <p>
-      I’ll go into this in more detail later. But the main thing to
-      note here is that the first two instructions come from
-      line one of the Python source text. Line one is indicated by the
-      "1:" in white to the left.
-    </p>
+   <p>
+     Note that we just use the token name "LOAD_STR". The string
+     value isn’t relevant in parsing.
+   </p>
 
-    <p>
-      In the part that is greyed out below the one colon, you may see a "6:".
-      That is the beginning of the source text for line 6.
-    </p>
+   <p>
+     That one instruction, all by itself, is the complete
+     representation in bytecode for a particular Python expression!
+     Here, it would be what Python will produce for a literal string
+     expression, "Blackhat Asia Example", with nothing else.
+   </p>
 
-    <p>
-      Each bytecode instruction consists of an operation name in
-      blue. For example "LOAD_CONST", or "STORE_NAME". The operation
-      name is then followed by an optional operand. These are listed
-      in parentheses.
-    </p>
+   <p>
+     For those of you who are familiar with programming-language
+     systems that compile to machine code, again this is strange.  In
+     machine code, you rarely have one instruction fully covering one
+     source-code expression. That's what makes this high-level
+     bytecode.
+   </p>
 
-    <hr/>
+   <p>
+     Of course, most Python expressions require more than one
+     instruction to represent them in bytecode.
+   </p>
 
-    <!--- 100-parsing-tokens.html #/10 -->
-    <h1 id="phase3">Parsing Tokens into a Parse Tree</h1>
-    <p>
-      In the left panel, you see instructions that result from
-      decoding bytecode a library routine from the <i>xdis</i>
-      package.  Because the the decompiler doesn’t call a command-line
-      routine but instead uses a library API, it has a disassembly
-      structure.  On the left we are showing the print representation
-      corresponding to the command-line utility.
-    </p>
+   <p>
+     Because "LOAD_STR" is a complete expression, the parser matches
+     that single token and emits a "grammar reduction
+     rule". This is the "expr colon colon LOAD_STR" you see
+     here. This line is written in Backus-Naur Form. You will see
+     this notation used in both Python's grammar specification and
+     its Abstract Syntax Tree specification.  More generally, this is
+     the way syntax is specified in most programming languages.
+   </p>
 
-    <p>
-      From this disassembly structure, we need to massage a little
-      and repackage the information to put in a form for parser input.
-      This is shown in the right panel. Even though the two look
-      almost the same, internally they are different structures. On
-      the left is output of phase 1, and on the right is parser input
-      in phase 2.
-    </p>
+   <p>
+     But the decompilers I've written also use grammars to
+     do their work. And this is one of the 50 or so grammar rules for
+     decompiling Python 3.8.
+   </p>
 
-    <p>
-      Parsing will be coming up in the next slide.
-    </p>
+   <p>
+     The word to the right of "::=" in yellow is called a <i>grammar
+       symbol</i> . The ::= is pronounced "transforms into" because an
+     "expr" grammar symbol can "transform into" a LOAD_STR token. But
+     since we are working bottom up (or token up), the parser
+     recognizes this reduction possibility only after the fact. So
+     the recognition is from the right to left, or alternatively,
+     from the token or tokens to grammar symbol...
+   </p>
 
-    <p>
-    The input to the parser is a stream of "tokens". "Token" is the
-    standard compiler term for the input atoms that are fed into a
-    parser. A token is based on the operation name in blue. In fact,
-    many times ane instruction’s operation name and token name are the
-    same. However, operand, the field in green to the right, sometimes
-    has parts of it folded into the token name. Here are examples of
-    this.
-    </p>
-
-    <p>
-      The first instruction, "LOAD_CONST" is at offset 0. Offset
-      numbers are in purple. The "LOAD_CONST" operation at offset 0
-      and at offset 6 have been specialized to "LOAD_STRing". In
-      general, a "LOAD_CONST"' operand can be any Python constant
-      literal, like boolean values True or False, or a constant tuple
-      of string timezones, not just a string.
-    </p>
-
-    <p>
-      This aspect shows a difference between bytecode and machine
-      instructions. In machine code, operands are register values which
-      can be numbers, addresses, or parts of addresses. In
-      Python bytecode, operands are arbitrary
-      Python objects!</p>
-
-    <p>
-      The other operation name that is different from its
-      corresponding token name is "MAKE_FUNCTION".  And you see that
-      at purple offset 8 towards the bottom.  It gets a suffix added
-      to the name and becomes "MAKE_FUNCTION_0". Zero is the
-      bytecode-encoded way to indicate that the function signature for
-      this function doesn’t take any parameters. The instruction
-      sequence instructions leading up to "MAKE_FUNCTION" would change
-      depending on the number of parameters a function takes. So a
-      parser needs this rough parameter information to be able to
-      match or parse the instructions leading up to the
-      "MAKE_FUNCTION".
-    </p>
-
-    <!--- 110-parsing-tokens.html #/11 -->
-    <h1>Phase 3: Parsing Tokens Parse Tree</h1>
-
-    <p>
-      In the last slide, we showed the first two phases which turned
-      bytecode bytes into bytecode instructions, and then into a
-      stream of tokens. The process next of scanning and parsing, that
-      I will show now, will look familiar to those who have developed
-      compilers. But that is a niche market, so I suspect that for
-      many of you, this will be new. If things go too quickly, you may
-      find some of this explained in one of those compiler books of
-      the images I showed earlier.
-    </p>
-
-    <p>
-      To simplify things, we will focus on just the source text from
-      the very first line. Even though this is a small part
-      of the code, it covers all of the basic
-      concepts very well.
-    </p>
-
-    <p>
-      The companion materials has more detail if you want to see more
-      complex examples. But in order to run, it helps to walk
-      first. So let's start out with first line of the Python
-      program. It was just a simple Python docstring shown in green at
-      the top.
-    </p>
-
-    <p>
-      And let's start out with the first instruction.
-    </p>
-
-    <p>
-      Note that we just use the token name "LOAD_STR". The string
-      value isn’t relevant in parsing.
-    </p>
-
-    <p>
-      That one instruction, all by itself, is the complete
-      representation in bytecode for a particular Python expression!
-      Here, it would be what Python will produce for a literal string
-      expression, "Blackhat Asia Example", with nothing else.
-    </p>
-
-    <p>
-      For those of you who are familiar with programming-language
-      systems that compile to machine code, again this is strange.  In
-      machine code, you rarely have one instruction fully covering one
-      source-code expression. That's what makes this high-level
-      bytecode.
-    </p>
-
-    <p>
-      Of course, most Python expressions require more than one
-      instruction to represent them in bytecode.
-    </p>
-
-    <p>
-      Because "LOAD_STR" is a complete expression, the parser matches
-      that single token and emits a "grammar reduction
-      rule". This is the "expr colon colon LOAD_STR" you see
-      here. This line is written in Backus-Naur Form. You will see
-      this notation used in both Python's grammar specification and
-      its Abstract Syntax Tree specification.  More generally, this is
-      the way syntax is specified in most programming languages.
-    </p>
-
-    <p>
-      But the decompilers I've written also use grammars to
-      do their work. And this is one of the 50 or so grammar rules for
-      decompiling Python 3.8.
-    </p>
-
-    <p>
-      The word to the right of "::=" in yellow is called a <i>grammar
-      symbol</i> . The ::= is pronounced "transforms into" because an
-      "expr" grammar symbol can "transform into" a LOAD_STR token. But
-      since we are working bottom up (or token up), the parser
-      recognizes this reduction possibility only after the fact. So
-      the recognition is from the right to left, or alternatively,
-      from the token or tokens to grammar symbol...
-    </p>
-
-    <p>
-      In performing this reduction rule, the parser creates a simple
-      tree created with the "expr" grammar symbol in yellow as a
-      root node of this tree, and "LOAD_STR" token in blue is its
-      single child.  Now let's continue...
-    </p>
+   <p>
+     In performing this reduction rule, the parser creates a simple
+     tree created with the "expr" grammar symbol in yellow as a
+     root node of this tree, and "LOAD_STR" token in blue is its
+     single child.  Now let's continue...
+   </p>
 
 
-    </hr>
-    <!--- 110-parsing-tokens.html #/11/1 -->
-    <h1>Parsing Tokens to Parse Tree (Part 2)</h1>
-    <p>
-      Here, I've just copied what we had before. Now let us get to the
-      next bytecode instruction.
-    </p>
+   <hr/>
+   <!--- 110-parsing-tokens.html #/11/1 -->
+   <h1>Parsing Tokens to Parse Tree (Part 2)</h1>
+   <p>
+     Here, I've just copied what we had before. Now let us get to the
+     next bytecode instruction.
+   </p>
 
-    <p>
-      A "STORE_NAME" instruction is one of the tokens that fully forms
-      a "store" grammar symbol
-    </p>
+   <p>
+     A "STORE_NAME" instruction is one of the tokens that fully forms
+     a "store" grammar symbol
+   </p>
 
-    <p>
-      Although you won't find a "store" grammar symbol in a grammar
-      for Python, you will find "Store" with a capital "S" appearing
-      in Python's AST documentation. "Expr" with a capital E also
-      appears in Python's AST.
-    </p>
+   <p>
+     Although you won't find a "store" grammar symbol in a grammar
+     for Python, you will find "Store" with a capital "S" appearing
+     in Python's AST documentation. "Expr" with a capital E also
+     appears in Python's AST.
+   </p>
 
-    <p>
-      When possible, we try to use the grammar-symbol names that are
-      similar to the names that Python's AST uses. Overall, The two
-      grammars have similarities at the top, but they have to be
-      different and have to be different.
-    </p>
+   <p>
+     When possible, we try to use the grammar-symbol names that are
+     similar to the names that Python's AST uses. Overall, The two
+     grammars have similarities at the top, but they have to be
+     different and have to be different.
+   </p>
 
-    <p>
-      If instead of "STORE_NAME" we had "STORE_GLOBAL" , that
-      would be another kind of instruction in the class of "store"
-      grammar symbols.  In English, think of how a noun could be one
-      of many words, like "bike", "car", or "bus". Let’s say that
-      "STORE_NAME" is like "bike" while "STORE_GLOBAL" is like
-      "car". As far as a sentence goes, bikes and cars are
-      both nouns; "noun" is the grammar symbol that they both
-      belong to. The grammatical structure of a sentence does not
-      change when you replace "bus" for "car" in any sentence.
-    </p>
+   <p>
+     If instead of "STORE_NAME" we had "STORE_GLOBAL" , that
+     would be another kind of instruction in the class of "store"
+     grammar symbols.  In English, think of how a noun could be one
+     of many words, like "bike", "car", or "bus". Let’s say that
+     "STORE_NAME" is like "bike" while "STORE_GLOBAL" is like
+     "car". As far as a sentence goes, bikes and cars are
+     both nouns; "noun" is the grammar symbol that they both
+     belong to. The grammatical structure of a sentence does not
+     change when you replace "bus" for "car" in any sentence.
+   </p>
 
-    <p>
-      To recap, we have now encountered two reduction rules. These are
-      lines with yellow to the left. After this second rule is
-      encountered, the little graph that the parser has been building
-      looks like this: ...
-    </p>
+   <p>
+     To recap, we have now encountered two reduction rules. These are
+     lines with yellow to the left. After this second rule is
+     encountered, the little graph that the parser has been building
+     looks like this: ...
+   </p>
 
-    <p>
-      We now have two little trees. So let's continue...
-    </p>
+   <p>
+     We now have two little trees. So let's continue...
+   </p>
 
-    <hr/>
-    <!--- 110-parsing-tokens.html #/11/2 -->
-    <h1>Parsing Tokens to Parse Tree (Part 3)</h1>
-    <p>
-      The parser has matched "expr" and "store" grammar symbols, and
-      built these trees for them.</p>
+   <hr/>
+   <!--- 110-parsing-tokens.html #/11/2 -->
+   <h1>Parsing Tokens to Parse Tree (Part 3)</h1>
+   <p>
+     The parser has matched "expr" and "store" grammar symbols, and
+     built these trees for them.</p>
 
-    <p>After finishing with the "store" reduction rule, the parser now
-      notices that we have matched "expr" and "store" grammar symbols
-      in succession. The grammar I wrote for the decompilers dictate
-      that when these two are seen in succession, that constitutes an
-      assignment statement. So another rule is triggered.
-    </p>
+   <p>After finishing with the "store" reduction rule, the parser now
+     notices that we have matched "expr" and "store" grammar symbols
+     in succession. The grammar I wrote for the decompilers dictate
+     that when these two are seen in succession, that constitutes an
+     assignment statement. So another rule is triggered.
+   </p>
 
-    <p>
+   <p>
       And the two trees that we had before are joined. [*}
-    </p>
+   </p>
 
-    <!--- 110-parsing-tokens.html #/11/3 -->
-    <h1>Parsing Tokens to Parse Tree (Part 4)</h1>
+   <!--- 110-parsing-tokens.html #/11/3 -->
+   <h1>Parsing Tokens to Parse Tree (Part 4)</h1>
     <p>
-     To recap: We basically matched an assignment
+      To recap: We basically matched an assignment
       statement.
     </p>
 
-    <p>
-      Continuing, an assignment statement is a kind of statement. And
-      we have a grammar rule to indicate that.
-    </p>
+   <p>
+     Continuing, an assignment statement is a kind of statement. And
+     we have a grammar rule to indicate that.
+   </p>
 
-    <p>Notice that after seeing the second token "STORE_NAME" in blue
-      from early on, we kicked off a flurry of reduction rules. This
-      kind of thing happens in bottom-up parsers when you get to the
-      end of the token stream. It is like a detective story where, in
-      the last couple of pages, all of the loose fragments and
-      mysteries of the story from the very beginning are finally
-      wrapped up.
-    </p>
+   <p>Notice that after seeing the second token "STORE_NAME" in blue
+     from early on, we kicked off a flurry of reduction rules. This
+     kind of thing happens in bottom-up parsers when you get to the
+     end of the token stream. It is like a detective story where, in
+     the last couple of pages, all of the loose fragments and
+     mysteries of the story from the very beginning are finally
+     wrapped up.
+   </p>
 
-    <p>
-      Here is the final tree... And now let's see how this is shown as
-      ASCII debug output... *
-    </p>
-    <hr/>
+   <p>
+     Here is the final tree... And now let's see how this is shown as
+     ASCII debug output... *
+   </p>
+   <hr/>
 
-    <!--- 110-parsing-tokens.html #/11/4 -->
-    <h1 id="ast-to-source">Parse Tree to Source Code</h1>
+   <!--- 110-parsing-tokens.html #/11/4 -->
+   <h1 id="ast-to-source">Parse Tree to Source Code</h1>
 
-    <p>
-      This is an ASCII representation of the graph from the last
-      slide.  It has more information shown than we saw in the graph.
-      That is because we are also showing token attributes in addition
-      to the token names.
-    </p>
+   <p>
+     This is an ASCII representation of the graph from the last
+     slide.  It has more information shown than we saw in the graph.
+     That is because we are also showing token attributes in addition
+     to the token names.
+   </p>
 
-    <p>
-      For example, we now see instruction offsets and instruction
-      operand values.
-    </p>
+   <p>
+     For example, we now see instruction offsets and instruction
+     operand values.
+   </p>
 
-    <p>
-      All of this is great, but recall that we didn’t actually have an
-      assignment statement at the top of the source code. Instead,
-      what we had was a docstring.  However, docstrings are
-      implemented in Python by creating a special
-      kind of assignment to string variable with that funny name:
-      "__doc__".
-    </p>
+   <p>
+     All of this is great, but recall that we didn’t actually have an
+     assignment statement at the top of the source code. Instead,
+     what we had was a docstring.  However, docstrings are
+     implemented in Python by creating a special
+     kind of assignment to string variable with that funny name:
+     "__doc__".
+   </p>
 
-    <p>
-      So where does this get changed into something more familiar?
-    </p>
+   <p>
+     So where does this get changed into something more familiar?
+   </p>
 
-    <p>
-      Phase 4 takes the parse tree we just created and transforms that
-      into an abstract syntax tree. We look for tree patterns like
-      this special kind of assignment statement. When the process
-      finds something of interest that matches, that part of the tree
-      is replaced. In a sense, we are "abstracting" the specifics we
-      found into something that is more the way the Python programmer
-      wrote the program.
-    </p>
+   <p>
+     Phase 4 takes the parse tree we just created and transforms that
+     into an abstract syntax tree. We look for tree patterns like
+     this special kind of assignment statement. When the process
+     finds something of interest that matches, that part of the tree
+     is replaced. In a sense, we are "abstracting" the specifics we
+     found into something that is more the way the Python programmer
+     wrote the program.
+   </p>
 
-    <p>
-      Strictly speaking, we don't have to do this here, and sometimes this
-      kind of thing can be a difference between the reconstructed and
-      the original source text. However, If you find Python source
-      text that looks screwy or isn’t even valid Python, what may be
-      going on is that this kind of transformation isn’t being
-      detected.
-    </p>
+   <p>
+     Strictly speaking, we don't have to do this here, and sometimes this
+     kind of thing can be a difference between the reconstructed and
+     the original source text. However, If you find Python source
+     text that looks screwy or isn’t even valid Python, what may be
+     going on is that this kind of transformation isn’t being
+     detected.
+   </p>
 
-    <p>
-      Notice that we have also simplified the tree. We no longer have
-      grammar symbols "expr" or "store".
-    </p>
+   <p>
+     Notice that we have also simplified the tree. We no longer have
+     grammar symbols "expr" or "store".
+   </p>
 
-    <p>
-      We could have tried to detect docstrings earlier, but that would
-      have been messier.
-    </p>
+   <p>
+     We could have tried to detect docstrings earlier, but that would
+     have been messier.
+   </p>
 
-    <p>
-      And finally we get to that actual source text.  The source text
-      is created by traversing this AST, calling routines based on the
-      name of the grammar symbol. Here, the grammar symbol is
-      "docstring" in yellow.
-    </p>
+   <p>
+     And finally we get to that actual source text.  The source text
+     is created by traversing this AST, calling routines based on the
+     name of the grammar symbol. Here, the grammar symbol is
+     "docstring" in yellow.
+   </p>
 
-    <p>
-      To simplify the conversion of the AST to a source string, there
-      is a custom domain-specific language or DSL used. This DSL is
-      described in the project wiki.
-    </p>
-    <hr/>
+   <p>
+     To simplify the conversion of the AST to a source string, there
+     is a custom domain-specific language or DSL used. This DSL is
+     described in the project wiki.
+   </p>
+   <hr/>
 
-    <!--- 120-intermission.html #/12 -->
-    <h1 id="intermission">Intermission</h1>
-    <img alt="slide-12" src="slide-images/slide-12.png"/>
-    <p>
-      You have now successfully completed the
-      first part of the talk which gives an overview.
-     </p>
+   <!--- 120-intermission.html #/12 -->
+   <h1 id="intermission">Intermission</h1>
+   <img alt="slide-12" src="slide-images/slide-12.png"/>
+   <p>
+     You have now successfully completed the
+     first part of the talk which gives an overview.
+   </p>
 
-    <p>
-      What's coming up may be rougher.
-    </p>
-    <p>
-      I next go over disassembly in a little more detail, and
-      introduce a new idea for Python decompilers. This uses some
-      advanced compiler technology.
-    </p>
-    <hr/>
+   <p>
+     What's coming up may be rougher.
+   </p>
+   <p>
+     I next go over disassembly in a little more detail, and
+     introduce a new idea for Python decompilers. This uses some
+     advanced compiler technology.
+   </p>
+   <hr/>
 
-    <!--- 130-bytecode-disassembly.html #/13 -->
-    <h1 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
+   <!--- 130-bytecode-disassembly.html #/13 -->
+   <h1 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
 
-      <p>I’m going to focus a little more on disassembly for one
-	important reason: There aren’t good decompilers for the
-	most-recent Python-bytecode versions. And that
-	is likely to continue forever. So the
-	reality is: you may have to understand bytecode malware from a
-	disassembly listing.
-      </p>
+   <p>I’m going to focus a little more on disassembly for one
+     important reason: There aren’t good decompilers for the
+     most-recent Python-bytecode versions. And that
+     is likely to continue forever. So the
+     reality is: you may have to understand bytecode malware from a
+     disassembly listing.
+   </p>
 
-      <p>
-	There is a disassember in the standard Python Library
-	called <i>dis</i>. Most novice decompilers use this&mdash;
-	it's the first thing that comes to mind. But that has some
-	serious limitations.  The biggest limitation is that it can
-	only disassemble code for a single Python version, the version
-	that is runining the decompiler. If you are running the latest
-	version of Python, such 3.12, but the bytecode you want to
-	analyze is from an earlier version, like bytecode from 2.7,
-	then you are out of luck.  Malware written in Python tends to
-	use older versions of Python. This was the situation when
-	Microsoft folks contacted me.
-      </p>
+   <p>
+     There is a disassember in the standard Python Library
+     called <i>dis</i>. Most novice decompilers use this&mdash;
+     it's the first thing that comes to mind. But that has some
+     serious limitations.  The biggest limitation is that it can
+     only disassemble code for a single Python version, the version
+     that is runining the decompiler. If you are running the latest
+     version of Python, such 3.12, but the bytecode you want to
+     analyze is from an earlier version, like bytecode from 2.7,
+     then you are out of luck.  Malware written in Python tends to
+     use older versions of Python. This was the situation when
+     Microsoft folks contacted me.
+   </p>
 
-    <p>
-      To get around this limitation, <i>uncompyle6</i>
-      and <i>decompile3</i> use <i>xdis</i> &mdash; the "cross-Python
-      disassembler".
-    </p>
+   <p>
+     To get around this limitation, <i>uncompyle6</i>
+     and <i>decompile3</i> use <i>xdis</i> &mdash; the "cross-Python
+     disassembler".
+   </p>
 
-    <p>
-      <i>xdis</i> has a disassembler on steroids that I’m going to
-      show now briefly.
-    </p>
+   <p>
+     <i>xdis</i> has a disassembler on steroids that I’m going to
+     show now briefly.
+   </p>
 
-    <p>
-      Command-line options in yellow of the disassembler that I use in this
-      invocation are:
-      <ul>
-	<li>basic interpretation of sequences of
-	  instructions</li>
-	<li>showing the actual bytecode</li>
-	<li>the ability to intermingle the source-code text with
-	  assembly.</li>
-      </ul>
-    </p>
+   <p>
+     Command-line options in yellow of the disassembler that I use in this
+     invocation are:
+     <ul>
+       <li>basic interpretation of sequences of
+	 instructions</li>
+       <li>showing the actual bytecode</li>
+       <li>the ability to intermingle the source-code text with
+	 assembly.</li>
+     </ul>
+   </p>
 
-    <p>
-      In reverse engineering, most of the time you will not have the
-      source text. There is, of course, no harm in asking for source
-      text when it doesn’t exist.  Now let's look at the
-      output.
-    </p>
+   <p>
+     In reverse engineering, most of the time you will not have the
+     source text. There is, of course, no harm in asking for source
+     text when it doesn’t exist.  Now let's look at the
+     output.
+   </p>
 
-    <!--- 130-bytecode-disassembly.html #/13/1 -->
-    <h1 id="pyasm-2">Bytecode Disassembly</h1>
-    <p>
-      At the top of the disassembly output, again, is some metadata in
-      orange. I went into some of this earlier, so I have elided this.
-    </p>
+   <!--- 130-bytecode-disassembly.html #/13/1 -->
+   <h1 id="pyasm-2">Bytecode Disassembly</h1>
+   <p>
+     At the top of the disassembly output, again, is some metadata in
+     orange. I went into some of this earlier, so I have elided this.
+   </p>
 
-    <p>
-      A piece of metadata that we saw implicitly before, was this
-      value from this constants table.  The first instruction at
-      purple offset 0 is "LOAD_CONST". The string operand for this
-      instruction came from index zero of this constants table.  Now
-      let's compare the assembly instructions.
-    </p>
+   <p>
+     A piece of metadata that we saw implicitly before, was this
+     value from this constants table.  The first instruction at
+     purple offset 0 is "LOAD_CONST". The string operand for this
+     instruction came from index zero of this constants table.  Now
+     let's compare the assembly instructions.
+   </p>
 
-    <p>
-      If you are familiar with Python's <i>dis</i> output, this is
-      similar. But there is more information.  First, we see the
-      Python source text, in green, for line 1. It is that Python
-      docstring.
-    </p>
+   <p>
+     If you are familiar with Python's <i>dis</i> output, this is
+     similar. But there is more information.  First, we see the
+     Python source text, in green, for line 1. It is that Python
+     docstring.
+   </p>
 
-    <p>
-      Below that, in white, we have, between vertical bars, the actual
-      bytecode values. This is also at the top of the slide in
-      hex.
-    </p>
+   <p>
+     Below that, in white, we have, between vertical bars, the actual
+     bytecode values. This is also at the top of the slide in
+     hex.
+   </p>
 
-    <p>
-      The first byte of the first instruction is hex 64. This is the
-      opcode in Python 3.8, for "LOAD_CONST". The operand value is 0,
-      but 0 is an index into that orange constants table above.
-    </p>
+   <p>
+     The first byte of the first instruction is hex 64. This is the
+     opcode in Python 3.8, for "LOAD_CONST". The operand value is 0,
+     but 0 is an index into that orange constants table above.
+   </p>
 
-    <p>
-      In the second instruction, we see something interesting
-      happening off to the far right...  This is after the
-      parenthesized operand value, <i>__doc__</i> in green. There is
-      additional text &mdash; an assignment statement that starts in
-      white: <pre>__doc__ = 'BlackHat Asia Example'</pre>
-    </p>
+   <p>
+     In the second instruction, we see something interesting
+     happening off to the far right...  This is after the
+     parenthesized operand value, <i>__doc__</i> in green. There is
+     additional text &mdash; an assignment statement that starts in
+     white: <pre>__doc__ = 'BlackHat Asia Example'</pre>
+   </p>
 
-    <p>
-      Here, the disassembler is describing the combined
-      effect of the first
-      two lines. As I mentioned before, this is how Python
-      implements docstrings.
-    </p>
+   <p>
+     Here, the disassembler is describing the combined
+     effect of the first
+     two lines. As I mentioned before, this is how Python
+     implements docstrings.
+   </p>
 
-    <p>
+   <p>
      Here is a more complicated example. Companion materials explain
      this in more detail.</p>
 
-    <p>But don't get confused between <em>disassembly</em>
+   <p>But don't get confused between <em>disassembly</em>
      and <em>decomplation</em>. Even though there is some higher-level
      interpretation, what we have here is a disassembly. Internals of
      the interpreter are exposed. For example, the "Top of Stack" or
      "toss equal" refer how the interpreter works. And the "POP_TOP"
      instruction which is greyed out, just below the last
      CALL_FUNCTION, has no corresponding meaning in the source code.
+   </p>
+
+   <p>
+     Disassembly is easy and straight-forward. Decompilation is
+     hard. However, decompilation usually starts out with a disassembly of
+     the bytecode.
+   </p>
+   <hr/>
+
+   <!--- 140-chained-compare-cfg-code.html #/14 -->
+   <h1 id="chained-compare">Chained Compare Bytecode</h1>
+   <img alt="slide-14" src="slide-images/slide-14-1.png"/>
+   <p>
+     However awesome the disassembler shown in the last slide is, it
+     has limitations.  Here is an example of something that
+     disassembly can't reconstruct.
+   </p>
+
+   <p>
+     The disassembler is great with code that doesn't have jumps in
+     it.  But once we have jumps, like we have in the highlighted
+     instructions, a disassembler has to stop combining instructions.
+   </p>
+
+   <p>
+     With each new Python release, control flow decompilation has
+     become increasingly more difficult.  Nowadays, about 1/3 of the
+     issues raised in the decompiler bug trackers are related to
+     control flow.
+   </p>
+
+   <p>
+     Grammars and the grammar-based approach we use, however, can
+     naturally parse nesting and sequencing control structures quite
+     well. So having a methodical way to characterize control flow
+     that fits into the decompiler parsing can give more precision
+     and accuracy that is not available in general-purpose
+     decompilers
+   </p>
+   <hr/>
+
+   <!--- 140-chained-compare-cfg-code.html #/14/1 -->
+   <h1 id="chained-compare-new">Chained Compare Parse Tree (new code)</h1>
+   <p>
+     I won’t say much about how
+     <i>uncompyle6</i> and <i>decompile3</i> handle difficulties
+     that arise in disambiguating control-flow patterns.
+   </p>
+
+   <p>
+     Instead, I will be using the approach in an experimental
+     decompiler I’m working on. Below, is the AST from this
+     experimental decompiler.
+   </p>
+
+
+   <img alt="slide-14-1" src="slide-images/slide-14-1.png"/>
+   <p>
+     The tokens in white: "BB_START", "BB_END", "SIBLING_BLOCK" and
+     "BLOCK_END_JOIN" are pseudo tokens. They get inserted
+     by a special control-flow process that I will show, briefly,
+     next.
+   </p>
+
+   <p>By the end of those slides, I hope you will understand a little
+     about "Basic Blocks " that you see this in orange. "BB" in the
+     token name is an abbreviation for "Basic Block". I hope you also
+     get some idea of what "SIBLING" and "JOIN" mean in the token
+     names, and what "Dominator" means in the orange operand.
+     <hr/>
+
+     <!--- 150-control-flow.html #/15 -->
+     <h1 id="control-flow-points">Classifying Scopes and Important Control-Flow Points</h1>
+
+   <p>
+     Let’s now consider this simple Python program to count the
+     number of 1 bits in a positive integer.  If you are interested
+     in algorithms, you might find this code interesting. But the
+     only thing that concerns us when thinking about the control
+     flow, is that it is a program with the following
+     characteristics:
+   </p>
+
+   <p>Nested inside the main body of code is a <i>while</i> loop
+     ...
+   </p>
+
+   <p>
+     Call this nesting level one. But nested inside
+     the <i>while</i> loop ...  there is an <i>if/then/else</i>
+     statement.
+   </p>
+
+   <p> There is one more nesting level. ...</p>
+
+   <p>
+     ... the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
+     contrast to the above nesting, we have more than one item at the
+     same nesting level. Even though the two blocks are at the same
+     nesting level, the they are distinct and separate. In some
+     programming languages like Java and JavaScript, variables declared
+     in each block would be in different scopes.
+   </p>
+
+   <p>
+     What we want to do to make parsing easier is detect this nesting
+     level, or rather more precisely, the scope. And mark scope
+     boundaries inside the instruction sequence.
+   </p>
+
+   <p>That brings us to these orange comments. These capture what I
+     just said. But I’m doing this in the source text rather than in
+     the bytecode-instruction sequence. Note that we need to mark
+     both the beginning and the end of sequenced and nested regions.
+   </p>
+
+   <p>
+     In order to get to any code with the same block scope as one of
+     the orange instructions that has the word "dominator", you have
+     to pass through the "dominator" comment. It acts as a
+     gatekeeper. In other words, the instruction or
+     block <em>dominates</em> other instructions or blocks in its
+     scope or nested scope underneath it.
+   </p>
+
+   <p>
+     Similarly, in order get to any instruction
+     that <em>follows</em> the scope or a scope nested in it, you
+     have to pass through the matching comment that says "join".
+   </p>
+
+   <p>
+     So now, let’s look at how the Python interpreter sees things...
+   </p>
+   <hr/>
+
+
+   <!--- 150-control-flow.html #/15/2 -->
+   <h1 id="cfg">
+     Control Flow Produced
+     from <a href="https://github.com/rocky/python-control-flow"><code>control_flow</code></a>
+   </h1>
+   <p>
+     Here is the control flow reconstructed from the bytecode
+     instructions for that Python text.
+   </p>
+
+   <img alt="slide-15-2" src="slide-images/slide-15-2.png"/>
+
+   <p>
+     This graph reconstruction comes from the
+     Python <i>control_flow</i> project.  I created this project to
+     perform more accurate and faster decompilation of Python
+     control-flow structures. However, this project can also be used
+     for other kinds of Python bytecode control-flow analysis.
+   </p>
+
+   <p>
+     First, instructions are broken into "Basic Blocks". A Basic
+     Block is straight-line code. There are no jumps into the middle,
+     only to the beginning of the block. If there is a jump anywhere
+     in the sequence of instructions, it has to be at the last
+     instruction.
+   </p>
+
+   <p>
+     I don’t have time to describe the text in the boxes or what the
+     colors and line styles mean. For that, look at companion
+     materials.
+   </p>
+
+   <hr/>
+
+   <!--- 150-control-flow.html #/15/3 -->
+   <img id="dominators" alt="slide-15-3" src="slide-images/slide-15-3.png"/>
+   <p>
+     Here, we have the control-flow graph from before, but now
+     altered to show dominators regions and dominators. This graph
+     comes out of a later phase of the "control-flow" project. There
+     is a lot going on here that I don’t have time to explain. See
+     companion materials for this.
+   </p>
+   <p>
+     But let me introduce the terms "Dominator Region" and
+     "Dominator". The easiest term to explain is "Dominator
+     Region". This is just another term for "scope" described when
+     showing the source text.  But it is a property that is computed
+     on a directed graph, or more precisely a control-flow graph like
+     this. This property is used quite a bit in the compiler
+     data-flow analysis. See books on advanced compiler optimization
+     for algorithms on how to get this information.
+   </p>
+
+   <p>
+     The easiest term to explain is "Dominator Region". This is just
+     another term for "scope" described in the last slide.  But it is
+     a property that is computed on a directed graph, or more
+     precisely a control-flow graph like this. This property is used
+     quite a bit in the compiler data-flow analysis. See books on
+     advanced compiler optimization for algorithms on how to compute
+     this.
+   </p>
+
+   <p>
+     What does the "dominator" part of "dominator region" mean? A
+     dominator block is a block that you have to pass through from
+     the start of the program to get to anything in its scope or a
+     scope nested underneath it. In other words, the instruction or
+     block dominates other instructions or blocks underneath it.
+   </p>
+
+   <p>
+     The darker the color a block is, the more nested it is inside
+     the other block regions it is. So block 3 is nested or dominated
+     inside block regions 2 and 1.
+   </p>
+
+   <p>
+     The upside-down house shape shows a join point, which is the
+     other end of a dominator region. It is where a scope ends.
+   </p>
+
+   <p>
+     I am sorry I am talking fast and I am glossing over details. For
+     those of you who have been taking pictures, <em>this</em> is the
+     slide you should be take a photo of!  The information and the
+     <em>way</em> it is presented here is <em>also</em> relevant in
+     general-purpose analysis tools.
+   </p>
+
+   <p>
+     But I hope you can see how a program can capture block nesting,
+     and tell tell the difference between nesting and alternation at
+     the instruction level. Those wacky pseudo-tokens inserted into
+     the token stream in the "chained comparison" example, are there
+     to convey this nesting and sequencing information in a way that
+     the parser can understand and match blocks of code.
+   </p>
+   <hr/>
+
+   <!--- 160-general-stuff.html #/16 -->
+   <h1 id="general-remarks">General Remarks</h1>
+   <img alt="slide-16-0-3" src="slide-images/slide-16-0-3.png"/>
+   <p>
+     Now that I have given a whirlwind tour of bytecode decompilation
+     for these Python decompilers, let me back up and put this in
+     place.
+   </p>
+
+   <p>
+     There are other decompilers for Python. They all start out with
+     a disassembly, even the one I looked at that uses machine
+     learning. Many build a tree&mdash;more or less&mdash;based
+     on instructions from a disasssembly, and they all produce source
+     text from that internal tree-ish structure.</p>
+
+   <p>
+     However, they are a bit more ad hoc. None use the
+     grammar-based approach here. The phases are fewer and a little
+     less distinct.
+   </p>
+
+   <p>
+     General-purpose decompilers like you find in Ghidra are largely
+     different. They live in a more complicated world. To be able to
+     do things across a wider spectrum of machine languages and a
+     wider spectrum of programming-language environments, they
+     largely give up on the hope of noticing specific patterns of
+     instructions, like we showed in the chained-comparison
+     example. The ability to match specific patterns is what makes
+     these decompilers produce extremely intuitive and accurate
+     results and written in the programming language that the source
+     text was also written in.
+   </p>
+
+   <p>
+     Control Flow, in General-purpose decompilers, is its own canned
+     phase. This phase doesn’t take into account the specific target
+     programming language that produced the code and the specific set
+     of control-flow structures that the source language has.
+   </p>
+
+   <p>
+     Our control flow is intimately tied to the control flow for a
+     particular Python version. When Python added a new construct like
+     "async" co-routines in Python 3.5, it added a new kind of
+     control-flow pattern match. Python has an extremely rich
+     set of control-flow structures. I know of no canned
+     control-flow-detection mechanism that would be able to
+     cover all control-flow mechanisms that Python includes
+     like the "else" clauses on "while", "for", and "try"
+     blocks.
+   </p>
+
+   <p>
+     Our approach uses tokenization to facilitated parsing. This is
+     similar to the lift phase that general-purpose decompilers
+     often do after initial disassembly . In general-purpose
+     decompilers, the lifting language is sometimes to LLVM or an
+     LLVM-like language. In Python, our intermediate language is very
+     much tied to Python bytecode. In general, that is true for all
+     high-level bytecode decompilers. The intermediate code looks
+     like the high-level bytecode. Also, this intermediate language
+     drifts over time along with the language and bytecode drift.
+   </p>
+   <hr/>
+
+   <!--- 170-wrap-up.html #/17 -->
+   <h1 id="wrap-up">Wrapping Up</h1>
+   <img alt="slide-17" src="slide-images/slide-17.png"/>
+   <p>
+     I have shown how two of the best and most-popular Python
+     decompilers work.  Of course, these have bugs in them. But by
+     understanding how they work, hopefully you may be able to:
+     <ol>
+       <li>Understand, pinpoint and report bugs better, or
+	 even fix problems.</li>
+       <li>Begin to understand Python bytecode in general,
+	 and how the source text and its bytecode are
+	 related.</li>
+
+       <li>Extend this code for newer or unsupported Python bytecode.
+       </li>
+
+       <li>Use these techniques to write a decompiler for
+	 other programming languages, such as Ethereum's Solidity,
+	 Lua, Ruby, or various LISPs. For the bytecode you may be
+	 interested in, there may not be a decompiler available
+	 yet. Hopefully with this information you are in a position
+	 to write one.</li>
+     </ol>
+   </p>
+   <hr/>
+
+   <!--- 180-thanks.html #/18 -->
+
+   <h1 id="thanks">Thanks</h1>
+
+   <p>It was John Aycott who first had the idea for using a
+     grammar-based approach for a toy Python decompiler.  Hartmut
+     Goebels wrote the first version that covered a full version of
+     Python. In fact, it handed several Python releases from Python
+     1.5 to about Python 2.3.
     </p>
 
-    <p>
-      Disassembly is easy and straight-forward. Decompilation is
-      hard. However, decompilation usually starts out with a disassembly of
-      the bytecode.
-    </p>
-    <hr/>
+   <p>I would like to thank the organizers and program-selection
+     committee for inviting me to give this talk, and then making
+     sure that things went smoothly after it was accepted.
+   </p>
 
-    <!--- 140-chained-compare-cfg-code.html #/14 -->
-    <h1 id="chained-compare">Chained Compare Bytecode</h1>
-    <img alt="slide-14" src="slide-images/slide-14-1.png"/>
-    <p>
-      However awesome the disassembler shown in the last slide is, it
-      has limitations.  Here is an example of something that
-      disassembly can't reconstruct.
-    </p>
+   <p>I have many projects that are in need of attention. So I have
+     to figure out which ones work to on. Therefore, when a talk like
+     this is accepted, it is encouraging. It shows support for
+     projects that I have volunteered a lot my time on, and have
+     worked hard on for many years.</p>
 
-    <p>
-      The disassembler is great with code that doesn't have jumps in
-      it.  But once we have jumps, like we have in the highlighted
-      instructions, a disassembler has to stop combining instructions.
-    </p>
+   <p>
+     In preparation for this talk, I go over the software that I will
+     be talking about add new features and remove bugs. </p>
 
-    <p>
-      With each new Python release, control flow decompilation has
-      become increasingly more difficult.  Nowadays, about 1/3 of the
-      issues raised in the decompiler bug trackers are related to
-      control flow.
-    </p>
+   <p>I would like to thank Phil Young for coaching me on this talk. I
+     spend a much more time writing code, than I do speaking about the
+     code I've written. Phil has been invaluable. He has had many
+     great ideas for organizing and presenting this in a more lively,
+     and audience-friendly way.</p>
 
-    <p>
-      Grammars and the grammar-based approach we use, however, can
-      naturally parse nesting and sequencing control structures quite
-      well. So having a methodical way to characterize control flow
-      that fits into the decompiler parsing can give more precision
-      and accuracy that is not available in general-purpose
-      decompilers
-    </p>
-    <hr/>
+   <p>
+     Stuart Frankel edited the talk, and turned some of this into
+     English.</p>
 
-    <!--- 140-chained-compare-cfg-code.html #/14/1 -->
-    <h1 id="chained-compare-new">Chained Compare Parse Tree (new code)</h1>
-    <p>
-      I won’t say much about how
-      <i>uncompyle6</i> and <i>decompile3</i> handle difficulties
-      that arise in disambiguating control-flow patterns.
-    </p>
+   <p>
+     Also, I thank Lidia Giuliano for organizing and running the
+     speaker-coaching program.
+   </p>
 
-    <p>
-      Instead, I will be using the approach in an experimental
-      decompiler I’m working on. Below, is the AST from this
-      experimental decompiler.
-    </p>
+   <p>
+     Finally, that you all for listening to me talk about this
+     subject. I hope you all will use this information to produce great
+     things in the future.
+   </p>
+   <hr/>
 
+   <!--- 190-references.html #/19 -->
+   <h1 id="refs">Additional Information</h1>
+   <p>
+     Here is additional information for where you can get even more
+     detail about things I've said today. Links are clickable in the
+     nodes here. (Slides are images so the links are indicated but
+     not clickable.
+   </p>
+   <img alt="slide-19" src="slide-images/slide-19.png"/>
 
-    <img alt="slide-14-1" src="slide-images/slide-14-1.png"/>
-    <p>
-      The tokens in white: "BB_START", "BB_END", "SIBLING_BLOCK" and
-      "BLOCK_END_JOIN" are pseudo tokens. They get inserted
-      by a special control-flow process that I will show, briefly,
-      next.
-    </p>
+   <ul style="font-size: smaller">
+     <li>Python Decompilers: <a href="https://pypi.org/project/uncompyle6/">https://pypi.org/project/uncompyle6</a>, and <a href="https://pypi.org/project/decompyle3/">https://pypi.org/project/decompyle3/</a></li>
+     <li>Cross-Version Python Disassembler: <a href="https://pypi.org/project/xdis/">https://pypi.org/project/xdis</a></li>
+     <li>Python Control Flow: <a href="https://github.com/rocky/python-control-flow">https://github.com/rocky/python-control-flow</a></li>
+     <li>Older Decompiler Paper: <a href="https://rocky.github.io/Deparsing-Paper.pdf">https://rocky.github.io/Deparsing-Paper.pdf</a></li>
+     <li>PyCon Columbia 2018 talk slides: <a href="https://rocky.github.io/pycon2018-light.co">https://rocky.github.io/pycon2018-light.co</a></li>
+     <li>PyCon Columbia 2018 talk video: <a href="https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be">https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be</a></li>
+     <li>Text of this talk:
+       <a href="all-notes-print">
+	 all-notes-print</a>
+     </li>
+     <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">
+	 https://rocky.github.io/blackhat-asia-2024-additional
+     </li>
+   </ul>
 
-    <p>By the end of those slides, I hope you will understand a little
-      about "Basic Blocks " that you see this in orange. "BB" in the
-      token name is an abbreviation for "Basic Block". I hope you also
-      get some idea of what "SIBLING" and "JOIN" mean in the token
-      names, and what "Dominator" means in the orange operand.
-      <hr/>
-
-    <!--- 150-control-flow.html #/15 -->
-    <h1 id="control-flow-points">Classifying Scopes and Important Control-Flow Points</h1>
-
-    <p>
-      Let’s now consider this simple Python program to count the
-      number of 1 bits in a positive integer.  If you are interested
-      in algorithms, you might find this code interesting. But the
-      only thing that concerns us when thinking about the control
-      flow, is that it is a program with the following
-      characteristics:
-    </p>
-
-    <p>Nested inside the main body of code is a <i>while</i> loop
-      ...
-    </p>
-
-    <p>
-      Call this nesting level one. But nested inside
-      the <i>while</i> loop ...  there is an <i>if/then/else</i>
-      statement.
-    </p>
-
-    <p> There is one more nesting level. ...</p>
-
-    <p>
-      ... the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
-      contrast to the above nesting, we have more than one item at the
-      same nesting level. Even though the two blocks are at the same
-      nesting level, the they are distinct and separate. In some
-      programming languages like Java and JavaScript, variables declared
-      in each block would be in different scopes.
-    </p>
-
-    <p>
-      What we want to do to make parsing easier is detect this nesting
-      level, or rather more precisely, the scope. And mark scope
-      boundaries inside the instruction sequence.
-    </p>
-
-    <p>That brings us to these orange comments. These capture what I
-      just said. But I’m doing this in the source text rather than in
-      the bytecode-instruction sequence. Note that we need to mark
-      both the beginning and the end of sequenced and nested regions.
-    </p>
-
-    <p>
-      In order to get to any code with the same block scope as one of
-      the orange instructions that has the word "dominator", you have
-      to pass through the "dominator" comment. It acts as a
-      gatekeeper. In other words, the instruction or
-      block <em>dominates</em> other instructions or blocks in its
-      scope or nested scope underneath it.
-    </p>
-
-    <p>Similarly, in order get to any instruction
-      that <em>follows</em> the scope or a scope nested in it, you
-      have to pass through the matching comment that says "join".
-    </p>
-
-    <p>
-      So now, let’s look at how the Python interpreter sees things...
-    </p>
-    <hr/>
-
-
-    <!--- 150-control-flow.html #/15/2 -->
-    <h1 id="cfg">
-      Control Flow Produced
-      from <a href="https://github.com/rocky/python-control-flow"><code>control_flow</code></a>
-    </h1>
-    <p>
-      Here is the control flow reconstructed from the bytecode
-      instructions for that Python text.
-    </p>
-
-    <img alt="slide-15-2" src="slide-images/slide-15-2.png"/>
-
-    <p>
-      This graph reconstruction comes from the
-      Python <i>control_flow</i> project.  I created this project to
-      perform more accurate and faster decompilation of Python
-      control-flow structures. However, this project can also be used
-      for other kinds of Python bytecode control-flow analysis.
-    </p>
-
-    <p>
-      First, instructions are broken into "Basic Blocks". A Basic
-      Block is straight-line code. There are no jumps into the middle,
-      only to the beginning of the block. If there is a jump anywhere
-      in the sequence of instructions, it has to be at the last
-      instruction.
-    </p>
-
-    <p>
-      I don’t have time to describe the text in the boxes or what the
-      colors and line styles mean. For that, look at companion
-      materials.
-    </p>
-
-    <hr/>
-
-    <!--- 150-control-flow.html #/15/3 -->
-    <img id="dominators" alt="slide-15-3" src="slide-images/slide-15-3.png"/>
-    <p>
-      Here, we have the control-flow graph from before, but now
-      altered to show dominators regions and dominators. This graph
-      comes out of a later phase of the "control-flow" project. There
-      is a lot going on here that I don’t have time to explain. See
-      companion materials for this.
-    </p>
-    <p>
-      But let me introduce the terms "Dominator Region" and
-      "Dominator". The easiest term to explain is "Dominator
-      Region". This is just another term for "scope" described when
-      showing the source text.  But it is a property that is computed
-      on a directed graph, or more precisely a control-flow graph like
-      this. This property is used quite a bit in the compiler
-      data-flow analysis. See books on advanced compiler optimization
-      for algorithms on how to get this information.
-    </p>
-
-    <p>
-      The easiest term to explain is "Dominator Region". This is just
-      another term for "scope" described in the last slide.  But it is
-      a property that is computed on a directed graph, or more
-      precisely a control-flow graph like this. This property is used
-      quite a bit in the compiler data-flow analysis. See books on
-      advanced compiler optimization for algorithms on how to compute
-      this.
-    </p>
-
-    <p>
-      What does the "dominator" part of "dominator region" mean? A
-      dominator block is a block that you have to pass through from
-      the start of the program to get to anything in its scope or a
-      scope nested underneath it. In other words, the instruction or
-      block dominates other instructions or blocks underneath it.
-    </p>
-
-    <p>
-      The darker the color a block is, the more nested it is inside
-      the other block regions it is. So block 3 is nested or dominated
-      inside block regions 2 and 1.
-    </p>
-
-    <p>
-      The upside-down house shape shows a join point, which is the
-      other end of a dominator region. It is where a scope ends.
-    </p>
-
-    <p>
-      I am sorry I am talking fast and I am glossing over details. For
-      those of you who have been taking pictures, <em>this</em> is the
-      slide you should be take a photo of!  The information and the
-      <em>way</em> it is presented here is <em>also</em> relevant in
-      general-purpose analysis tools.
-    </p>
-
-    <p>
-      But I hope you can see how a program can capture block nesting,
-      and tell tell the difference between nesting and alternation at
-      the instruction level. Those wacky pseudo-tokens inserted into
-      the token stream in the "chained comparison" example, are there
-      to convey this nesting and sequencing information in a way that
-      the parser can understand and match blocks of code.
-    </p>
-    <hr/>
-
-    <!--- 160-general-stuff.html #/16 -->
-    <h1 id="general-remarks">General Remarks</h1>
-    <img alt="slide-16-0-3" src="slide-images/slide-16-0-3.png"/>
-    <p>
-      Now that I have given a whirlwind tour of bytecode decompilation
-      for these Python decompilers, let me back up and put this in
-      place.
-    </p>
-
-    <p>
-      There are other decompilers for Python. They all start out with
-      a disassembly, even the one I looked at that uses machine
-      learning. Many build a tree&mdash;more or less&mdash;based
-      on instructions from a disasssembly, and they all produce source
-      text from that internal tree-ish structure.</p>
-
-      <p>However, they are a bit more ad hoc. None use the
-      grammar-based approach here. The phases are fewer and a little
-      less distinct.
-    </p>
-
-     <p>
-      General-purpose decompilers like you find in Ghidra are largely
-      different. They live in a more complicated world. To be able to
-      do things across a wider spectrum of machine languages and a
-      wider spectrum of programming-language environments, they
-      largely give up on the hope of noticing specific patterns of
-      instructions, like we showed in the chained-comparison
-      example. The ability to match specific patterns is what makes
-      these decompilers produce extremely intuitive and accurate
-      results and written in the programming language that the source
-      text was also written in.
-    </p>
-
-    <p>
-      Control Flow, in General-purpose decompilers, is its own canned
-      phase. This phase doesn’t take into account the specific target
-      programming language that produced the code and the specific set
-      of control-flow structures that the source language has.
-    </p>
-
-    <p>
-      Our control flow is intimately tied to the control flow for a
-      particular Python version. When Python added a new construct like
-      "async" co-routines in Python 3.5, it added a new kind of
-      control-flow pattern match. Python has an extremely rich
-      set of control-flow structures. I know of no canned
-      control-flow-detection mechanism that would be able to
-      cover all control-flow mechanisms that Python includes
-      like the "else" clauses on "while", "for", and "try"
-      blocks.
-    </p>
-
-    <p>
-      Our approach uses tokenization to facilitated parsing. This is
-      similar to the lift phase that general-purpose decompilers
-      often do after initial disassembly . In general-purpose
-      decompilers, the lifting language is sometimes to LLVM or an
-      LLVM-like language. In Python, our intermediate language is very
-      much tied to Python bytecode. In general, that is true for all
-      high-level bytecode decompilers. The intermediate code looks
-      like the high-level bytecode. Also, this intermediate language
-      drifts over time along with the language and bytecode drift.
-    </p>
-    <hr/>
-
-    <!--- 170-wrap-up.html #/17 -->
-    <h1 id="wrap-up">Wrapping Up</h1>
-    <img alt="slide-17" src="slide-images/slide-17.png"/>
-    <p>
-      I have shown how two of the best and most-popular Python
-      decompilers work.  Of course, these have bugs in them. But by
-      understanding how they work, hopefully you may be able to:
-      <ol>
-	<li>Understand, pinpoint and report bugs better, or
-	even fix problems.</li>
-	<li>Begin to understand Python bytecode in general,
-	and how the source text and its bytecode are
-	related.</li>
-
-	<li>Extend this code for newer or unsupported Python bytecode.
-	</li>
-
-	<li>Use these techniques to write a decompiler for
-	  other programming languages, such as Ethereum's Solidity,
-	  Lua, Ruby, or various LISPs. For the bytecode you may be
-	  interested in, there may not be a decompiler available
-	  yet. Hopefully with this information you are in a position
-	  to write one.</li>
-      </ol>
-    </p>
-    </hr>
-
-    <!--- 180-thanks.html #/18 -->
-
-    <h1 id="thanks">Thanks</h1>
-
-    <p>It was John Aycott who first had the idea for using a
-      grammar-based approach for a toy Python decompiler.  Hartmut
-      Goebels wrote the first version that covered a full version of
-      Python. In fact, it handed several Python releases from Python
-      1.5 to about Python 2.3.
-    </p>
-
-    <p>I would like to thank the organizers and program-selection
-      committee for inviting me to give this talk, and then making
-      sure that things went smoothly after it was accepted.
-    </p>
-
-    <p>I have many projects that are in need of attention. So I have
-      to figure out which ones work to on. Therefore, when a talk like
-      this is accepted, it is encouraging. It shows support for
-      projects that I have volunteered a lot my time on, and have
-      worked hard on for many years.</p>
-
-    <p>
-      In preparation for this talk, I go over the software that I will
-      be talking about add new features and remove bugs. </p>
-
-    <p>I would like to thank Phil Young for coaching me on this talk. I
-      spend a much more time writing code, than I do speaking about the
-      code I've written. Phil has been invaluable. He has had many
-      great ideas for organizing and presenting this in a more lively,
-      and audience-friendly way.</p>
-
-    <p>Stuart Frankel edited the talk, and turned some of this into
-    English.</p>
-
-    <p>Also, I thank Lidia Giuliano for organizing and running the
-      speaker-coaching program.
-    </p>
-
-    <p>Finally, that you all for listening to me talk about this
-    subject. I hope you all will use this information to produce great
-    things in the future.
-    </p>
-    <hr/>
-
-    <!--- 190-references.html #/19 -->
-    <h1 id="refs">Additional Information</h1>
-    <p>
-      Here is additional information for where you can get even more
-      detail about things I've said today. Links are clickable in the
-      nodes here. (Slides are images so the links are indicated but
-      not clickable.
-    </p>
-    <img alt="slide-19" src="slide-images/slide-19.png"/>
-
-    <ul style="font-size: smaller">
-      <li>Python Decompilers: <a href="https://pypi.org/project/uncompyle6/">https://pypi.org/project/uncompyle6</a>, and <a href="https://pypi.org/project/decompyle3/">https://pypi.org/project/decompyle3/</a></li>
-      <li>Cross-Version Python Disassembler: <a href="https://pypi.org/project/xdis/">https://pypi.org/project/xdis</a></li>
-      <li>Python Control Flow: <a href="https://github.com/rocky/python-control-flow">https://github.com/rocky/python-control-flow</a></li>
-      <li>Older Decompiler Paper: <a href="https://rocky.github.io/Deparsing-Paper.pdf">https://rocky.github.io/Deparsing-Paper.pdf</a></li>
-      <li>PyCon Columbia 2018 talk slides: <a href="https://rocky.github.io/pycon2018-light.co">https://rocky.github.io/pycon2018-light.co</a></li>
-      <li>PyCon Columbia 2018 talk video: <a href="https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be">https://www.youtube.com/watch?v=bRQr1OroXUM&feature=youtu.be</a></li>
-      <li>Text of this talk:
-	<a href="all-notes-print">
-	   all-notes-print</a>
-      </li>
-      <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">
-	  https://rocky.github.io/blackhat-asia-2024-additional
-      </li>
-    </ul>
-
-    <hr/>
-    <p> Bye now, we're late <em>again</em>...
-      <video alt="rocky-ending" src="slide-images/Rocky-And-Friends-end.mp4"></video>
-      (old clip from "The Adventures of Rocky and Bullwinkle". video has sound and is playable).
-</body>
+   <hr/>
+   <p> Bye now, we're late <em>again</em>...
+     <video alt="rocky-ending" src="slide-images/Rocky-And-Friends-end.mp4"></video>
+     (old clip from "The Adventures of Rocky and Bullwinkle". video has sound and is playable).
+ </body>
 </html>
