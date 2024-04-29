@@ -66,8 +66,9 @@
 pp	 <code>pydisasm</code> from <code>xdis </code>
        </a>
      </li>
-     <li><a href="#phase3">Parsing Tokens into a Parse Tree</a></li>
-     <li><a href="#ast-to-source">Parse Tree to Source Code</a></li>
+     <li><a href="#phases-1-and-2">Phases 1 and 2: Bytecode to Tokens</a></li>
+     <li><a href="#phase3">Phase 3: Parse Tree to Source Code</a></li>
+     <li><a href="#phase3-part-2">Phase 3: Parse Tree to Source Code (Part 2)</a></li>
      <li><a href="#intermission">Intermission</a></li>
      <li><a href="#pyasm">Bytecode Disassembly &mdash; Sequence of instructions</a></li>
      <li><a href="#pyasm-2">Bytecode Disassembly</a></li>
@@ -401,7 +402,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
     <p>
       I will soon describe the decompilation process, and I will
-      introduce a rarely used, if not entirely new, approach to
+      introduce a rarely used, if not fully worked out, approach to
       decompilation. I treat decompilation as a human-language
       translation problem. In some ways, it can be like the kind of
       thing Google Translate does.
@@ -790,7 +791,9 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
    <hr/>
 
    <!--- 100-parsing-tokens.html #/10 -->
-   <h1 id="phase3">Parsing Tokens into a Parse Tree</h1>
+   <img id="phases-1-and-2"
+	alt="slide-10-0-1"
+	src="slide-images/slide-10-0-1.png"/>
    <p>
      In the left panel, you see instructions that result from
      decoding bytecode a library routine from the <i>xdis</i>
@@ -854,7 +857,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
    </p>
 
    <!--- 110-parsing-tokens.html #/11 -->
-   <h1>Phase 3: Parsing Tokens Parse Tree</h1>
+   <h1 id="phase3">Phase 3: Parsing Tokens Parse Tree</h1>
 
    <p>
      In the last slide, we showed the first two phases which turned
@@ -947,7 +950,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
    <hr/>
    <!--- 110-parsing-tokens.html #/11/1 -->
-   <h1>Parsing Tokens to Parse Tree (Part 2)</h1>
+   <h1 id="phase3-part-2">Phase 3: Parsing Tokens to Parse Tree (Part 2)</h1>
    <p>
      Here, I've just copied what we had before. Now let us get to the
      next bytecode instruction.
@@ -1332,10 +1335,10 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
      characteristics.
    </p>
 
-   <img alt="slide-15-0" src="slide-images/slide-15-0.png"/>
-
    <p>Nested inside the main body of code is a <i>while</i> loop
    </p>
+
+   <img alt="slide-15-0" src="slide-images/slide-15-0.png"/>
 
    <p>
       But nested inside the <i>while</i> loop there is
@@ -1350,30 +1353,33 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
    <p>
      What we want to do to make parsing easier is detect this nesting
-     level, or rather more precisely, the scope. And mark scope
+     level, or rather more precisely, the <i>scope</i>. And mark scope
      boundaries inside the instruction sequence.
    </p>
 
-   <p>That brings us to these orange comments. These capture what I
-     just said. But I’m doing this in the source text rather than in
-     the bytecode-instruction sequence. Note that we need to mark
-     both the beginning and the end of sequenced and nested regions.
+   <p>That brings us to these orange comments:
    </p>
+   <img alt="slide-15-1" src="slide-images/slide-15-1.png"/>
+
 
    <p>
-     In order to get to any code with the same block scope as one of
-     the orange instructions that has the word "dominator", you have
-     to pass through the "dominator" comment. It acts as a
-     gatekeeper. In other words, the instruction or
-     block <em>dominates</em> other instructions or blocks in its
-     scope or nested scope underneath it.
+     These capture what I just said. But I’m doing this in the source
+     text rather than in the bytecode-instruction sequence. Note that
+     we need to mark both the beginning and the end of sequenced and
+     nested regions.
    </p>
 
-   <p>
-     Similarly, in order get to any instruction
-     that <em>follows</em> the scope or a scope nested in it, you
-     have to pass through the matching comment that says "join".
-   </p>
+    <p>
+      Now suppose that instead of an orange comment with the word
+      "dominator", we had a non-branching instruction. To get to any
+      instruction in the same scope or a nested block scope, you have
+      to pass through that "dominator" instruction. It acts as a
+      gatekeeper for a group of instructions.
+    <p>
+      Similarly, in order get to any instruction in the same scope or
+      a nested scope that follows, you have to pass through
+      the matching comment that says "join".
+    </p>
 
    <p>
      So now, let’s look at how the Python interpreter sees things...
