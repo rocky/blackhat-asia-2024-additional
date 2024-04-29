@@ -1255,7 +1255,7 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
 
    <!--- 140-chained-compare-cfg-code.html #/14 -->
    <h1 id="chained-compare">Chained Compare Bytecode</h1>
-   <img alt="slide-14" src="slide-images/slide-14-1.png"/>
+   <img alt="slide-14-0-0" src="slide-images/slide-14-0-0.png"/>
    <p>
      However awesome the disassembler shown in the last slide is, it
      has limitations.  Here is an example of something that
@@ -1321,31 +1321,31 @@ pp	 <code>pydisasm</code> from <code>xdis </code>
    <p>
      Let’s now consider this simple Python program to count the
      number of 1 bits in a positive integer.  If you are interested
-     in algorithms, you might find this code interesting. But the
-     only thing that concerns us when thinking about the control
-     flow, is that it is a program with the following
-     characteristics:
+     in algorithms, you might find this code interesting:
    </p>
+   <img alt="slide-15" src="slide-images/slide-15.png"/>
+
+   </p>
+   <p>
+     But the only thing that concerns us when thinking about the
+     control flow, is that it is a program with the following
+     characteristics.
+   </p>
+
+   <img alt="slide-15-0" src="slide-images/slide-15-0.png"/>
 
    <p>Nested inside the main body of code is a <i>while</i> loop
-     ...
    </p>
 
    <p>
-     Call this nesting level one. But nested inside
-     the <i>while</i> loop ...  there is an <i>if/then/else</i>
-     statement.
-   </p>
-
-   <p> There is one more nesting level. ...</p>
-
-   <p>
-     ... the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
+      But nested inside the <i>while</i> loop there is
+     an <i>if/then/else</i> statement. And there is one more nesting
+     level. the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
      contrast to the above nesting, we have more than one item at the
      same nesting level. Even though the two blocks are at the same
      nesting level, the they are distinct and separate. In some
-     programming languages like Java and JavaScript, variables declared
-     in each block would be in different scopes.
+     programming languages like Java and JavaScript, variables
+     declared in each block would be in different scopes.
    </p>
 
    <p>
