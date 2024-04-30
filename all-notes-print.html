@@ -65,7 +65,8 @@
      <li><a href="#decompilation">Introduction to Python Decompilation</a></li>
      <ol>
        <li><a href="#simple-python-program">Simple Python Program</a></li>
-       <li><a href="#running-bytecode">Running Python Bytecode</a></li>
+       <li><a href="#running-bytecode">Byte-Compiling and Running
+       Python Bytecode</a></li>
        <li><a href="#decompilation-example">Python Bytecode Decompilation Example</a></li>
        <li><a href="#source-differences">Source Code Differences</a></li>
      </ol>
@@ -254,6 +255,7 @@
 
     <!--- 020-background.html #/2 -->
     <h1 id="background">Background</h1>
+    <img alt="slide-2-0-3" src="slide-images/slide-2-0-3.png"/>
     <p>
       High-level bytecode is <em>very</em> attractive for malware
       writers because it is portable, compact, and impervious to
@@ -347,7 +349,7 @@
     <img alt="slide-2-2-0"
     src="slide-images/slide-2-2-0.png"/>
     <p>
-      Both are about a decade old. Neither is completelydevoted to
+      Both are about a decade old. Neither is completely devoted to
       decompilers. Neither has gone through more than one
       edition. Does this mean that nothing has changed to the
       compilers and bytecode that are covered by these books in the
@@ -533,7 +535,7 @@
 
     <hr/>
     <!--- 050-compile-and-run-bytecode.html #/5 -->
-    <h2 id="running-bytecode">Running Python Bytecode</h2>
+    <h2 id="running-bytecode">Byte-Compiling and Running Python Bytecode</h2>
     <p>
       As I said, the interpreter doesn’t run the source text directly,
       but instead runs bytecode. One implication of this, is that the
