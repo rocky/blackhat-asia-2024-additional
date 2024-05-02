@@ -771,7 +771,7 @@
     <img alt="slide-9-0-0" src="slide-images/slide-9-0-0.png"/>
    <p>
      First you’ll see that, again, there are comments in orange at the top.
-     And again, this is metadata about the bytecode
+     And again, there is metadata about the bytecode:
    </p>
 
    <img alt="slide-9-0-1" src="slide-images/slide-9-0-1.png"/>
@@ -942,6 +942,9 @@
      instruction to represent them in bytecode.
    </p>
 
+   <img
+	alt="slide-11-0-2"
+	src="slide-images/slide-11-0-2.png"/>
    <p>
      Because "LOAD_STR" is a complete expression, the parser matches
      that single token and emits a "grammar reduction
@@ -961,13 +964,17 @@
    <p>
      The word to the right of "::=" in yellow is called a <i>grammar
        symbol</i> . The ::= is pronounced "transforms into" because an
-     "expr" grammar symbol can "transform into" a LOAD_STR token. But
-     since we are working bottom up (or token up), the parser
-     recognizes this reduction possibility only after the fact. So
-     the recognition is from the right to left, or alternatively,
-     from the token or tokens to grammar symbol...
+       "expr" grammar symbol can "transform into" a LOAD_STR
+       token. But since we are working bottom up (or token up), the
+       parser recognizes this reduction possibility only after the
+       fact. So the recognition is from the right to left, or
+       alternatively, from the token or, more generally, tokens and
+       grammar symbols to grammar symbol.
    </p>
 
+   <img
+	alt="slide-11-0-3"
+	src="slide-images/slide-11-0-3.png"/>
    <p>
      In performing this reduction rule, the parser creates a simple
      tree created with the "expr" grammar symbol in yellow as a
@@ -980,14 +987,21 @@
    <!--- 110-parsing-tokens.html #/11/1 -->
    <h2 id="phase3-part-2">Phase 3: Parsing Tokens to Parse Tree (Part 2)</h2>
    <p>
-     Here, I've just copied what we had before. Now let us get to the
-     next bytecode instruction.
+     Below, I've just copied what we had before. Now let us get to the
+     next bytecode instruction, "STORE_NAME".
    </p>
 
+   <img
+	alt="slide-11-1"
+	src="slide-images/slide-11-1.png"/>
    <p>
      A "STORE_NAME" instruction is one of the tokens that fully forms
-     a "store" grammar symbol
+     a "store" grammar symbol:
    </p>
+
+   <img
+	alt="slide-11-1-1"
+	src="slide-images/slide-11-1-1.png"/>
 
    <p>
      Although you won't find a "store" grammar symbol in a grammar
@@ -1017,10 +1031,18 @@
 
    <p>
      To recap, we have now encountered two reduction rules. These are
-     lines with yellow to the left. After this second rule is
+     lines with yellow to the left.
+   </p>
+
+   <p>
+     After this second rule is
      encountered, the little graph that the parser has been building
      looks like this: ...
    </p>
+
+   <img
+	alt="slide-11-1-2"
+	src="slide-images/slide-11-1-2.png"/>
 
    <p>
      We now have two little trees. So let's continue...
@@ -1616,37 +1638,47 @@
 
    <h1 id="thanks">Thanks</h1>
 
-   <p>It was John Aycott who first had the idea for using a
+   <img alt="slide-18" src="slide-images/slide-18.png"/>
+   <p>
+     It was John Aycott who first had the idea for using a
      grammar-based approach for a toy Python decompiler.  Hartmut
      Goebels wrote the first version that covered a full version of
      Python. In fact, it handed several Python releases from Python
      1.5 to about Python 2.3.
     </p>
 
-   <p>I would like to thank the organizers and program-selection
-     committee for inviting me to give this talk, and then making
-     sure that things went smoothly after it was accepted.
+   <p>
+     I would like to thank the organizers and program-selection
+     committee for inviting me to give this talk, and then making sure
+     that things went smoothly after it was accepted. Christina
+     Garceau and Huisa are two of the many people, here.
    </p>
 
-   <p>I have many projects that are in need of attention. So I have
-     to figure out which ones work to on. Therefore, when a talk like
+   <p>
+     I have many projects that are in need of attention. So I have to
+     figure out which ones work to on. Therefore, when a talk like
      this is accepted, it is encouraging. It shows support for
      projects that I have volunteered a lot my time on, and have
-     worked hard on for many years.</p>
+     worked hard on for many years.
+   </p>
 
    <p>
      In preparation for this talk, I go over the software that I will
-     be talking about add new features and remove bugs. </p>
+     be talking about add new features and remove bugs.
+   </p>
 
-   <p>I would like to thank Phil Young for coaching me on this talk. I
+   <p>
+     I would like to thank Phil Young for coaching me on this talk. I
      spend a much more time writing code, than I do speaking about the
      code I've written. Phil has been invaluable. He has had many
      great ideas for organizing and presenting this in a more lively,
-     and audience-friendly way.</p>
+     and audience-friendly way.
+   </p>
 
    <p>
      Stuart Frankel edited the talk, and turned some of this into
-     English.</p>
+     English.
+   </p>
 
    <p>
      Also, I thank Lidia Giuliano for organizing and running the
