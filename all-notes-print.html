@@ -844,7 +844,7 @@
      many times an instruction’s operation name and token name are the
      same. However, operand, the field in green to the right, sometimes
      has parts of it folded into the token name. Here are examples of
-     this.
+     this:
    </p>
 
    <img
@@ -881,7 +881,7 @@
    </p>
 
    <!--- 110-parsing-tokens.html #/11 -->
-   <h1 id="phase3">Phase 3: Parsing Tokens Parse Tree</h1>
+   <h2 id="phase3">Phase 3: Parsing Tokens Parse Tree</h2>
 
    <p>
      In the last slide, we showed the first two phases which turned
@@ -909,10 +909,14 @@
      the top.
    </p>
 
+   <img alt="slide-11" src="slide-images/slide-11.png"/>
    <p>
-     And let's start out with the first instruction.
-    </p>
+     And let's start out with the first token.
+   </p>
 
+   <img
+	alt="slide-11-0-1"
+	src="slide-images/slide-11-0-1.png"/>
    <p>
      Note that we just use the token name "LOAD_STR". The string
      value isn’t relevant in parsing.
@@ -974,7 +978,7 @@
 
    <hr/>
    <!--- 110-parsing-tokens.html #/11/1 -->
-   <h1 id="phase3-part-2">Phase 3: Parsing Tokens to Parse Tree (Part 2)</h1>
+   <h2 id="phase3-part-2">Phase 3: Parsing Tokens to Parse Tree (Part 2)</h2>
    <p>
      Here, I've just copied what we had before. Now let us get to the
      next bytecode instruction.
@@ -1068,7 +1072,7 @@
    <hr/>
 
    <!--- 110-parsing-tokens.html #/11/4 -->
-   <h1 id="ast-to-source">Parse Tree to Source Code</h1>
+   <h2 id="ast-to-source">Parse Tree to Source Code</h2>
 
    <p>
      This is an ASCII representation of the graph from the last
@@ -1660,13 +1664,11 @@
    <h1 id="refs">Additional Information</h1>
    <p>
      Here is additional information for where you can get even more
-     detail about things I've said today. Links are clickable in the
-     nodes here. (Slides are images so the links are indicated but
-     not clickable.
+     detail about things I've said today.
    </p>
    <img alt="slide-19" src="slide-images/slide-19.png"/>
 
-   <ul style="font-size: smaller">
+   <ul>
      <li>Python Decompilers: <a href="https://pypi.org/project/uncompyle6/">https://pypi.org/project/uncompyle6</a>, and <a href="https://pypi.org/project/decompyle3/">https://pypi.org/project/decompyle3/</a></li>
      <li>Cross-Version Python Disassembler: <a href="https://pypi.org/project/xdis/">https://pypi.org/project/xdis</a></li>
      <li>Python Control Flow: <a href="https://github.com/rocky/python-control-flow">https://github.com/rocky/python-control-flow</a></li>
