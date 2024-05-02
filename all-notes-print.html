@@ -79,23 +79,32 @@
        <li><a href="#phases-1-and-2">Phases 1 and 2: Bytecode to Tokens</a></li>
        <li><a href="#phase3">Phase 3: Parse Tree to Source Code</a></li>
        <li><a href="#phase3-part-2">Phase 3: Parse Tree to Source Code (Part 2)</a></li>
+       <li><a href="#phase3-ast">Phase 3: ASCII Parse Tree Representation</li>
+       <li><a href="#phase4">Phase 4: Parse Tree to AST</li>
+       <li><a href="#phase5">Phase 5: AST to Python Source</li>
      </ol>
      <li><a href="#intermission">Intermission</a></li>
-     <li><a href="#pyasm">Bytecode Disassembly &mdash; Sequence of instructions</a></li>
-     <li><a href="#pyasm-2">Bytecode Disassembly</a></li>
-     <li><a href="#chained-compare">Chained Compare Bytecode</a></li>
-     <li><a href="#chained-compare-new">Chained Compare Parse Tree (new code)</a></li>
-     <li><a href="#control-flow-points">Classifying Scopes and Important
-	 Control-Flow Points</a></li>
-     <li><a href="#cfg">
-	 Control Flow Produced
-	 from <code>control_flow</code></a>
-     </li>
-     <li><a href="#dominators">Dominator Regions and Dominators</a></li>
-     <li><a href="#general-remarks">General Remarks</a></li>
-     <li><a href="#wrap-up">Wrapping Up</a></li>
-     <li><a href="#thanks">Thanks</a></li>
-     <li><a href="#refs">Additional Information</a></li>
+     <li><a href="#special-topics">Special Topics &mdash; Decompilation Aspects in More Detail</a></li>
+     <ol>
+       <li><a href="#pyasm">Bytecode Disassembly &mdash; Sequence of instructions</a></li>
+       <li><a href="#pyasm-2">Bytecode Disassembly</a></li>
+       <li><a href="#chained-compare">Chained Compare Bytecode</a></li>
+       <li><a href="#chained-compare-new">Chained Compare Parse Tree (new code)</a></li>
+       <li><a href="#control-flow-points">Classifying Scopes and Important
+	   Control-Flow Points</a></li>
+       <li><a href="#cfg">
+	   Control Flow Produced
+	   from <code>control_flow</code></a>
+       </li>
+       <li><a href="#dominators">Dominator Regions and Dominators</a></li>
+     </ol>
+     <li><a href="wrap-up">Wrapping Up</li>
+     <ol>
+       <li><a href="#comparison-with-other-work">Comparison with other work</a></li>
+       <li><a href="#talk-summary">Talk Summary</a></li>
+       <li><a href="#thanks">Thanks</a></li>
+       <li><a href="#refs">Additional Information</a></li>
+     </ol>
    </ol>
 
   <h1 id="title-page">
@@ -413,9 +422,10 @@
 
     <p>
       A couple years ago, to raise awareness, I started a discussion
-      in the Wikipedia "talk" section for
-      "Decompilers". Unfortunately, there hasn’t been much discussion
-      or movement on this.
+      in
+      the <a href="https://en.wikipedia.org/wiki/Talk:Decompiler#Decompilers_for_Higher-level_Dynamic_Languages">
+      Wikipedia "talk" section for "Decompilers"</a>. Unfortunately,
+      there hasn’t been much discussion or movement on this.
     </p>
 
     <p>
@@ -1050,33 +1060,37 @@
 
    <hr/>
    <!--- 110-parsing-tokens.html #/11/2 -->
-   <h1>Parsing Tokens to Parse Tree (Part 3)</h1>
+   <h2>Parsing Tokens to Parse Tree (Part 3)</h2>
    <p>
-     The parser has matched "expr" and "store" grammar symbols, and
-     built these trees for them.</p>
+     The parser has now matched "expr" and "store" grammar symbols,
+     and built these trees for them.</p>
 
    <p>After finishing with the "store" reduction rule, the parser now
      notices that we have matched "expr" and "store" grammar symbols
      in succession. The grammar I wrote for the decompilers dictate
      that when these two are seen in succession, that constitutes an
-     assignment statement. So another rule is triggered.
+     assignment statement. So another rule triggers:
+   </p>
+   <img
+	alt="slide-11-2-0"
+	src="slide-images/slide-11-2-0.png"/>
+   <p>
+      And the two trees that we had before are joined:
    </p>
 
-   <p>
-      And the two trees that we had before are joined. [*}
-   </p>
+   <img
+     alt="slide-11-2-1"
+     src="slide-images/slide-11-2-1.png"/>
 
    <!--- 110-parsing-tokens.html #/11/3 -->
-   <h1>Parsing Tokens to Parse Tree (Part 4)</h1>
-    <p>
-      To recap: We basically matched an assignment
-      statement.
-    </p>
-
    <p>
      Continuing, an assignment statement is a kind of statement. And
      we have a grammar rule to indicate that.
    </p>
+
+   <img
+	alt="slide-11-3-0"
+	src="slide-images/slide-11-3-0.png"/>
 
    <p>Notice that after seeing the second token "STORE_NAME" in blue
      from early on, we kicked off a flurry of reduction rules. This
@@ -1088,17 +1102,34 @@
    </p>
 
    <p>
-     Here is the final tree... And now let's see how this is shown as
-     ASCII debug output... *
+     Here is the final tree:
+   </p>
+
+
+   <img
+	alt="slide-11-3-1"
+	src="slide-images/slide-11-3-1.png"/>
+
+   <p>
+     And now let's see how this is shown as
+     ASCII debug output...
    </p>
    <hr/>
 
    <!--- 110-parsing-tokens.html #/11/4 -->
-   <h2 id="ast-to-source">Parse Tree to Source Code</h2>
+   <h2 id="phase3-ast">Phase 3: ASCII Parse Tree Representation</h2>
 
    <p>
      This is an ASCII representation of the graph from the last
-     slide.  It has more information shown than we saw in the graph.
+     slide:
+   </p>
+
+   <img
+	alt="slide-11-4"
+	src="slide-images/slide-11-4.png"/>
+
+   <p>
+     It has more information shown than we saw in the graph.
      That is because we are also showing token attributes in addition
      to the token names.
    </p>
@@ -1121,6 +1152,7 @@
      So where does this get changed into something more familiar?
    </p>
 
+   <h2 id="phase4">Phase 4: Parse Tree to AST</h2>
    <p>
      Phase 4 takes the parse tree we just created and transforms that
      into an abstract syntax tree. We look for tree patterns like
@@ -1130,6 +1162,10 @@
      found into something that is more the way the Python programmer
      wrote the program.
    </p>
+
+   <img
+	alt="slide-11-5"
+	src="slide-images/slide-11-5.png"/>
 
    <p>
      Strictly speaking, we don't have to do this here, and sometimes this
@@ -1150,17 +1186,21 @@
      have been messier.
    </p>
 
+   <h2 id="phase5">Phase 5: AST to Python Source</h2>
    <p>
-     And finally we get to that actual source text.  The source text
+     And finally we get to that actual source-text creation.  The source text
      is created by traversing this AST, calling routines based on the
      name of the grammar symbol. Here, the grammar symbol is
      "docstring" in yellow.
    </p>
 
+   <img alt="slide-11" src="slide-images/slide-11.png"/>
+
    <p>
      To simplify the conversion of the AST to a source string, there
      is a custom domain-specific language or DSL used. This DSL is
-     described in the project wiki.
+     described <a href="https://github.com/rocky/python-uncompyle6/wiki/Table%E2%80%90driven-AST%E2%80%90to%E2%80%90Python-translation">here</a>
+     in the uncompyle6's project wiki.
    </p>
    <hr/>
 
@@ -1183,7 +1223,8 @@
    <hr/>
 
    <!--- 130-bytecode-disassembly.html #/13 -->
-   <h1 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
+   <h1 id="special-topics">Special Topics &mdash; Decompilation Aspects in More Detail</h1>
+   <h2 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
 
    <p>I’m going to focus a little more on disassembly for one
      important reason: There aren’t good decompilers for the
@@ -1238,7 +1279,7 @@
    </p>
 
    <!--- 130-bytecode-disassembly.html #/13/1 -->
-   <h1 id="pyasm-2">Bytecode Disassembly</h1>
+   <h2 id="pyasm-2">Bytecode Disassembly</h2>
    <p>
      At the top of the disassembly output, again, is some metadata in
      orange. I went into some of this earlier, so I have elided this.
@@ -1307,7 +1348,7 @@
    <hr/>
 
    <!--- 140-chained-compare-cfg-code.html #/14 -->
-   <h1 id="chained-compare">Chained Compare Bytecode</h1>
+   <h2 id="chained-compare">Chained Compare Bytecode</h2>
    <img alt="slide-14-0-0" src="slide-images/slide-14-0-0.png"/>
    <p>
      However awesome the disassembler shown in the last slide is, it
@@ -1339,7 +1380,7 @@
    <hr/>
 
    <!--- 140-chained-compare-cfg-code.html #/14/1 -->
-   <h1 id="chained-compare-new">Chained Compare Parse Tree (new code)</h1>
+   <h2 id="chained-compare-new">Chained Compare Parse Tree (new code)</h2>
    <p>
      I won’t say much about how
      <i>uncompyle6</i> and <i>decompile3</i> handle difficulties
@@ -1369,7 +1410,7 @@
      <hr/>
 
      <!--- 150-control-flow.html #/15 -->
-     <h1 id="control-flow-points">Classifying Scopes and Important Control-Flow Points</h1>
+     <h2 id="control-flow-points">Classifying Scopes and Important Control-Flow Points</h2>
 
    <p>
      Let’s now consider this simple Python program to count the
@@ -1438,10 +1479,10 @@
 
 
    <!--- 150-control-flow.html #/15/2 -->
-   <h1 id="cfg">
+   <h2 id="cfg">
      Control Flow Produced
      from <a href="https://github.com/rocky/python-control-flow"><code>control_flow</code></a>
-   </h1>
+   </h2>
    <p>
      Here is the control flow reconstructed from the bytecode
      instructions for that Python text.
@@ -1541,7 +1582,8 @@
    <hr/>
 
    <!--- 160-general-stuff.html #/16 -->
-   <h1 id="general-remarks">General Remarks</h1>
+   <h1 id="wrap-up">Wrapping Up</h1>
+   <h2 id="comparison-with-other-work">Comparison with other work</h1>
    <img alt="slide-16-0-3" src="slide-images/slide-16-0-3.png"/>
    <p>
      Now that I have given a whirlwind tour of bytecode decompilation
@@ -1608,7 +1650,7 @@
    <hr/>
 
    <!--- 170-wrap-up.html #/17 -->
-   <h1 id="wrap-up">Wrapping Up</h1>
+   <h2 id="talk-summary">Talk Summary</h2>
    <img alt="slide-17" src="slide-images/slide-17.png"/>
    <p>
      I have shown how two of the best and most-popular Python
@@ -1636,7 +1678,7 @@
 
    <!--- 180-thanks.html #/18 -->
 
-   <h1 id="thanks">Thanks</h1>
+   <h2 id="thanks">Thanks</h2>
 
    <img alt="slide-18" src="slide-images/slide-18.png"/>
    <p>
@@ -1693,7 +1735,7 @@
    <hr/>
 
    <!--- 190-references.html #/19 -->
-   <h1 id="refs">Additional Information</h1>
+   <h2 id="refs">Additional Information</h2>
    <p>
      Here is additional information for where you can get even more
      detail about things I've said today.
@@ -1712,7 +1754,7 @@
 	 all-notes-print</a>
      </li>
      <li>Additional Slides: <a href="https://rocky.github.io/blackhat-asia-2024-additional">
-	 https://rocky.github.io/blackhat-asia-2024-additional
+	 https://rocky.github.io/blackhat-asia-2024-additional</a>
      </li>
    </ul>
 
