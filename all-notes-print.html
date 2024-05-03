@@ -716,10 +716,11 @@
     <p>The phases are:
       <ol>
 	<li>
-	  Get bytecode disassembly using <i>xdis</i>. <i>xdis</i> is
-	  the cross-version disassembly library that I wrote to be able
-	  to support these decompilers. It is also useful in other
-	  projects that work with Python bytecode.
+	  Get bytecode disassembly
+	  using <i><a href="https://pypi.org/project/xdis">xdis</a></i>. <i>xdis</i>
+	  is the cross-version disassembly library that I wrote to be
+	  able to support these decompilers. It is also useful in
+	  other projects that work with Python bytecode.
 	</li>
 	<li>"
 	  Tokenize" the disassembly. "Tokenize" is a
@@ -1205,16 +1206,12 @@
    <hr/>
 
    <!--- 120-intermission.html #/12 -->
-   <h1 id="intermission">Intermission</h1>
-   <img alt="slide-12" src="slide-images/slide-12.png"/>
+   <img id="intermission" alt="slide-12" src="slide-images/slide-12.png"/>
    <p>
      You have now successfully completed the
      first part of the talk which gives an overview.
    </p>
 
-   <p>
-     What's coming up may be rougher.
-   </p>
    <p>
      I next go over disassembly in a little more detail, and
      introduce a new idea for Python decompilers. This uses some
@@ -1224,13 +1221,13 @@
 
    <!--- 130-bytecode-disassembly.html #/13 -->
    <h1 id="special-topics">Special Topics &mdash; Decompilation Aspects in More Detail</h1>
-   <h2 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h1>
+   <h2 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h2>
 
-   <p>I’m going to focus a little more on disassembly for one
-     important reason: There aren’t good decompilers for the
-     most-recent Python-bytecode versions. And that
-     is likely to continue forever. So the
-     reality is: you may have to understand bytecode malware from a
+   <p>
+     I’m going to focus a little more on disassembly for one important
+     reason: There aren’t good decompilers for the most-recent
+     Python-bytecode versions. And that is likely to continue forever. So
+     the reality is: you may have to understand bytecode malware from a
      disassembly listing.
    </p>
 
@@ -1584,12 +1581,13 @@
    <!--- 160-general-stuff.html #/16 -->
    <h1 id="wrap-up">Wrapping Up</h1>
    <h2 id="comparison-with-other-work">Comparison with other work</h1>
-   <img alt="slide-16-0-3" src="slide-images/slide-16-0-3.png"/>
    <p>
      Now that I have given a whirlwind tour of bytecode decompilation
      for these Python decompilers, let me back up and put this in
-     place.
+     comparison with other work.
    </p>
+
+   <img alt="slide-16-0-3" src="slide-images/slide-16-0-3.png"/>
 
    <p>
      There are other decompilers for Python. They all start out with
