@@ -1229,7 +1229,7 @@
 
    <!--- 130-bytecode-disassembly.html #/13 -->
    <h1 id="special-topics">Special Topics &mdash; Decompilation Aspects in More Detail</h1>
-   <h2 id="pyasm">Bytecode Disassembly &mdash; Sequence of instructions</h2>
+   <h2 id="pyasm">Bytecode Disassembly &mdash; Sequence of Instructions</h2>
 
    <p>
      I’m going to focus a little more on disassembly for one important
@@ -1264,6 +1264,7 @@
      show now briefly.
    </p>
 
+   <img id="intermission" alt="slide-13-0-1" src="slide-images/slide-13-0-1.png"/>
    <p>
      Command-line options in yellow of the disassembler that I use in this
      invocation are:
@@ -1285,19 +1286,26 @@
 
    <!--- 130-bytecode-disassembly.html #/13/1 -->
    <h2 id="pyasm-2">Bytecode Disassembly</h2>
+   <img alt="slide-13-1" src="slide-images/slide-13-1.png"/>
    <p>
      At the top of the disassembly output, again, is some metadata in
-     orange. I went into some of this earlier, so I have elided this.
+     orange. I went into some of this earlier, so I have elided this
+     in the slide.
    </p>
 
    <p>
      A piece of metadata that we saw implicitly before, was this
-     value from this constants table.  The first instruction at
+     value from this constants table:
+   </p>
+   <img alt="slide-13-1-0" src="slide-images/slide-13-1-0.png"/>
+   <p>
+     The first instruction at
      purple offset 0 is "LOAD_CONST". The string operand for this
      instruction came from index zero of this constants table.  Now
-     let's compare the assembly instructions.
+     let's compare the assembly instructions:
    </p>
 
+   <img alt="slide-13-1-1" src="slide-images/slide-13-1-1.png"/>
    <p>
      If you are familiar with Python's <i>dis</i> output, this is
      similar. But there is more information.  First, we see the
@@ -1307,8 +1315,9 @@
 
    <p>
      Below that, in white, we have, between vertical bars, the actual
-     bytecode values. This is also at the top of the slide in
-     hex.
+     bytecode values. This is the first two of the 25 bytes that we
+     showed in section <a href="#simple-python-program">Simple Python
+     Program</a>.
    </p>
 
    <p>
@@ -1333,8 +1342,11 @@
    </p>
 
    <p>
-     Here is a more complicated example. Companion materials explain
-     this in more detail.</p>
+     Here is a more complicated example:
+   </p>
+   <img alt="slide-13-1-6" src="slide-images/slide-13-1-6.png"/>
+
+   <p>Companion materials explain this in more detail.</p>
 
    <p>But don't get confused between <em>disassembly</em>
      and <em>decomplation</em>. Even though there is some higher-level
