@@ -229,7 +229,7 @@
     <hr/>
 
     <!--- 010-intro.html #/1/2 -->
-    <h2 id="who">Who am I?</h2>
+    <h2 id="who">Who am I?<a href="#footnote-2">[2]</a></h2>
     <img alt="slide-1-2-0" src="slide-images/slide-1-2-0.png"/>
     <p>
       That is me in the photo in this cartoon down at the bottom of
@@ -243,7 +243,7 @@
     <hr/>
 
     <!--- 010-intro.html #/1/3 -->
-    <h2 id="open-source">Open Source Software that Includes my Code:<a href="#footnote-2">[2]</a></h2>
+    <h2 id="open-source">Open Source Software that Includes my Code:<a href="#footnote-3">[3]</a></h2>
     <img alt="slide-1-3" src="slide-images/slide-1-3.png"/>
     <p>
       So the code I’ve written in general has had plenty of
@@ -319,7 +319,7 @@
     </hr>
 
     <!--- 020-background.html #/2/1 -->
-    <h2 id="compiler-books">Books on making Compilers:<a href="#footnote-3">[3]</a></h2>
+    <h2 id="compiler-books">Books on making Compilers:<a href="#footnote-4">[4]</a></h2>
 
     <p>
       There are systematic methods and tools for compiler
@@ -347,9 +347,9 @@
 
     </hr>
     <!--- 020-background.html #/2/2 -->
-    <h2 id="decompiler-books">Books on making Decompilers:<a href="#footnote-3">[4]</a></h2>
+    <h2 id="decompiler-books">Books on making Decompilers:<a href="#footnote-5">[5]</a></h2>
     <p>None of the compiler books in the last slide mention
-      "decompiler", as far as I know.<a href="#footnote-5">[5]</a></p>
+      "decompiler", as far as I know.<a href="#footnote-6">[6]</a></p>
 
     <p>
       So how about books on decompilers?
@@ -904,7 +904,7 @@
      compilers. But that is a niche market, so I suspect that for
      many of you, this will be new. If things go too quickly, you may
      find some of this explained in one of those compiler books of
-     the images I showed earlier.<a href="#footnote-6">[6]</a>
+     the images I showed earlier.<a href="#footnote-7">[7]</a>
    </p>
 
    <p>
@@ -1544,7 +1544,7 @@
      this. This property is used quite a bit in the compiler data-flow
      analysis. See books on advanced compiler optimization for
      algorithms on how to get this
-     information.<a href="#footnote-7">[7]</a></p>
+     information.<a href="#footnote-8">[8]</a></p>
    </p>
 
    <p>
@@ -1803,26 +1803,32 @@
    </p>
 
    <p id="footnote-2">
-     [2] The programs in the images shown are:
+     [2] The idea for this nice gag came from Philip Young.
+   </p>
+
+   <p id="footnote-3">
+     [3] The programs in the images shown are:
      <ol>
-       <li>VideoLan (vlc) plugin for audio CD and video CD (VCD)</li>
-       <li>Sound Juicer</li>
-       <li>Kodi</li>
-       <li>MPlayer</li>
-       <li>fre:ac</li>
-       <li>Rufus</li>
-       <li>BashDB Pro for Intellij</li>
-       <li>GNU Logo (which isn't) a program or project in the sense of
+       <li><a href="https://www.videolan.org/">VideoLan</a> &mdash; (vlc) plugin for audio CD and video CD (VCD)</li>
+       <li><a href="https://wiki.gnome.org/Apps/SoundJuicer">Sound Juicer</a></li>
+       <li><a href="https://kodi.tv/">Kodi</a></li>
+       <li><a href="http://www.mplayerhq.hu/design7/news.html">MPlayer</a></li>
+       <li><a href="https://www.freac.org/">fre:ac</a></li>
+       <li><a href="https://rufus.ie/en/">Rufus</a></li>
+       <li><a href="https://plugins.jetbrains.com/plugin/13841-bashsupport-pro">BashDB
+       Pro for Intellij</a> Uses my Bash
+       debugger <a href="https://bashdb.sourceforge.net/">bashdb</a></li>
+       <li>GNU Logo (which is not) a program or project in the sense of
        the above; <i>libcdio</i>, <i>uncompyle6</i>,
        and <i>decompyle3</i>, and other programs I have written
        however or GPL.</li>
      </ol>
      </p>
-   <p id="footnote-3">
-     [3] The books in the images shown are:
+   <p id="footnote-4">
+     [4] The books in the images shown are:
      <ol>
        <li>Principles of Compiler Design by Alfred V. Aho and Jeffery Ulman (1st Edition) Jan 1, 1977</li>
-       <li>Compilers: Prinsiples, Techiques, and Tools by Alfred V. Aho, Ravi Sethi, et al.(1st Edition); Jan 1, 1985</li>
+       <li>Compilers: Prinsiples, Techniques, and Tools by Alfred V. Aho, Ravi Sethi, et al.(1st Edition); Jan 1, 1985</li>
        <li>Compilers: Principles, Techniques, and Tools by Ravi Sethi, Jeffery D. Ullman, Monica S Lam (2nd Edition) Jan 1 2007</li>
        <li>Modern Compiler Implementation in C by Andrew W. Appel and Mala Ginsburg; Dec 13, 1997</li>
        <li>Modern Compiler Implementation in Java by Andrew W. Appel and Jens Palsberg (2nd Edition), Oct 21, 2002</li>
@@ -1832,39 +1838,46 @@
        <li>Retargetable C Compiler, A: Design and Implementation by David Hansen, Christopher Fraser, Jan 31, 1995</li>
        <li>Compiler Construction with C: Crafting Efficient Interpreters and Compilers (Computer Science Fundamentals) by Theophilus Edet, Jan 23, 2024</li>
        <li>Writing A Compiler in Go by Thorsten Ball, Aug 10, 2018</li>
-       <li>Build Your Own .NET Langage and Decompiler by Edward G Niges, May 13, 2004</li>
-       <li>Writing Compilers and Interpreters: A Software Engineering Approach by Ronald Mak (2nd Edition) Mar 10, 2011</li>
+       <li>Build Your Own .NET Language and Decompiler by Edward G Niges, May 13, 2004</li>
+       <li>Writing Interpreters and Copmilers for the Raspberry Pi Using Python (2nd Edition) by Anthony J. Dos Reis, June 4, 2020</li>
+       <li>Compiler Design using FLEX and YACC by Vinu. V Das Aug 30, 2007</li>
+       <li>Introduction to Compiler Construction with Unix by Axel T. Schriener and H. George Friedman, Jan 1, 1985</li>
+       <li>Writing Compilers and Interpreters: A Software Engineering Approach by Ronald Mak Aug 10, 2011</li>
        <li>Writing Compilers and Interpreters: An Applied Approach Using C++ by Ronald Mak (2nd Edition) Aug 10, 1996</li>
+       <li>From Source Code to Machine Code Build you own Compiler from Scratch by James Smith, May 18, 2023</li>
+       <li>SSA-based Compiler Design editied by Fabrice Rastello and Forent Bouchez Tichadou, Dec 9, 2022</li>
        <li>Advanced Compiler Design and Implementation by Steven S. Muchnick Aug 15, 1997</li>
+       <li>Engineering a Compiler (3rd Edition) by Keith D. Cooper and
+       Linda Torczon, Oct 16, 2022</li>
        <li>Brinch Hansen on Pascal Compilers by Brinch Hansen, Jan 1, 1985</li>
        <li>Compiler Construction by William M. Waite, Gerhard Goos, Jan 1, 1983</li>
        <li>Compiler Construction for Digital Computers by David Gries Jan 15, 1971</li>
-       <li>A Compiler Generator by W. M. McKeeman Jan 1 1970</li>
+       <li>A Compiler Generator by W. M. McKeeman, Jan 1, 1970</li>
      </ol>
    </p>
 
-   <p id="footnote-4">
-     [4] The books in the images shown are:
+   <p id="footnote-5">
+     [5] The books in the images shown are:
      <ol>
        <li>Reversing: Secrets of Reverse Engineering; Apr 15, 2005</li>
        <li>Decompiling Java by Godfrey Nolan; Jul 30, 2004</li>
      </ol>
    </p>
 
-   <p id="footnote-5">
-     [5] While I am familiar with many of these books, I haven't read
+   <p id="footnote-6">
+     [6] While I am familiar with many of these books, I haven't read
      all of them nor done a search of the index. If any of
      these <i>do</i> mention "decompiler", please let me know!
    </p>
 
-   <p id="footnote-6">
-     [6] For example, the Dragon Books cited
-     in <a href="#footnote-3">[3]</a> describe this.
+   <p id="footnote-7">
+     [7] For example, the Dragon Books cited
+     in <a href="#footnote-4">[4]</a> describe this.
    </p>
 
-   <p id="footnote-7">
-     [7] See Advanced Compiler Design and Implementation cited
-     in <a href="#footnote-3">[3]</a> for example.
+   <p id="footnote-8">
+     [8] See Advanced Compiler Design and Implementation cited
+     in <a href="#footnote-4">[4]</a> for example.
    </p>
  </body>
 </html>
