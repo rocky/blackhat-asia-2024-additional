@@ -532,10 +532,10 @@
 
     <p>
       For those of you who are familiar with machine code, 25 bytes to
-      do all of this is, like, awesome! There are metadata sections
-      that are in the bytecode and that adds a bit of space too. I
-      haven’t shown that here, but we will see some of this a little
-      bit later.
+      do all of this is awesome! There are metadata sections that are
+      in the bytecode and that adds a bit of space too. I haven’t
+      shown that here, but we will see some of this a little bit
+      later.
     </p>
 
     <p>
@@ -874,10 +874,9 @@
 
    <p>
      This aspect shows a difference between bytecode and machine
-     instructions. In machine code, operands are register values which
-     can be numbers, addresses, or parts of addresses. In
-     Python bytecode, operands are arbitrary
-     Python objects!</p>
+     instructions. In machine code, operands are typically register
+     values which can be numbers, addresses, or parts of addresses. In
+     Python bytecode, operands are arbitrary Python objects!</p>
 
    <p>
      The other operation name that is different from its
@@ -1293,10 +1292,10 @@
    </p>
    <img alt="slide-13-1-0" src="slide-images/slide-13-1-0.png"/>
    <p>
-     The first instruction at
-     purple offset 0 is "LOAD_CONST". The string operand for this
-     instruction came from index zero of this constants table.  Now
-     let's compare the assembly instructions:
+     Below, the first instruction at purple offset 0 is
+     "LOAD_CONST". The string operand for this instruction came from
+     index zero of this constants table.  Now let's compare the
+     assembly instructions:
    </p>
 
    <img alt="slide-13-1-1" src="slide-images/slide-13-1-1.png"/>
@@ -1559,10 +1558,12 @@
 
    <p>
      What does the "dominator" part of "dominator region" mean? A
-     dominator block is a block that you have to pass through from
-     the start of the program to get to anything in its scope or a
-     scope nested underneath it. In other words, the instruction or
-     block dominates other instructions or blocks underneath it.
+     dominator block is a block that you have to pass through from the
+     start of the program to get to anything in its scope or a scope
+     nested underneath it. In other words, the instruction or block
+     dominates other instructions or blocks underneath
+     it. (See <a href="#footnote-10">[10]</a> for examples worked out
+     in this graph.)
    </p>
 
    <p>
@@ -1908,6 +1909,38 @@
    <p id="footnote-9">
      [9] See Advanced Compiler Design and Implementation cited
      in <a href="#footnote-4">[4]</a> for example.
+   </p>
+
+   <p id="footnote-10">
+     [10] To get to any instruction in the "count bits" program, you
+     have to go through "Basic Block 1" which contains the first
+     instruction of the program. That has the 3D box shape to indicate
+     the block’s special role as a dominator block. Technically, a
+     block dominates itself. When that is all it dominates, we don’t
+     show the block in 3D. Only if it dominates another block do we
+     decorate the block in 3D. A similar thing happens for a block
+     getting a new color.
+   </p>
+
+   <p>
+     To run an instruction in either Block 4 or Block 5 in brown, you
+     have to pass through the all instructions in the Block 3. 3D
+     Block 3 then "dominates" Blocks 3, 4, and 5. But Block 3 is
+     dominated by both lighter-colored 3D Blocks 2 and 1. The
+     hierarchy of Dominator Blocks is capturing the nesting level in
+     the "count bits" program. Notice that Blocks 3, 4, and 5 all have
+     the same shade of brown. This means they are all part of the same
+     "dominator region", and have scopes under the scope of Dominator
+     Block 3.
+   </p>
+
+   <p>
+     But notice Block 7 is a lighter tan color, the same color as
+     Block 2, Therefore, you don’t have to go through darker-color
+     Block 3 to get to Block 7. Although is possible by looping around
+     to get there, that doesn’t have to happen. In contrast, to get to
+     Block 7 you must go through the parent Dominator Block for that
+     region, Block 2.
    </p>
  </body>
 </html>
