@@ -396,7 +396,7 @@
 
     <p>
       Well... No, not yet. If you are interested in how to fix this, I can
-      share my ideas afterwards.
+      share my ideas afterwards.<a href="#footnote-7">[7]</a>
     </p>
 
     </hr>
@@ -903,7 +903,7 @@
      compilers. But that is a niche market, so I suspect that for
      many of you, this will be new. If things go too quickly, you may
      find some of this explained in one of those compiler books of
-     the images I showed earlier.<a href="#footnote-7">[7]</a>
+     the images I showed earlier.<a href="#footnote-8">[8]</a>
    </p>
 
    <p>
@@ -1519,7 +1519,7 @@
    <p>
      I don’t have time to describe the text in the boxes or what the
      colors and line styles mean. For that, look at companion
-     materials.<a href="#footnote-8">[8]</a>
+     materials.<a href="#footnote-9">[9]</a>
    </p>
 
    <hr/>
@@ -1543,7 +1543,7 @@
      this. This property is used quite a bit in the compiler data-flow
      analysis. See books on advanced compiler optimization for
      algorithms on how to get this
-     information.<a href="#footnote-9">[9]</a>
+     information.<a href="#footnote-10">[10]</a>
    </p>
 
    <p>
@@ -1562,7 +1562,7 @@
      start of the program to get to anything in its scope or a scope
      nested underneath it. In other words, the instruction or block
      dominates other instructions or blocks underneath
-     it. (See <a href="#footnote-10">[10]</a> for examples worked out
+     it. (See <a href="#footnote-11">[11]</a> for examples worked out
      in this graph.)
    </p>
 
@@ -1876,12 +1876,79 @@
    </p>
 
    <p id="footnote-7">
-     [7] For example, the Dragon Books cited
-     in <a href="#footnote-4">[4]</a> describe this.
+     [7] The following was in an earlier draft but was cut due for time limitations.
+   </p>
+   <p>
+     ChatGPT is pretty good at producing convincing essays, and seems
+     pretty good summarizing vast disparte tracts of text. Is
+     decompiling a program like that?
+   </p>
+
+   <p>
+     On the other hand, ChatCPT is not every good or efficient as a
+     way to add numbers, balance books, or compute load stresses on
+     bridges. AI is notoriously bad at giving plausable, but wrong
+     information.
+   </p>
+
+   <p>
+     But is decompilation more like human language communication or hard computation?
+   </p>
+
+   <p>
+     I think it a little bit of both. One thing I have discovered in
+     decompilation in the way I will describe is that, as with human
+     language you might not have to understand everything in order to
+     be helpful. If I am translating from French to English, I might
+     not need to know the proper gender of nouns, just that they exist
+     and in English you can ignore that part. There can be that feel
+     in decomplation as well. There may be some extraneous
+     instructions in Python bytecode to pop off evaluation stack
+     entries in some branch of code. Understanding why the entries
+     need to be removed or even the semantics of the stack cleanup
+     operations, other than detecting that sometimes you see this
+     extraneous stuff.
+   </p>
+
+   <p>
+     But on the other hand, in understanding malware there are places where
+     you do want exact detail. Not simply that this code is decrypting
+     something, but the exact details of how the decryption works. Having a
+     system that works 60% of the time overall is of no comfort if some
+     specific malware one that is crucial to undersand falls outside of
+     that 60%.
+   </p>
+
+   <p>
+     Reconstructiong program control flow in Python bytecode can be
+     very tricky. Changing the target of a jump instruction to be
+     either the instruction before or after where it would normally
+     jump, in other words chaning a single bit in a byte, can wildy
+     change the control flow and thus the meaning of the program.
+   </p>
+
+   <p>
+     ML programs like Tensorflow and PyTorch use a gradient princple
+     that by its nature assumes that the things it reasons about or
+     more or less continuous. And in programs can we have they very
+     sharp discontinuities as in changing a jump address.
+   </p>
+
+   <p>
+     That said, I do think Machine Learning can be used to assist
+     decompiling programs. But for it to be more effective I think it
+     will need input that is not raw bits and bytes but has been first
+     been classified somewhat. I come back to this later after
+     understand more about how to think about decompilation.
    </p>
 
    <p id="footnote-8">
-     [8] About the colors on the arrows. Red is the first sibling of a
+     [8] For example, the Dragon Books cited
+     in <a href="#footnote-4">[4]</a> describe this.
+   </p>
+
+   <p id="footnote-9">
+     [9] About the colors on the arrows. Red is the first sibling of a
       set of alternatives. These come about <em>not</em> by an
       explicit jump instruction, but by falling through
       when <em>not</em> jumping in a conditional jump
@@ -1906,13 +1973,13 @@
      this is a "post-dominator" point.
    </p>
 
-   <p id="footnote-9">
-     [9] See Advanced Compiler Design and Implementation cited
+   <p id="footnote-10">
+     [10] See Advanced Compiler Design and Implementation cited
      in <a href="#footnote-4">[4]</a> for example.
    </p>
 
-   <p id="footnote-10">
-     [10] To get to any instruction in the "count bits" program, you
+   <p id="footnote-11">
+     [11] To get to any instruction in the "count bits" program, you
      have to go through "Basic Block 1" which contains the first
      instruction of the program. That has the 3D box shape to indicate
      the block’s special role as a dominator block. Technically, a
