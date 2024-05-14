@@ -292,10 +292,10 @@
     </p>
 
     <p>
-      However, the ideas I’m going to present here are somewhat new or
-      little used, and represent my own personal research. The seeds
-      of the ideas were buried in code going back 24 years.  As I
-      said, that code was abandoned for 5 years before I came across
+      However, the ideas I’m going to present here are not well known
+      or little used, and represent my own personal research. The
+      seeds of the ideas were buried in code going back 24 years.  As
+      I said, that code was abandoned for 5 years before I came across
       it. It took me a while to distill, correct, and expand upon the
       ideas embodied in the code. I’m not even sure I now have the
       final word on this.
@@ -363,10 +363,9 @@
     src="slide-images/slide-2-2-0.png"/>
     <p>
       Both are about a decade old. Neither is completely devoted to
-      decompilers. Neither has gone through more than one
-      edition. Does this mean that nothing has changed to the
-      compilers and bytecode that are covered by these books in the
-      last 10 years? I suspect and hope things have changed.
+      <i>writing</i> decompilers. Neither has gone through more than
+      one edition. But compilers and bytecode that are covered by
+      these books I have <em>changed</em> in the last 10 years.
     </p>
 
     <p>
@@ -1698,11 +1697,10 @@
 
    <img alt="slide-18" src="slide-images/slide-18.png"/>
    <p>
-     It was John Aycott who first had the idea for using a
-     grammar-based approach for a toy Python decompiler.  Hartmut
-     Goebels wrote the first version that covered a full version of
-     Python. In fact, it handed several Python releases from Python
-     1.5 to about Python 2.3.
+     John Aycott wrote the first grammar-based approach for a toy
+     Python decompiler<a href="#footnote-12">[12</a>, but Hartmut
+     Hartmut Goebels made this work for complete versions
+     of Python, from releases 1.5 to about 2.3.
     </p>
 
    <p>
@@ -1829,36 +1827,34 @@
    <p id="footnote-4">
      [4] The books in the images shown are:
      <ol>
-       <li>Principles of Compiler Design by Alfred V. Aho and Jeffery Ullman (1st Edition). Jan 1, 1977</li>
-       <li>Compilers: Prinsiples, Techniques, and Tools by Alfred V. Aho, Ravi Sethi, et al. (1st Edition). Jan 1, 1985</li>
-       <li>Compilers: Principles, Techniques, and Tools by Ravi Sethi, Jeffery D. Ullman, Monica S Lam (2nd Edition). Jan 1 2007</li>
-       <li>Modern Compiler Implementation in C by Andrew W. Appel and Mala Ginsburg. Dec 13, 1997</li>
-       <li>Modern Compiler Implementation in Java by Andrew W. Appel and Jens Palsberg (2nd Edition). Oct 21, 2002</li>
-       <li>Modern Compiler Implementation in ML by Andrew W. Appel. Aug 21, 2008</li>
-       <li>Writing a C Compiler: Build a Real Programming Language from Scratch by Nora Sandler. Sept 24, 2024</li>
-       <li>Crafting a Compiler with C by Charles Fisher, Richard Le Blanc, et al. Jul 1, 1991</li>
-       <li>Retargetable C Compiler, A: Design and Implementation by David Hansen, Christopher Fraser. Jan 31, 1995</li>
-       <li>Compiler Construction with C: Crafting Efficient Interpreters and Compilers (Computer Science Fundamentals) by Theophilus Edet. Jan 23, 2024</li>
-       <li>Writing A Compiler in Go by Thorsten Ball. Aug 10, 2018</li>
-       <li>Build Your Own .NET Language and Decompiler by Edward G Niges. May 13, 2004</li>
-       <li>Writing Interpreters and Copmilers for the Raspberry Pi Using Python (2nd Edition) by Anthony J. Dos Reis. June 4, 2020</li>
-       <li>Compiler Design using FLEX and YACC by Vinu. V. Das. Aug 30, 2007</li>
-       <li>Introduction to Compiler Construction with Unix by Axel T. Schriener and H. George Friedman. Jan 1, 1985</li>
-       <li>Writing Compilers and Interpreters: A Software Engineering Approach by Ronald Mak. Aug 10, 2011</li>
-       <li>Writing Compilers and Interpreters: An Applied Approach Using C++ by Ronald Mak. (2nd Edition) Aug 10, 1996</li>
-       <li>From Source Code to Machine Code Build you own Compiler from Scratch by James Smith. May 18, 2023</li>
-       <li>SSA-based Compiler Design editied by Fabrice Rastello and Forent Bouchez Tichadou. Dec 9, 2022</li>
-       <li>Advanced Compiler Design and Implementation by Steven S. Muchnick. Aug 15, 1997</li>
-       <li>Engineering a Compiler (3rd Edition) by Keith D. Cooper and
-       Linda Torczon. Oct 16, 2022</li>
-       <li>Optimizing Compilers for Modern Archtectures by Randy Allen
-       and Ken Kennedy. Oct 10, 2001</li>
-       <li>Introduction to Compilers and Language Design (2nd Edition) by Douglas Thain. Jun 18, 2020</li>
-       <li>Compiler Design: Principles, Techniques and Tools by Terence Halsey. May 31, 2018</li>
-       <li>Brinch Hansen on Pascal Compilers by Brinch Hansen. Jan 1, 1985</li>
-       <li>Compiler Construction by William M. Waite, Gerhard Goos. Jan 1, 1983</li>
-       <li>Compiler Construction for Digital Computers by David Gries. Jan 15, 1971</li>
-       <li>A Compiler Generator by W. M. McKeeman. Jan 1, 1970</li>
+       <li>"Principles of Compiler Design" by Alfred V. Aho and Jeffery Ullman (1st Edition). Jan 1, 1977</li>
+       <li>"Compilers: Prinsiples, Techniques, and Tools" (1st Edition) by Alfred V. Aho, Ravi Sethi, et al. Jan 1, 1985</li>
+       <li>"Compilers: Principles, Techniques, and Tools" (2nd Edition) by Ravi Sethi, Jeffery D. Ullman, Monica S Lam. Jan 1 2007</li>
+       <li>"Modern Compiler Implementation in C" by Andrew W. Appel and Mala Ginsburg. Dec 13, 1997</li>
+       <li>"Modern Compiler Implementation in Java by Andrew W. Appel" (2nd Edition) and Jens Palsberg. Oct 21, 2002</li>
+       <li>"Modern Compiler Implementation in ML by Andrew W. Appel." Aug 21, 2008</li>
+       <li>"Writing a C Compiler: Build a Real Programming Language from Scratch" by Nora Sandler. Sept 24, 2024</li>
+       <li>"Crafting a Compiler with C" by Charles Fisher, Richard Le Blanc, et al. Jul 1, 1991</li>
+       <li>"Retargetable C Compiler, A: Design and Implementation" by David Hansen, Christopher Fraser. Jan 31, 1995</li>
+       <li>"Compiler Construction with C: Crafting Efficient Interpreters and Compilers" (Computer Science Fundamentals) by Theophilus Edet. Jan 23, 2024</li>
+       <li>"Writing A Compiler in Go" by Thorsten Ball. Aug 10, 2018</li>
+       <li>"Build Your Own .NET Language and Decompiler" by Edward G Niges. May 13, 2004</li>
+       <li>"Writing Interpreters and Copmilers for the Raspberry Pi Using Python" (2nd Edition) by Anthony J. Dos Reis. June 4, 2020</li>
+       <li>"Compiler Design using FLEX and YACC" by Vinu. V. Das. Aug 30, 2007</li>
+       <li>"Introduction to Compiler Construction with Unix' by Axel T. Schriener and H. George Friedman. Jan 1, 1985</li>
+       <li>"Writing Compilers and Interpreters: A Software Engineering Approach" by Ronald Mak. Aug 10, 2011</li>
+       <li>"Writing Compilers and Interpreters: An Applied Approach Using C++" (2nd Edition) by Ronald Mak. Aug 10, 1996</li>
+       <li>"From Source Code to Machine Code Build you own Compiler from Scratch" by James Smith. May 18, 2023</li>
+       <li>"SSA-based Compiler Design" editied by Fabrice Rastello and Forent Bouchez Tichadou. Dec 9, 2022</li>
+       <li>"Advanced Compiler Design and Implementation" by Steven S. Muchnick. Aug 15, 1997</li>
+       <li>"Engineering a Compiler" (3rd Edition) by Keith D. Cooper and Linda Torczon. Oct 16, 2022</li>
+       <li>"Optimizing Compilers for Modern Archtectures" by Randy Allen and Ken Kennedy. Oct 10, 2001</li>
+       <li>"Introduction to Compilers and Language Design" (2nd Edition) by Douglas Thain. Jun 18, 2020</li>
+       <li>"Compiler Design: Principles, Techniques and Tools" by Terence Halsey. May 31, 2018</li>
+       <li>"Brinch Hansen on Pascal Compilers" by Brinch Hansen. Jan 1, 1985</li>
+       <li>"Compiler Construction by William M. Waite", Gerhard Goos. Jan 1, 1983</li>
+       <li>"Compiler Construction for Digital Computers" by David Gries. Jan 15, 1971</li>
+       <li>"A Compiler Generator by W. M. McKeeman". Jan 1, 1970</li>
      </ol>
    </p>
 
@@ -2010,5 +2006,15 @@
      Block 7 you must go through the parent Dominator Block for that
      region, Block 2.
    </p>
+
+   <p id="footnote-12">
+     [12] When I gave this talk, I had not read "Decompiling Java"
+     mentioned in <a href="#footnote-5">[5]</a>.  I realize now that
+     the approach Aycock had been used had been in use in Java
+     decompilers of the time.  See that book for information on
+     various decompilation strategies and early Java decompilers that
+     were around before Ayock's code was written.
+   </p>
+
  </body>
 </html>
