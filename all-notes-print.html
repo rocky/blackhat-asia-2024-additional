@@ -1,48 +1,40 @@
 <html lang="en">
  <head>
    <meta charset="utf-8">
-   <style>
-     body {
-	 font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
-	 background-color: linen;
-     }
-     h1 {
-	 font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
-	 background-color: linen;
-     }
-     .toc-list, .toc-list ol {
-	 list-style-type: none;
-     }
-     .toc-list {
-	 padding: 0;
-     }
+   <style>{
+   body {
+       font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
+       background-color: linen;
+   }
 
-     .toc-list ol {
-	 padding-inline-start: 2ch;
-     }
+   h1 {
+       font-family: sohne, "Helvetica Neue", Helvetica, sans-serif;
+       background-color: linen;
+   }
 
-     .toc-list li > a {
-	 text-decoration: none;
-	 display: grid;
-	 grid-template-columns: auto max-content;
-	 align-items: end;
-     }
+   .toc-list ol {
+       list-style-type: none;
+   }
 
-     .toc-list li > a > .page {
-	 text-align: right;
-     }
+   .toc-list ol {
+       padding-inline-start: 2ch;
+   }
 
-     .visually-hidden {
-	 clip: rect(0 0 0 0);
-	 clip-path: inset(100%);
-	 height: 1px;
-	 overflow: hidden;
-	 position: absolute;
-	 width: 1px;
-	 white-space: nowrap;
-     }
+   .toc-list li > a {
+       text-decoration: none;
+       display: grid;
+       grid-template-columns: auto max-content;
+       align-items: end;
+   }
+
+   .toc-list li > a > {
+       text-align: right;
+   }
+
+   }
    </style>
-  </head>
+     <title>How to Read and Write a Python Decompiler</title>
+ </head>
  <body>
    <h1>Table of Contents</h1>
    <ol>
@@ -79,9 +71,9 @@
        <li><a href="#phases-1-and-2">Phases 1 and 2: Bytecode to Tokens</a></li>
        <li><a href="#phase3">Phase 3: Parse Tree to Source Code</a></li>
        <li><a href="#phase3-part-2">Phase 3: Parse Tree to Source Code (Part 2)</a></li>
-       <li><a href="#phase3-ast">Phase 3: ASCII Parse Tree Representation</li>
-       <li><a href="#phase4">Phase 4: Parse Tree to AST</li>
-       <li><a href="#phase5">Phase 5: AST to Python Source</li>
+       <li><a href="#phase3-ast">Phase 3: ASCII Parse Tree Representation</a></li>
+       <li><a href="#phase4">Phase 4: Parse Tree to AST</a></li>
+       <li><a href="#phase5">Phase 5: AST to Python Source</a></li>
      </ol>
      <li><a href="#intermission">Intermission</a></li>
      <li><a href="#special-topics">Special Topics &mdash; Decompilation Aspects in More Detail</a></li>
@@ -97,7 +89,7 @@
        </li>
        <li><a href="#dominators">Dominator Regions and Dominators</a></li>
      </ol>
-     <li><a href="#wrap-up">Wrapping Up</li>
+     <li><a href="#wrap-up">Wrapping Up</a></li>
      <ol>
        <li><a href="#comparison-with-other-work">Comparison with other work</a></li>
        <li><a href="#takeaways-redux">Takeaways</a></li>
@@ -131,7 +123,7 @@
    <h2 id="survey">Survey</h2>
    <img alt="slide-1-0-0" src="slide-images/slide-1-0-0.png"/>
    <p>
-     Please raise your hand if use have used Hex-Rays Ida Pro,
+     Please raise your hand if you have use have used Hex-Rays Ida Pro,
      Ghidra or Binary Ninja? <br/>
    </p>
 
@@ -144,7 +136,7 @@
       As far as I know, there is no support for Python decompilation
       in IDA Pro, Ghidra or Binary Ninja. In preparation for this
       talk, I spoke to one of the founders from one of these
-      reverse-engineering tool makers who confirmed this. More
+      reverse-engineering toolmakers who confirmed this. More
       generally, he says that all these kinds of decompiler tools
       which start from machine code are pretty bad when it comes to
       any interpreter that runs any bytecode.
@@ -168,7 +160,7 @@
 
     <p>
       <a href="https://github.com/rocky/python-uncompyle6/graphs/contributors">This
-      page</a> shows github commit activity for <i>uncompyle6</i> from
+      page</a> shows GitHub commit activity for <i>uncompyle6</i> from
       2012 to now (2024):
     </p>
 
@@ -184,20 +176,20 @@
     </p>
 
     <p>
-      Back in 2016, I started this project on github from a "tar" of a
+      Back in 2016, I started this project on GitHub from a "tar" of a
       copy of an archive from an obsolete version-control system. The
       code had been abandoned for about 5 years. And that accounts for
       the big gap at the left.
     </p>
 
     <p>
-      In 2018, I gave a talk at Python conference. So you see another
+      In 2018, I gave a talk at a Python conference. So you see another
       flurry of activity for 2018 in the middle of the graph.
     </p>
 
     <p>
       This code works for Python bytecode from the very first version
-      in 1999 to Python version 3.8 which is no longer
+      in 1999 to Python version 3.8, which is no longer
       current. It came on the scene a few years ago, but it
       is still supported and is still in use.
     </p>
@@ -206,7 +198,7 @@
       Since this code is old and large, and Python compilers have
       gotten more sophisticated, the code needs better technology to
       keep up with Python. So I forked the code, refactored it, and
-      reduced its size. that accounts for the drop off in activity you
+      reduced its size. That accounts for the dropoff in activity you
       see on the right part of the graph from 2021 to now. The forked
       code goes under the name <i>decompyle3</i>. It only handles
       python 3.7 and 3.8.
@@ -242,11 +234,11 @@
     <hr/>
 
     <!--- 010-intro.html #/1/3 -->
-    <h2 id="open-source">Open Source Software that Includes my Code:<a href="#footnote-3">[3]</a></h2>
+    <h2 id="open-source">Open Source Software that Includes my Code<a href="#footnote-3">[3]</a></h2>:
     <img alt="slide-1-3" src="slide-images/slide-1-3.png"/>
     <p>
       So the code I’ve written in general has had plenty of
-      time to spread around. If you have have software installed that
+      time to spread around. If you have software installed that
       matches any of the logos on the first line, then you have code
       I've written.</p>
 
@@ -255,12 +247,12 @@
       be talking about today. But the software used by the projects
       with the logos on the left, all use a CD-reading library, called
       with the logos on the left, use a CD-reading library, called
-      "libcdio" that I started in 2000 and I still maintain it.
+      "libcdio" that I started in 2000. I still maintain it.
     </p>
     <p>
       And I’m interested in other things like an open-source
       Mathematica, and debuggers. Most of the software I have written
-      is GPL and I am a member of the Free Software Foundation.
+      is GPL, and I am a member of the Free Software Foundation.
     </p>
     <hr/>
 
@@ -280,7 +272,7 @@
 
     <p>
       And the situation has been getting worse. Languages that use
-      high-level byecode is not decreasing, The Python language and
+      high-level bytecode are not decreasing, The Python language and
       bytecode continue to change. Python’s generated bytecode has
       become more complex and harder to decompile.
     </p>
@@ -319,17 +311,17 @@
     </hr>
 
     <!--- 020-background.html #/2/1 -->
-    <h2 id="compiler-books">Books on making Compilers:<a href="#footnote-4">[4]</a></h2>
+    <h2 id="compiler-books">Books on making Compilers<a href="#footnote-4">[4]</a></h2>:
 
     <p>
       There are systematic methods and tools for compiler
       construction. These are just some of the books you can find on
-      amazon.com (since the 1970's).
+      amazon.com (from the 1970's).
     </p>
     <img alt="slide-2-1" src="slide-images/slide-2-1.png"/>
     <p>
       I am sorry these images are not larger.  Here is a
-      summary of them from left to right. Some of these, have gone
+      summary of them from left to right. Some of these have gone
       through several editions over decades. Other books come in
       several variations based on which programming language the
       book’s compiler algorithms are written in. Some specialize for a
@@ -347,7 +339,7 @@
 
     </hr>
     <!--- 020-background.html #/2/2 -->
-    <h2 id="decompiler-books">Books on making Decompilers:<a href="#footnote-5">[5]</a></h2>
+    <h2 id="decompiler-books">Books on making Decompilers<a href="#footnote-5">[5]</a>: </h2>
     <p>None of the compiler books in the last slide mention
       "decompiler", as far as I know.<a href="#footnote-6">[6]</a></p>
 
@@ -364,7 +356,7 @@
       Both are about a decade old. Neither is completely devoted to
       <i>writing</i> decompilers. Neither has gone through more than
       one edition. But compilers and bytecode that are covered by
-      these books I have <em>changed</em> in the last 10 years.
+      these books have <em>changed</em> in the last 10 years.
     </p>
 
     <p>
@@ -395,7 +387,7 @@
 
     <p>
       Well... No, not yet. If you are interested in how to fix this, I can
-      share my ideas afterwards.<a href="#footnote-7">[7]</a>
+      share my ideas afterward.<a href="#footnote-7">[7]</a>
     </p>
 
     </hr>
@@ -423,7 +415,7 @@
     </p>
 
     <p>
-      A couple years ago, to raise awareness, I started a discussion
+      A couple of years ago, to raise awareness, I started a discussion
       in
       the <a href="https://en.wikipedia.org/wiki/Talk:Decompiler#Decompilers_for_Higher-level_Dynamic_Languages">
       Wikipedia "talk" section for "Decompilers"</a>. Unfortunately,
@@ -441,7 +433,7 @@
     <p>
       But the process we will go through, also follows a
       pattern similar to the process used by compiler front-ends,
-      including the compiler for Python.  It is described in all of
+      including the compiler for Python.  It is described in all
       the compiler books that I showed images of before. I am going to
       show this process adapted to perform decompilation. And
       I think this kind of adaption can be extended to create
@@ -499,13 +491,13 @@
     </p>
     <img alt="slide-4-0-1" src="slide-images/slide-4-0-1.png"/>
     <p>
-      The programs prints the output of calling a function
+      The program prints the output of calling a function
       named <em>five()</em>.  I run the code using the usual Python
-      interpreter called (CPython) and we get the expected output: 5.
+      interpreter called (CPython), and we get the expected output: 5.
     </p>
 
     <p>
-      When I do this, under the covers Python translates or
+      When I do this, Python translates or
       <em>compiles</em> the program into an intermediate
       form called <em>bytecode</em> and interprets that
       internal form. In this particular case, that bytecode stays
@@ -516,7 +508,7 @@
       Here are the bytecode bytes for the main routine. What these
       instructions do is: call for the creation of the
       function <em>five()</em>. In an interpreted language, there is
-      no linker loader, like you have in the statically-compiled
+      no linker loader, like you have in the statically compiled
       languages handled by general-purpose analysis tools.  Instead,
       this kind of thing is done in running the code. After linking
       function <em>five()</em> into the main program, the five
@@ -531,14 +523,14 @@
 
     <p>
       For those of you who are familiar with machine code, 25 bytes to
-      do all of this is awesome! There are metadata sections that are
-      in the bytecode and that adds a bit of space too. I haven’t
+      do this is awesome! There are metadata sections that are
+      in the bytecode, and that adds a bit of space too. I haven’t
       shown that here, but we will see some of this a little bit
       later.
     </p>
 
     <p>
-      Everything, overall, is very very compact. Part of the
+      Everything, overall, is very, very compact. Part of the
       compactness is that the individual instructions themselves are
       pretty high level. And we’ll see some of that later as
       well.
@@ -554,7 +546,7 @@
       done.
     </p>
     <p>
-      For certain kinds of Python source text, called "modules", the
+      For certain kinds of Python source text, called "modules," the
       internal bytecode is written to disk automatically.
     </p>
     <p>
@@ -841,7 +833,7 @@
      and repackage the information to put in a form for parser input.
      This is shown in the right panel. Even though the two look
      almost the same, internally they are different structures. On
-     the left is output of phase 1, and on the right is parser input
+     the left is the output of phase 1, and on the right is the parser input
      in phase 2.
    </p>
 
@@ -1097,7 +1089,7 @@
      from early on, we kicked off a flurry of reduction rules. This
      kind of thing happens in bottom-up parsers when you get to the
      end of the token stream. It is like a detective story where, in
-     the last couple of pages, all of the loose fragments and
+     the last couple of pages, all the loose fragments and
      mysteries of the story from the very beginning are finally
      wrapped up.
    </p>
@@ -1256,7 +1248,7 @@
      show now briefly.
    </p>
 
-   <img id="intermission" alt="slide-13-0-1" src="slide-images/slide-13-0-1.png"/>
+   <img id="pydisasm-options" alt="slide-13-0-1" src="slide-images/slide-13-0-1.png"/>
    <p>
      Command-line options in yellow of the disassembler that I use in this
      invocation are:
@@ -1423,7 +1415,7 @@
 
    <p>
      Let’s now consider this simple Python program to count the
-     number of 1 bits in a positive integer.  If you are interested
+     number of one bits in a positive integer.  If you are interested
      in algorithms, you might find this code interesting:
    </p>
    <img alt="slide-15" src="slide-images/slide-15.png"/>
@@ -1440,10 +1432,9 @@
 
    <img alt="slide-15-0" src="slide-images/slide-15-0.png"/>
 
-   <p>
-      But nested inside the <i>while</i> loop there is
+   <p>But nested inside the <i>while</i> loop there is
      an <i>if/then/else</i> statement. And there is one more nesting
-     level. the <i>then</i> and <i>else</i> parts of the <i>if</i>. In
+     level. The <i>then</i> and <i>else</i> parts of the <i>if</i>. In
      contrast to the above nesting, we have more than one item at the
      same nesting level. Even though the two blocks are at the same
      nesting level, the they are distinct and separate. In some
@@ -1538,7 +1529,7 @@
      But let me introduce the terms "Dominator Region" and
      "Dominator".  The easiest term to explain is "Dominator
      Region". This is just another term for "scope" described in the
-     last slide.  But it is a property that is computed on a directed
+     last slide.  But it is a property <em>computed</em> on a directed
      graph, or more precisely a control-flow graph like this. This
      property is used quite a bit in the compiler data-flow
      analysis. See books on advanced compiler optimization for
@@ -1615,7 +1606,7 @@
      do things across a wider spectrum of machine languages and a
      wider spectrum of programming-language environments, they
      largely give up on the hope of noticing specific patterns of
-     instructions, like we showed in the chained-comparison
+     instructions. This came up in the chained-comparison
      example. The ability to match specific patterns is what makes
      these decompilers produce extremely intuitive and accurate
      results and written in the programming language that the source
@@ -1764,7 +1755,7 @@
    <hr/>
    <p> Bye now, we're late <em>again</em>...
      <video alt="rocky-ending" src="slide-images/Rocky-And-Friends-end.mp4"></video>
-     (old clip from "The Adventures of Rocky and Bullwinkle". video has sound and is playable).
+     (old clip from "The Adventures of Rocky and Bullwinkle". video has sound and is playable; you might have to right-click to see the controls).
    </p>
 
    <hr/>
@@ -1782,7 +1773,7 @@
      Python Bytecode and how Compilers work. I also hadn't planned on
      describing myself at all. In the process of working out the talk,
      it became apparent that all of this material would need to be
-     added in order to follow custom and make this more understandable
+     added to follow custom and to make this more understandable
      across a wider audience. As a result, the level of detail that I
      could give had to be greatly reduced to fit in a 45-minute
      talk. The <a href="https://github.com/rocky/python-uncompyle6/wiki/How-does-this-code-work%3F">project
@@ -1802,7 +1793,7 @@
        <li><a href="https://www.videolan.org/">VideoLan</a> &mdash; (vlc) plugin for audio CD and video CD (VCD)</li>
        <li><a href="https://wiki.gnome.org/Apps/SoundJuicer">Sound Juicer</a></li>
        <li><a href="https://kodi.tv/">Kodi</a></li>
-       <li><a href="http://www.mplayerhq.hu/design7/news.html">MPlayer</a></li>
+       <li><a href="https://www.mplayerhq.hu/design7/news.html">MPlayer</a></li>
        <li><a href="https://www.freac.org/">fre:ac</a></li>
        <li><a href="https://rufus.ie/en/">Rufus</a></li>
        <li><a href="https://plugins.jetbrains.com/plugin/13841-bashsupport-pro">BashDB
@@ -1817,11 +1808,11 @@
    <p id="footnote-4">
      [4] The books in the images shown are:
      <ol>
-       <li>"Principles of Compiler Design" by Alfred V. Aho and Jeffery Ullman (1st Edition). Jan 1, 1977</li>
+       <li>"Principles of Compiler Design" by Alfred V. Aho and Jeffery Ullman (First Edition). Jan 1, 1977</li>
        <li>"Compilers: Prinsiples, Techniques, and Tools" (1st Edition) by Alfred V. Aho, Ravi Sethi, et al. Jan 1, 1985</li>
        <li>"Compilers: Principles, Techniques, and Tools" (2nd Edition) by Ravi Sethi, Jeffery D. Ullman, Monica S Lam. Jan 1 2007</li>
        <li>"Modern Compiler Implementation in C" by Andrew W. Appel and Mala Ginsburg. Dec 13, 1997</li>
-       <li>"Modern Compiler Implementation in Java by Andrew W. Appel" (2nd Edition) and Jens Palsberg. Oct 21, 2002</li>
+       <li>"Modern Compiler Implementation in Java by Andrew W. Appel" (Second Edition) and Jens Palsberg. Oct 21, 2002</li>
        <li>"Modern Compiler Implementation in ML by Andrew W. Appel." Aug 21, 2008</li>
        <li>"Writing a C Compiler: Build a Real Programming Language from Scratch" by Nora Sandler. Sept 24, 2024</li>
        <li>"Crafting a Compiler with C" by Charles Fisher, Richard Le Blanc, et al. Jul 1, 1991</li>
@@ -1829,7 +1820,7 @@
        <li>"Compiler Construction with C: Crafting Efficient Interpreters and Compilers" (Computer Science Fundamentals) by Theophilus Edet. Jan 23, 2024</li>
        <li>"Writing A Compiler in Go" by Thorsten Ball. Aug 10, 2018</li>
        <li>"Build Your Own .NET Language and Decompiler" by Edward G Niges. May 13, 2004</li>
-       <li>"Writing Interpreters and Compilers for the Raspberry Pi Using Python" (2nd Edition) by Anthony J. Dos Reis. June 4, 2020</li>
+       <li>"Writing Interpreters and Compilers for the Raspberry Pi Using Python" (Second Edition) by Anthony J. Dos Reis. June 4, 2020</li>
        <li>"Compiler Design using FLEX and YACC" by Vinu. V. Das. Aug 30, 2007</li>
        <li>"Introduction to Compiler Construction with Unix' by Axel T. Schriener and H. George Friedman. Jan 1, 1985</li>
        <li>"Writing Compilers and Interpreters: A Software Engineering Approach" by Ronald Mak. Aug 10, 2011</li>
@@ -1910,7 +1901,7 @@
      Reconstructing program control flow in Python bytecode can be
      very tricky. Changing the target of a jump instruction to be
      either the instruction before or after where it would normally
-     jump, in other words changing a single bit in a byte, can wildy
+     jump. In other words changing a single bit in a byte, can wildy
      change the control flow and thus the meaning of the program.
    </p>
 
